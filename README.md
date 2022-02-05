@@ -3,7 +3,20 @@ Shabby Pages is a corpus of born-digital document images with both ground truth 
 
 Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using **Augraphy** to produce a synthetic yet realistic dataset based on ground truth documents.
 
-As a result, the dataset represents _printed, scanned, copied_ and _faxed_ documents encountered in the real world AND offers ground truth originals.
+
+# Distortion Pipeline
+
+An **Augraphy** pipeline was applied to ground truth documents to generated _printed, scanned, copied_ and _faxed_ versions of documents encountered in the real world.  In order to preserve a pixel-level mapping between ground truth and distorted versions of documents, geometric transformations that skewed or warped document images were avoided.
+
+```
+   .
+   .
+   .
+pipeline details or visual
+   .
+   .
+   .
+```
 
 
 # Credits / Prior Art
