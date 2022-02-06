@@ -28,9 +28,6 @@ Below are related datasets that offer either real-world scanned documents or a c
 * **RVL-CDIP** dataset consists of 400,000 B/W low-resolution (~100 DPI) images in 16 classes, with 25,000 images per class
 https://www.cs.cmu.edu/~aharley/rvl-cdip/
 
-* **NIST-SFRS (Structured Forms Reference Set)** consists of 5,590 pages of binary, black-and-white images of synthesized documents from 12 different tax forms from the IRS 1040 Package X for the year 1988. These include Forms 1040, 2106, 2441, 4562, and 6251 together with Schedules A, B, C, D, E, F, and SE.
-https://www.nist.gov/srd/nist-special-database-2
-
 * **Tobacco3482** dataset from Kaggle offers 10 different classes of forms, letters, reports, etc.
 https://www.kaggle.com/patrickaudriaz/tobacco3482jpg
 
@@ -45,6 +42,9 @@ https://archive.ics.uci.edu/ml/datasets/NoisyOffice
 
 * **DDI-100 (Distorted Document Images)** is a synthetic dataset by Ilia Zharikov et al based on 7000 real unique document pages and consists of more than 100000 augmented images. Ground truth comprises text and stamp masks, text and characters bounding boxes with relevant annotations.
 https://arxiv.org/abs/1912.11658
+
+* **NIST-SFRS (Structured Forms Reference Set)** consists of 5,590 pages of binary, black-and-white images of synthesized documents from 12 different tax forms from the IRS 1040 Package X for the year 1988. These include Forms 1040, 2106, 2441, 4562, and 6251 together with Schedules A, B, C, D, E, F, and SE.
+https://www.nist.gov/srd/nist-special-database-2
 
 
 ## The Augraphy Project
