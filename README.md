@@ -6,7 +6,7 @@ Often, training data is not accompanied by clean ground truth sources, which lea
 
 # Distortion Pipeline
 
-An **Augraphy** pipeline was applied to ground truth documents to generated _printed, scanned, copied_ and _faxed_ versions of documents encountered in the real world.  In order to preserve a pixel-level mapping between ground truth and distorted versions of documents, geometric transformations that skewed or warped document images were avoided.
+An **Augraphy** pipeline was applied to ground truth documents to generate _printed, scanned, copied_ and _faxed_ versions of documents encountered in the real world.  In order to preserve a pixel-level mapping between ground truth and distorted versions of documents, geometric transformations that skew or warp document images were avoided.
 
 ```
    .
