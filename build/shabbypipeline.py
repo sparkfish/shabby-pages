@@ -120,6 +120,34 @@ subtlenoise_range = 10
 # Jpeg.quality_range determines the range from which to sample compression level
 jpeg_quality_range = (25, 95)
 
+# Markup.num_lines_range determines how many lines get marked up
+markup_num_lines_range=(2, 7)
+# Markup.length_range determines the relative length of the drawn effect
+markup_length_range=(0.5, 1)
+# Markup.thickness_range determines the thickness of the drawn effect
+markup_thickness_range=(1, 3)
+# Markup.type determines the style of effect
+markup_type=random.choice(["strikethrough", "crossed", "highlight", "underline"])
+# Markup.color is the color of the ink used to markup
+markup_color=(random.randint(0,256),
+              random.randint(0,256),
+              random.randint(0,256))
+# Markup.single_word_mode determines whether to draw across multiple words
+markup_single_word_mode=random.choice([True, False])
+# Markup.repetitions determines the number of times the effect is drawn
+markup_repetitions=random.randint(1,5)
+
+# PencilScribbles.size_range determines the size of scribbles to draw
+pencilscribbles_size_range=(250, 400)
+# PencilScribbles.count_range determines how many scribbles to draw
+pencilscribbles_count_range=(1, 10)
+# PencilScribbles.stroke_count_range determines how many strokes per scribble
+pencilscribbles_stroke_count_range=(3, 6)
+# PencilScribbles.thickness_range determines how thick strokes are
+pencilscribbles_thickness_range=(2, 6)
+# PencilScribbles.brightness_change is the brightness value of each stroke
+pencilscribbles_brightness_change=random.randint(0,128)
+
 # BindingsAndFasteners.overlay_types can be min, max, or mix
 bindingsandfasteners_overlay_types = random.choice([
     "min", "max", "mix", "normal",
@@ -152,11 +180,32 @@ geometric_translation = (0, 0)
 geometric_fliplr = random.choice([0,1])
 # Geometric.flipud flips the image up and down
 geometric_flipud = random.choice([0,1])
-# Geometric.crop four points giving the corners of a crop region
+# Geometric.crop is a tuple of four points giving the corners of a crop region
 geometric_crop = ()
-# Geometric.rotate_range a pair determining the rotation angle sample range
+# Geometric.rotate_range is a pair determining the rotation angle sample range
 geometric_rotate_range = (0, 0)
 
+# Faxify.scale_range is a pair of ints determining the scaling magnitude
+faxify_scale_range=(1, 1)
+# Faxify.monochrome determines whether the image will get the halftone effect
+faxify_monochrome=random.choice([True,False])
+# Faxify.monochrome_method is the binarization method for applying the effect
+faxify_monochrome_method=random.choice(["Otsu", "Simple", "Adaptive"])
+# Faxify.adaptive_method decides how the threshold is calculated
+faxify_adaptive_method=random.choice([
+    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv2.ADAPTIVE_THRESH_MEAN_C
+    ])
+# Faxify.monochrome_threshold is the simple binarization threshold value
+faxify_monochrome_threshold=127
+# Faxify.invert determines whether to invert the grayscale value in halftone
+faxify_invert=1
+# Faxify.half_kernel_size is half the Gaussian kernel size for halftone
+faxify_half_kernel_size=2
+# Faxify.angle is the angle of the halftone effect
+faxify_angle=45
+# Faxify.sigma is the sigma value of the Gaussian kernel in the halftone effect
+faxify_sigma=2
 
 ################################################################################
 # PIPELINE
@@ -274,9 +323,21 @@ post_phase = [
     Jpeg(jpeg_quality_range,
          p=0.5),
 
-    Markup(p=0.5),
+    Markup(num_lines_range=markup_num_lines_range,
+           markup_length_range=markup_length_range,
+           markup_thickness_range=markup_thickness_range,
+           markup_type=markup_type,
+           markup_color=markup_color,
+           single_word_mode=markup_single_word_mode,
+           repetitions=markup_repetitions,
+           p=0.5),
 
-    PencilScribbles(p=0.5),
+    PencilScribbles(size_range=pencilscribbles_size_range,
+                    count_range=pencilscribbles_count_range,
+                    stroke_count_range=pencilscribbles_stroke_count_range,
+                    thickness_range==pencilscribbles_thickness_range,
+                    brightness_change=pencilscribbles_brightness_change,
+                    p=0.5),
 
     BindingsAndFasteners(bindingsandfasteners_overlay_types,
                          bindingsandfasteners_foreground,
@@ -300,7 +361,16 @@ post_phase = [
               geometric_rotate_range,
               p=0.5),
 
-    Faxify(p=0.5),
+    Faxify(scale_range=(1, 1),
+           monochrome=faxify_monochrome,
+           monochrome_method=faxify_monochrome_method,
+           adaptive_method=faxify_adaptive_method,
+           monochrome_threshold=faxify_monochrome_threshold,
+           invert=faxify_invert,
+           half_kernel_size=faxify_half_kernel_size,
+           angle=faxify_angle,
+           sigma=faxify_sigma,
+           p=0.5),
 ]
 
 def get_pipeline():
