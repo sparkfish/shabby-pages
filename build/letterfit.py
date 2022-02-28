@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 
-class SampleGenerator():
-    """Given a target DPI, a SampleGenerator's `fit` method resizes or cuts
-    a given image to fit a Letter page of that resolution.
+class LetterFit():
+    """Given a target DPI, a LetterFit object's `fit` method resizes
+    or cuts a given image to fit a Letter page of that resolution.
     """
 
     def __init__(self, DPI=150):
