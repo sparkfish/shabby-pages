@@ -169,6 +169,41 @@ bindingsandfasteners_edge = random.choice(["left", "top", "bottom", "right"])
 # BindingsAndFasteners.edge_offset is how far from the page edge to draw
 bindingsandfasteners_edge_offset = 50
 
+# BadPhotoCopy.mask is a mask of noise to generate the effect with
+badphotocopy_mask=None
+# BadPhotoCopy.noise_type determines which mask pattern to use
+badphotocopy_noise_type=random.randint(1,8)
+# BadPhotoCopy.noise_side determines where to add noise
+badphotocopy_noise_side=random.choice([
+            "random",
+            "left",
+            "right",
+            "top",
+            "bottom",
+            "top_left",
+            "top_right",
+            "bottom_left",
+            "bottom_right",
+        ])
+# BadPhotoCopy.noise_iteration determines how many times to apply noise in the mask
+badphotocopy_noise_iteration=(1, 1)
+# BadPhotoCopy.noise_size determines the scale of noise in the mask
+badphotocopy_noise_size=(1, 1)
+# BadPhotoCopy.noise_value determines the intensity of the noise
+badphotocopy_noise_value=(30, 60)
+# BadPhotoCopy.noise_sparsity determines the sparseness of noise
+badphotocopy_noise_sparsity=(0.4, 0.6)
+# BadPhotoCopy.noise_concentration determines the concentration of noise
+badphotocopy_noise_concentration=(0.4, 0.6)
+# BadPhotoCopy.blur_noise determines whether or or not to add blur
+badphotocopy_blur_noise=random.choice([True,False])
+# BadPhotoCopy.blur_noise_kernel gives the dimensions for the noise kernel
+badphotocopy_blur_noise_kernel=(5, 5)
+# BadPhotoCopy.wave_pattern enables the wave pattern in the noise mask
+badphotocopy_wave_pattern=random.choice([True,False])
+# BadPhotoCopy.edge_effect adds the Sobel edge effect to the noise mask
+badphotocopy_edge_effect=random.choice([True,False])
+
 # Gamma.range is an interval from which to sample a gamma shift
 gamma_range = (0.5, 1.5)
 
@@ -335,7 +370,7 @@ post_phase = [
     PencilScribbles(size_range=pencilscribbles_size_range,
                     count_range=pencilscribbles_count_range,
                     stroke_count_range=pencilscribbles_stroke_count_range,
-                    thickness_range==pencilscribbles_thickness_range,
+                    thickness_range=pencilscribbles_thickness_range,
                     brightness_change=pencilscribbles_brightness_change,
                     p=0.5),
 
@@ -348,7 +383,19 @@ post_phase = [
                          bindingsandfasteners_edge_offset,
                          p=0.5),
 
-    BadPhotoCopy(p=0.5),
+    BadPhotoCopy(mask=badphotocopy_mask,
+                 noise_type=badphotocopy_noise_type
+                 noise_side=badphotocopy_noise_side,
+                 noise_iteration=badphotocopy_noise_iteration,
+                 noise_size=badphotocopy_noise_size,
+                 noise_value=badphotocopy_noise_value,
+                 noise_sparsity=badphotocopy_noise_sparsity,
+                 noise_concentration=badphotocopy_noise_concentration,
+                 blur_noise=badphotocopy_blur_noise,
+                 blur_noise_kernel=badphotocopy_blur_noise_kernel,
+                 wave_pattern=badphotocopy_wave_pattern,
+                 edge_effect=badphotocopy_edge_effect,
+                 p=0.5),
 
     Gamma(gamma_range,
           p=0.5),
