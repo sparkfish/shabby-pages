@@ -384,7 +384,7 @@ post_phase = [
                          p=0.5),
 
     BadPhotoCopy(mask=badphotocopy_mask,
-                 noise_type=badphotocopy_noise_type
+                 noise_type=badphotocopy_noise_type,
                  noise_side=badphotocopy_noise_side,
                  noise_iteration=badphotocopy_noise_iteration,
                  noise_size=badphotocopy_noise_size,
