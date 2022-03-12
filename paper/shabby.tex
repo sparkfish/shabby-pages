@@ -67,7 +67,7 @@ The \textit{pdftoppm} tool was used to separate each document into its constitue
 
 took 15 minutes and 7 seconds to process 6175 pages on a Ryzen 9 5950x, with the 1200 DPI version taking 44 minutes 49 seconds.\\
 
-From there, we used Python's \textit{cv2} library to convert each document's color channels to grayscale, and once color data was removed, we generated and applied an Augraphy pipeline. After augmenting the images, we fit each to a standard 8.5''x11'' Letter document at various DPI levels, cropping to fit where necessary. There were several possible resizing methods, but we opted to use one which simulates using a document scanner to capture an image. Code for all of these processes is available on GitHub.
+From there, we used Python's \textit{cv2} library ~\cite{ref_url4} to convert each document's color channels to grayscale, and once color data was removed, we generated and applied an Augraphy pipeline. After augmenting the images, we fit each to a standard 8.5''x11'' Letter document at various DPI levels, cropping to fit where necessary. There were several possible resizing methods, but we opted to use one which simulates using a document scanner to capture an image. Code for all of these processes is available on GitHub.
 
 \section{Shabby Pages - An Augraphy Project}
 In our investigations, we came across precious few sources of ground-truthed document images. We're releasing this corpus and the code we used to produce it, to aid the research community in making more. Training denoising models requires a large quantity of noisy data and the original clean sources, and producing this is exactly what the Augraphy library was designed to facilitate. The Augraphy team has been hard at work for several months, improving the reliability, performance, and flexibility of the project, and we're proud that it's now mature enough to produce useful datasets.\\
@@ -97,13 +97,15 @@ The default pipeline has already been tuned over several months to produce reali
   Augraphy, An augmentation pipeline for rendering synthetic paper printing, faxing, scanning and copy machine processes, \url{https://github.com/sparkfish/augraphy}
 
 \bibitem{ref_url4}
-  Denoising Dirty Documents | Kaggle, \url{https://www.kaggle.com/c/denoising-dirty-documents}
+  OpenCV, \url{https://opencv.org}
+%% \bibitem{ref_url4}
+%%   Denoising Dirty Documents | Kaggle, \url{https://www.kaggle.com/c/denoising-dirty-documents}
 
-\bibitem{ref_url5}
-  DocCreator, \url{https://doc-creator.labri.fr}
+%% \bibitem{ref_url5}
+%%   DocCreator, \url{https://doc-creator.labri.fr}
 
-\bibitem{ref_url6}
-  Apricot, submodular optimization for machine learning, \url{https://github.com/jmschrei/apricot}
+%% \bibitem{ref_url6}
+%%   Apricot, submodular optimization for machine learning, \url{https://github.com/jmschrei/apricot}
 
 \end{thebibliography}
 \end{document}
