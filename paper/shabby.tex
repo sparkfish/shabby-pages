@@ -37,14 +37,14 @@ This paper presents the ‘ShabbyPages’ dataset, consisting of images of docum
 \end{abstract}
 
 \section{Introduction}
-Inspired by the NoisyOffice dataset~\cite{ref_url1}, we produced ShabbyPages as a way to help train, test, and calibrate computer vision machine learning algorithms designed for working with documents. We observed several limitations to the NoisyOffice dataset (namely, lack of diversity in font sizes and noise augmentations, as well as a lack of tables, graphics, form lines, etc.). Therefore, we were particularly interested in producing a dataset more appropriate for training general denoising models, so we built and leveraged the Augraphy~\cite{ref_url2} document image augmentation tool to produce noise for these images. ShabbyPages consists of  clean-noisy document image pairs.
+Inspired by the NoisyOffice dataset~\cite{ref_noisy}, we produced ShabbyPages as a way to help train, test, and calibrate computer vision machine learning algorithms designed for working with documents. We observed several limitations to the NoisyOffice dataset (namely, lack of diversity in font sizes and noise augmentations, as well as a lack of tables, graphics, form lines, etc.). Therefore, we were particularly interested in producing a dataset more appropriate for training general denoising models, so we built and leveraged the Augraphy~\cite{ref_augraphy} document image augmentation tool to produce noise for these images. ShabbyPages consists of  clean-noisy document image pairs.
 
 \section{Creation}
 Development of the dataset occurred in stages. A team of researchers scoured the open internet for ``born-digital" documents - PDFs that were created entirely electronically, rather than scans of existing printed documents. 600 documents were collected for review, representing categories such as government press releases, corporate financial communiques, informational brochures, and many others.\\
 
-The \textit{pdftoppm} tool was used to separate each document into its constituent pages, converting these to PNGs in the process, using GNU Parallel ~\cite{ref_parallel} to distribute the job across all available cores. \texttt{parallel pdftoppm pdfs/{} pages/{} -png -r 150} took 2 minutes to process 6202 pages on a Ryzen 9 5950x.\\
+The \textit{pdftoppm} tool was used to separate each document into its constituent pages, converting these to PNGs in the process, using GNU Parallel~\cite{ref_parallel} to distribute the job across all available cores. \texttt{parallel pdftoppm pdfs/{} pages/{} -png -r 150} took 2 minutes to process 6202 pages on a Ryzen 9 5950x.\\
 
-From there, we used Python's \textit{cv2} library ~\cite{ref_url3} to convert each document's color channels to grayscale, and once color data was removed, we generated and applied an Augraphy pipeline. After augmenting the images, we fit each to a standard 8.5''x11'' Letter document at various DPI levels, cropping to fit where necessary. There were several possible resizing methods, but we opted to use one which simulates using a document scanner to capture an image.  Code for all of these processes is available on GitHub~\cite{ref_shabby}.
+From there, we used Python's \textit{cv2} library~\cite{ref_opencv} to convert each document's color channels to grayscale, and once color data was removed, we generated and applied an Augraphy pipeline. After augmenting the images, we fit each to a standard 8.5''x11'' Letter document at various DPI levels, cropping to fit where necessary. There were several possible resizing methods, but we opted to use one which simulates using a document scanner to capture an image.  Code for all of these processes is available on GitHub~\cite{ref_shabby}.
 
 \section{ShabbyPages - An Augraphy Project}
 In our investigations, we came across precious few sources of ground-truthed document images. To aid the research community in making more, we're releasing this corpus and the code we used to produce it. Training denoising models requires a large quantity of noisy data and the original clean sources, and producing this is exactly what the Augraphy library was designed to facilitate. The Augraphy team has been hard at work for several months, improving the reliability, performance, and flexibility of the project, and we're proud that it's now mature enough to produce useful datasets.\\
@@ -94,20 +94,19 @@ Compilation and production of a collection of realistically noised document imag
 
 \bibliographystyle{splncs04}
 
-\begin{thebibliography}{8}
-
-\bibitem{ref_url1}
+\begin{thebibliography}{5}
+\bibitem{ref_noisy}
   UCI Machine Learning Repository, \url{https://archive.ics.uci.edu/ml/datasets/NoisyOffice}
 
-\bibitem{ref_url2}
+\bibitem{ref_augraphy}
   Augraphy, An augmentation pipeline for rendering synthetic paper printing, faxing, scanning and copy machine processes, \url{https://github.com/sparkfish/augraphy}
-
-\bibitem{ref_url3}
-  OpenCV, \url{https://opencv.org}
 
 \bibitem{ref_parallel}
   Tange, O. (2021, July 22). GNU Parallel 20210722 ('Blue Unity').
   Zenodo. https://doi.org/10.5281/zenodo.5123056
+
+\bibitem{ref_opencv}
+  OpenCV, \url{https://opencv.org}
 
 \bibitem{ref_shabby}
 ShabbyPages, \url{https://github.com/sparkfish/shabby-pages}
