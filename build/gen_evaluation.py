@@ -12,7 +12,7 @@ import cv2
 with open("mapping.txt", "w") as log:
     with open("evaluation.csv", "w") as outfile:
 
-        testfiles = sorted(os.listdir("test_cleaned"))
+        testfiles = sorted(os.listdir("/images/cropped/test_cleaned"))
 
         # the evaluation file contains pixel intensity data for the whole dataset,
         # in the following format:
@@ -27,7 +27,7 @@ with open("mapping.txt", "w") as log:
         filenum = 1
 
         # Write the header to the evaluation file
-        outfile.write("id,value\n")
+        outfile.write("id,expected\n")
 
         # Process all the images
         for f in testfiles:
@@ -36,9 +36,9 @@ with open("mapping.txt", "w") as log:
                 log.write("{}: {}\n".format(filenum, f))
 
                 # get the image
-                img = cv2.imread("test/{}".format(f))
+                img = cv2.imread("/images/cropped/test_cleaned/{}".format(f))
 
-                # make it grayscale so we can easily test RMSE
+                # # make it grayscale so we can easily test RMSE
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
                 # loop bounds
@@ -47,7 +47,7 @@ with open("mapping.txt", "w") as log:
                 # process the image pixel-by-pixel
                 for j in range(y):
                     for i in range(x):
-                        outfile.write("{}_{}_{},{}\n".format(filenum, j, i, img[j][i]/255))
+                        outfile.write("{}_{}_{},{}\n".format(filenum, j, i, img[j][i]/255.0))
 
                 # increment the filenum since we're done with this image
                 filenum = filenum + 1
