@@ -1,0 +1,6 @@
+azure-storage-file
+opencv-python
+tweepy
+gdown
+pillow
+numpy

@@ -1,0 +1,38 @@
+name: Shabby Pages daily build and tweet
+
+on:
+  # Run this daily at 13:17 GMT+0, a little after 9AM EST.
+  schedule:
+    - cron:  '17 13 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # clone this repo to $GITHUB_WORKSPACE
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # clone the augraphy dev branch
+      - name: Clone Augraphy
+        run: git clone https://github.com/sparkfish/augraphy
+
+      # run the daily-build script
+      - name: Generate the images and tweet one
+        run: |
+          python3 -m virtualenv --python="$(command -v python3)" .venv
+          source .venv/bin/activate
+          python3 -m pip install -U pip virtualenv
+          python3 -m pip install -r ./augraphy/requirements-dev.txt
+          python3 -m pip install -r requirements.txt
+          python3 daily-build.py
+          python3 tweet.py
+
+      # release the daily build
+      - name: Daily Shabby Pages Sample
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cropped/shabby/*

@@ -3,6 +3,17 @@ ShabbyPages is a corpus of born-digital document images with both ground truth a
 
 Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using **Augraphy** to produce a synthetic yet realistic dataset based on ground truth documents.
 
+This repository contains the following scripts for producing the dataset:
+
+1. `letterfit.py`, which defines a class that can fit images to a 8.5"x11" Letter page, similar to a document scanner.
+2. `shabbypipeline.py`, which contains a parametrized default Augraphy pipeline.
+3. `daily_pipeline.py`, similar to 2 but with modifications for the Shabby Pages set.
+4. `generate_kaggle_set.py`, which produces the full dataset for the Kaggle competition.
+5. `remove_blank_pages.py`, which removes images with >99% white pixels from the competition set.
+6. `make_submission.py`, which produces the submission file for the Kaggle competition.
+7. `daily_build.py`, which produces a small test set every day.
+8. `tweet.py`, which tweets an example image from the daily build.
+9. `azure_file_service.py`, which manages connections to Azure Files.
 
 # Distortion Pipeline
 
