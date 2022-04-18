@@ -28,7 +28,7 @@ jobs:
           source .venv/bin/activate
           python3 -m pip install -r ./augraphy/requirements-dev.txt
           python3 -m pip install -r requirements.txt
-          python3 daily-build.py
+          python3 daily_build.py
           python3 tweet.py
 
       # release the daily build
