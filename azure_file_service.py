@@ -11,7 +11,7 @@ class Storage:
         self.azure_file_share = os.environ.get("AZURE_FILE_SHARE")
 
         # Handles the connection to Azure Files
-        self.file_service = FileService(account_name, account_key)
+        self.file_service = FileService(self.account_name, self.account_key)
 
         # Produces a stream of the files
         self.files_generator = self.file_service.list_directories_and_files(self.azure_file_share)
