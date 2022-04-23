@@ -1,4 +1,4 @@
-name: Shabby Pages daily build and tweet
+name: Shabby Pages daily build
 
 on:
   # Run this daily at 13:17 GMT+0, a little after 9AM EST.
@@ -21,7 +21,7 @@ jobs:
         run: git clone https://github.com/sparkfish/augraphy
 
       # run the daily-build script
-      - name: Generate the images and tweet one
+      - name: Generate the images
         run: |
           python3 -m pip install -U pip virtualenv
           python3 -m virtualenv --python="$(command -v python3)" .venv
@@ -29,7 +29,6 @@ jobs:
           python3 -m pip install -r ./augraphy/requirements-dev.txt
           python3 -m pip install -r requirements.txt
           python3 daily_build.py
-          python3 tweet.py
 
       # release the daily build
       - name: Daily Shabby Pages Sample

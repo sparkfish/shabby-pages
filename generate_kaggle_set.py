@@ -2,7 +2,7 @@ import cv2
 import random
 import os
 import shutil
-from multiprocessing import Pool
+from multiprocessing import Pool, cpu_count
 from daily_pipeline import get_pipeline
 
 ################################################################################
@@ -18,11 +18,12 @@ for directory in ["train", "train_cleaned", "test", "test_cleaned"]:
 all_images = os.listdir("/images/150dpi")
 
 ################################################################################
-# Randomly select 1000 images to get shabby'd
+# Randomly select num_cleans images to get shabby'd
 ################################################################################
-
-full_cleans = random.sample(all_images, 1000)
-trains = random.sample(full_cleans, 700)
+num_cleans = 1500
+num_trains = int(num_cleans*0.7)
+full_cleans = random.sample(all_images, num_cleans)
+trains = random.sample(full_cleans, num_trains)
 
 def trainSplit(filename):
     if filename in trains:
@@ -70,6 +71,7 @@ def run_pipeline(filename):
         cv2.imwrite("/images/cropped/test_cleaned/{}".format(filename), clean_patch)
         cv2.imwrite("/images/cropped/test/{}".format(filename), shabby_patch)
 
-p = Pool(32)
+num_cores = cpu_count()
+p = Pool(num_cores)
 
-p.map(run_pipeline, full_cleans)
+p.map(run_pipeline, full_cleans, chunksize=10)

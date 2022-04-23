@@ -26,7 +26,7 @@ def select_pixels(img):
 if __name__ == "__main__":
     random.seed(0)
 
-    cleaned_images = os.listdir(cleaned_images_dir)
+    cleaned_images = sorted(os.listdir(cleaned_images_dir))
 
     with open("submission.csv", "w") as submission_file:
         submission_file.write("id,predicted\n")

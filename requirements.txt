@@ -1,6 +1,5 @@
-azure-storage-file
+azure-storage-blob
 opencv-python
-tweepy
 gdown
 pillow
 numpy
