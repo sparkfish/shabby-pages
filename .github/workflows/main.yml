@@ -22,6 +22,8 @@ jobs:
 
       # run the daily-build script
       - name: Generate the images
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
           python3 -m pip install -U pip virtualenv
           python3 -m virtualenv --python="$(command -v python3)" .venv
