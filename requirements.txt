@@ -3,3 +3,7 @@ opencv-python
 gdown
 pillow
 numpy
+requests
+scikit-image
+scipy
+sklearn
