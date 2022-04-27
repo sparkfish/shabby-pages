@@ -5,12 +5,13 @@ on:
     branches: [dev]
     tags:
       - '*-*-*'
+  pull_request:
 
   workflow_dispatch:
 
 jobs:
   build:
-    if: ${GITHUB_REF##*/}
+    if: ${{GITHUB_REF##*/}}
     runs-on: ubuntu-latest
 
     steps:
