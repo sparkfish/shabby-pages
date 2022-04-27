@@ -5,12 +5,12 @@ on:
     branches: [dev]
     tags:
       - '*-*-*'
+  pull_request:
 
   workflow_dispatch:
 
 jobs:
   build:
-    if: ${GITHUB_REF##*/}
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,7 @@ jobs:
 
       # run the daily-build script
       - name: Generate the images
+        if: ${{ github.event.release.tag_name }}
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
