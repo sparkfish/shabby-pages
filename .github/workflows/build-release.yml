@@ -1,9 +1,10 @@
 name: Shabby Pages daily build
 
 on:
-  # Run this daily at 13:17 GMT+0, a little after 9AM EST.
-  schedule:
-    - cron:  '17 13 * * *'
+  push:
+    branches: [dev]
+    tags:
+      - '*'
 
   workflow_dispatch:
 
