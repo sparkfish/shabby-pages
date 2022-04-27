@@ -1,17 +1,25 @@
 name: Shabby Pages daily build
 
 on:
-  # Run this daily at 13:17 GMT+0, a little after 9AM EST.
-  schedule:
-    - cron:  '17 13 * * *'
+  push:
+    branches: [dev]
+    tags:
+      - '*-*-*'
 
   workflow_dispatch:
 
 jobs:
   build:
+    if: ${GITHUB_REF##*/}
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug
+        env:
+          REF: ${GITHUB_REF##*/}
+        run: |
+          echo $REF
+
       # clone this repo to $GITHUB_WORKSPACE
       - name: Checkout
         uses: actions/checkout@v3
