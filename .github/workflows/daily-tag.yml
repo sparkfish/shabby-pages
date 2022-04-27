@@ -1,0 +1,33 @@
+name: Shabby Pages daily build
+
+on:
+  # Run this daily at 13:17 GMT+0, a little after 9AM EST.
+  schedule:
+    - cron: '17 13 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ssh-key: ${{ secrets.COMMIT_KEY }}
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Tag commit
+        env:
+          TAG: ${{ steps.date.outputs.date }}
+        run: |
+          git tag ${TAG}
+
+      - name: Push tag
+        run: |
+          git push --tags
