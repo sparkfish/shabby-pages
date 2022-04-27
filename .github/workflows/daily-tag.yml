@@ -1,4 +1,4 @@
-name: Shabby Pages daily build
+name: Daily tag
 
 on:
   # Run this daily at 13:17 GMT+0, a little after 9AM EST.
