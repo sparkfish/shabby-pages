@@ -1,4 +1,9 @@
 # ShabbyPages 2022
+
+<p align="center">
+    <img src="images/Article_Hero_Picture_Shadow.png?raw=true" title="Shabby Pages Logo">
+</p>
+
 ShabbyPages is a corpus of born-digital document images with both ground truth and distorted versions appropriate for use in training models to reverse distortions and recover to original denoised documents.  This state-of-the-art dataset with synthetically-generated real-world representations can be used to improve document layout detection, text extraction and OCR processes that depend on denoising and binarization preprocessing models.
 
 Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using **Augraphy** to produce a synthetic yet realistic dataset based on ground truth documents.
