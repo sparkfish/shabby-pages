@@ -1,20 +1,27 @@
 name: Shabby Pages daily build
 
 on:
-  # Run this daily at 13:17 GMT+0, a little after 9AM EST.
-  schedule:
-    - cron:  '17 13 * * *'
+  push:
+    branches: [dev]
+    tags:
+      - '*'
 
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
 
     steps:
       # clone this repo to $GITHUB_WORKSPACE
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Get latest tag
+        id: tag
+        run: |
+          echo "::set-output name={TAG}::{git tag | sort -n | tail -1}"
 
       # run the daily-build script
       - name: Generate the images
@@ -33,3 +40,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: cropped/shabby/*
+          tag_name: ${{steps.tag.outputs.TAG}}
