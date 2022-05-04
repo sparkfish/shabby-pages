@@ -68,7 +68,7 @@ def download_images():
 if __name__ == "__main__":
 
     # get the paper textures
-    id = "1114s61-GmHbhIn8f9YNz6OwS3CwkOsIp"
+    id = "1114s61-GmHbhIn8f9YNz6OwS3CwkOsIp&authuser=0"
     gdown.download(id=id, output="paper_textures.zip", quiet=True)
 
     # extract the zip
