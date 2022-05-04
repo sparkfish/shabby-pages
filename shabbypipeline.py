@@ -221,26 +221,23 @@ geometric_crop = ()
 geometric_rotate_range = (0, 0)
 
 # Faxify.scale_range is a pair of ints determining the scaling magnitude
-faxify_scale_range=(1, 1)
-# Faxify.monochrome determines whether the image will get the halftone effect
-faxify_monochrome=random.choice([True,False])
+faxify_scale_range=(0.3, 0.6)
+# Faxify.monochrome determines whether the image will get the binarization effect
+faxify_monochrome=random.choice([0, 1])
 # Faxify.monochrome_method is the binarization method for applying the effect
-faxify_monochrome_method=random.choice(["Otsu", "Simple", "Adaptive"])
-# Faxify.adaptive_method decides how the threshold is calculated
-faxify_adaptive_method=random.choice([
-    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-    cv2.ADAPTIVE_THRESH_MEAN_C
-    ])
-# Faxify.monochrome_threshold is the simple binarization threshold value
-faxify_monochrome_threshold=127
+faxify_monochrome_method="random"
+# Faxify.monochrome_argument is the input arguments to the monochrome method
+faxify_monochrome_arguments = {}
+# Faxify.halftone determins whether the image will get halftone effect
+faxify_halftone = random.choice((0, 1))
 # Faxify.invert determines whether to invert the grayscale value in halftone
 faxify_invert=1
-# Faxify.half_kernel_size is half the Gaussian kernel size for halftone
-faxify_half_kernel_size=2
+# Faxify.half_kernel_size is the half Gaussian kernel size for halftone
+faxify_half_kernel_size=(1, 1)
 # Faxify.angle is the angle of the halftone effect
-faxify_angle=45
+faxify_angle=(0, 360)
 # Faxify.sigma is the sigma value of the Gaussian kernel in the halftone effect
-faxify_sigma=2
+faxify_sigma=(1,3)
 
 ################################################################################
 # PIPELINE
@@ -408,11 +405,11 @@ post_phase = [
               geometric_rotate_range,
               p=0.5),
 
-    Faxify(scale_range=(1, 1),
+    Faxify(scale_range=faxify_scale_range,
            monochrome=faxify_monochrome,
            monochrome_method=faxify_monochrome_method,
-           adaptive_method=faxify_adaptive_method,
-           monochrome_threshold=faxify_monochrome_threshold,
+           monochrome_arguments = faxify_monochrome_arguments,
+           halftone = faxify_halftone,
            invert=faxify_invert,
            half_kernel_size=faxify_half_kernel_size,
            angle=faxify_angle,
