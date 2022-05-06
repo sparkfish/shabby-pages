@@ -16,6 +16,8 @@ def get_pipeline():
     dithering_dither_type = random.choice(["ordered", "floyd-steinberg"])
     # Dithering.order determines the dimensions of the threshold map
     dithering_order = random.choice(range(3,10))
+    # dithering.p is the probability to run this augmentation
+    dithering_p = (random.random()>0.7) * 1
     
     # InkBleed.intensity_range is a tuple with bounds for bleed intensity to be selected from
     inkbleed_intensity_range = (0.1, 0.4)
@@ -51,6 +53,8 @@ def get_pipeline():
     letterpress_value_threshold_range=(96, 128)
     # Letterpress.blur enables blur in the noise mask
     letterpress_blur=1
+    # Letterpress.p is the probability to run this augmentation
+    letterpress_p = (random.random()>0.5) * 1
     
     # LowInkLines.count_range is a pair determining how many lines should be drawn
     lowinkrandomlines_count_range = (3, 12)
@@ -98,7 +102,9 @@ def get_pipeline():
     dirtyrollers_line_width_range = (2, 32)
     # DirtyRollers.scanline_type changes the background of lines
     dirtyrollers_scanline_type = 0
-    
+    # DirtyRollers.p is the probability to run this augmentation
+    dirtyrollers_p = (random.random()>0.5) * 1
+
     # LightingGradient.mask_size determines how big the mask should be
     lightinggradient_light_position = None
     # LightingGradient.direction indicates the rotation degree of the light strip
@@ -127,7 +133,9 @@ def get_pipeline():
     dirtydrum_ksize = random.choice([(3, 3),(5,5),(7,7)])
     # DirtyDrum.sigmaX is the stdev of the kernel in the x direction
     dirtydrum_sigmaX = 0
-    
+    # DirtyDrum.p is the probability to run this augmentation
+    dirtydrum_p = (random.random()>0.5) * 1
+
     # SubleNoise.range gives the variation range for sampling noise
     subtlenoise_range = 10
     
@@ -150,6 +158,8 @@ def get_pipeline():
     markup_single_word_mode=random.choice([True, False])
     # Markup.repetitions determines the number of times the effect is drawn
     markup_repetitions=random.randint(1,2) if markup_type == "highlight" else 1
+    # Markup.p is the probability to run this augmentation
+    markup_p = (random.random()>0.5) * 1
     
     # PencilScribbles.size_range determines the size of scribbles to draw
     pencilscribbles_size_range=(100, 700)
@@ -161,7 +171,9 @@ def get_pipeline():
     pencilscribbles_thickness_range=(2, 6)
     # PencilScribbles.brightness_change is the brightness value of each stroke
     pencilscribbles_brightness_change=random.randint(64,224)
-    
+    # PencilScribbles.p is the probability to run this augmentation
+    pencilscribbles_p = (random.random()>0.5) * 1
+
     # BindingsAndFasteners.overlay_types can be min, max, or mix
     bindingsandfasteners_overlay_types = "darken"
     # BindingsAndFasteners.foreground is the path to fg image or the image itself
@@ -201,6 +213,8 @@ def get_pipeline():
     badphotocopy_wave_pattern=random.choice([True,False])
     # BadPhotoCopy.edge_effect adds the Sobel edge effect to the noise mask
     badphotocopy_edge_effect=random.choice([True,False])
+    # BadPhotoCopy.p is the probability to run this augmentation
+    badphotocopy_p = (random.random()>0.5) * 1
     
     # Gamma.range is an interval from which to sample a gamma shift
     gamma_range = (0.8, 1.2)
@@ -237,6 +251,14 @@ def get_pipeline():
     # Faxify.sigma is the sigma value of the Gaussian kernel in the halftone effect
     faxify_sigma=(1,3)
     
+    # to prevent text becomes unreadable after the agumentation
+    if badphotocopy_p>0 or dirtyrollers_p>0 or dirtydrum_p>0 or markup_p>0 or pencilscribbles_p>0:
+        faxify_monochrome_method = "grayscale"
+    if dithering_p or faxify_halftone:
+        letterpress_p = 0
+        if dithering_p:
+            faxify_halftone = 0
+    
     ################################################################################
     # PIPELINE
     #
@@ -246,13 +268,13 @@ def get_pipeline():
     ink_phase = [
         Dithering(dithering_dither_type,
                   dithering_order,
-                  p=0.2),
+                  p=dithering_p),
     
         InkBleed(inkbleed_intensity_range,
                  inkbleed_color_range,
                  inkbleed_kernel_size,
                  inkbleed_severity,
-                 p=1),
+                 p=0.5),
     
         BleedThrough(bleedthrough_intensity_range,
                      bleedthrough_color_range,
@@ -268,7 +290,7 @@ def get_pipeline():
                     letterpress_value_range,
                     letterpress_value_threshold_range,
                     letterpress_blur,
-                    p=0.5),
+                    p=letterpress_p),
     
         OneOf(
             [
@@ -329,7 +351,8 @@ def get_pipeline():
                            pageborder_value),
 
                 DirtyRollers(dirtyrollers_line_width_range,
-                             dirtyrollers_scanline_type)
+                             dirtyrollers_scanline_type,
+                             p=dirtyrollers_p)
             ],
             p=0.5),
     
@@ -354,7 +377,7 @@ def get_pipeline():
                   dirtydrum_noise_value,
                   dirtydrum_ksize,
                   dirtydrum_sigmaX,
-                  p=0.5),
+                  p=dirtydrum_p),
     
         SubtleNoise(subtlenoise_range,
                     p=0.5),
@@ -369,14 +392,14 @@ def get_pipeline():
                markup_color,
                markup_single_word_mode,
                markup_repetitions,
-               p=0.5),
+               p=markup_p),
     
         PencilScribbles(pencilscribbles_size_range,
                         pencilscribbles_count_range,
                         pencilscribbles_stroke_count_range,
                         pencilscribbles_thickness_range,
                         pencilscribbles_brightness_change,
-                        p=0.5),
+                        p=pencilscribbles_p),
     
         BindingsAndFasteners(bindingsandfasteners_overlay_types,
                              bindingsandfasteners_foreground,
@@ -399,7 +422,7 @@ def get_pipeline():
                      badphotocopy_blur_noise_kernel,
                      badphotocopy_wave_pattern,
                      badphotocopy_edge_effect,
-                     p=0.5),
+                     p=badphotocopy_p),
     
         Gamma(gamma_range,
               p=0.5),
