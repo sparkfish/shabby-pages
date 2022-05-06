@@ -333,6 +333,7 @@ post_phase = [
     OneOf(
         [
             LightingGradient(lightinggradient_light_position,
+                             lightinggradient_direction,
                              lightinggradient_max_brightness,
                              lightinggradient_min_brightness,
                              lightinggradient_mode,
