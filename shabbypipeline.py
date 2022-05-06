@@ -15,51 +15,51 @@ def get_pipeline():
     # Dithering.dither_type can be 'ordered' for ordered dithering or another string for floyd-steinberg dithering
     dithering_dither_type = random.choice(["ordered", "floyd-steinberg"])
     # Dithering.order determines the dimensions of the threshold map
-    dithering_order = random.choice(range(1,10))
+    dithering_order = random.choice(range(3,10))
     
     # InkBleed.intensity_range is a tuple with bounds for bleed intensity to be selected from
-    inkbleed_intensity_range = (0.1, 0.2)
+    inkbleed_intensity_range = (0.1, 0.4)
     # InkBleed.color_range is a tuple with bounds for color noise
-    inkbleed_color_range = (0, 224)
+    inkbleed_color_range = (0, 32)
     # InkBleed.kernel_size determines the radius of the bleed effect
-    inkbleed_kernel_size = (5, 5)
+    inkbleed_kernel_size = random.choice([(7,7), (5, 5), (3,3)])
     # InkBleed.severity determines significance of bleed effect
     inkbleed_severity=(0.4, 0.6)
     
     # BleedThrough.intensity_range is a tuple with bounds for bleed intensity to be selected from
     bleedthrough_intensity_range=(0.1, 0.2)
     # BleedThrough.color_range is a tuple with bounds for color noise
-    bleedthrough_color_range=(0, 224)
+    bleedthrough_color_range=(32, 224)
     # BleedThrough.ksize is a tuple of height/width pairs for sampling kernel size
     bleedthrough_ksize=(17, 17)
     # BleedThrough.sigmaX is the standard deviation of the kernel along the x-axis
     bleedthrough_sigmaX=0
     # BleedThrough.alpha is the intensity of the bleeding effect, recommended 0.1-0.5
-    bleedthrough_alpha=0.3
+    bleedthrough_alpha=random.uniform(0.05,0.1)
     # BleedThrough.offsets is a pair of x and y distances to shift the bleed with
     bleedthrough_offsets=(10, 20)
     
     # Letterpress.n_samples is a tuple determining how many points to generate per cluster
-    letterpress_n_samples=(100, 200)
+    letterpress_n_samples=(100, 300)
     # Letterpress.n_clusters is a tuple determining how many clusters to generate
-    letterpress_n_clusters=(500, 1000)
+    letterpress_n_clusters=(300, 400)
     # Letterpress.std_range is a pair of ints determining the std deviation range in each blob
-    letterpress_std_range=(500, 500)
+    letterpress_std_range=(500, 3000)
     # Letterpress.value_range determines values that points in the blob are sampled from
-    letterpress_value_range=(200, 255)
+    letterpress_value_range=(150, 224)
     # Letterpress.value_threshold_range is the minimum pixel value to enable the effect (e.g. 128)
-    letterpress_value_threshold_range=(128, 128)
+    letterpress_value_threshold_range=(96, 128)
     # Letterpress.blur enables blur in the noise mask
     letterpress_blur=1
     
     # LowInkLines.count_range is a pair determining how many lines should be drawn
-    lowinkrandomlines_count_range = (5, 10)
-    lowinkperiodiclines_count_range = (2, 5)
+    lowinkrandomlines_count_range = (3, 12)
+    lowinkperiodiclines_count_range = (1, 2)
     # LowInkLines.use_consistent_lines is false if we should vary the width and alpha of lines
     lowinkrandomlines_use_consistent_lines=random.choice([True, False])
     lowinkperiodiclines_use_consistent_lines=random.choice([True, False])
     # LowInkPeriodicLines.period_range is a pair determining how wide the gap between lines can be
-    lowinkperiodiclines_period_range=(10, 30)
+    lowinkperiodiclines_period_range=(16, 32)
     
     # PaperFactory.texture_path is the directory to pull textures from
     paperfactory_texture_path = "./paper_textures"
@@ -75,7 +75,7 @@ def get_pipeline():
     brightnesstexturize_deviation = 0.03
     
     # Brightness.range is a pair of floats determining the brightness delta
-    brightness_range = (0.8, 1.4)
+    brightness_range = (0.9, 1.1)
     
     # PageBorder.side determines the page edge of the effect
     pageborder_side = random.choice(["left", "top", "bottom", "right"])
@@ -95,7 +95,7 @@ def get_pipeline():
     pageborder_value = (32, 150)
     
     # DirtyRollers.line_width_range determines the width of roller lines
-    dirtyrollers_line_width_range = (8, 12)
+    dirtyrollers_line_width_range = (2, 32)
     # DirtyRollers.scanline_type changes the background of lines
     dirtyrollers_scanline_type = 0
     
@@ -104,7 +104,7 @@ def get_pipeline():
     # LightingGradient.direction indicates the rotation degree of the light strip
     lightinggradient_direction = None
     # LightingGradient.max_brightness and LightingGradient.min_brightness set bounds for how much brightness change will happen
-    lightinggradient_max_brightness = 255
+    lightinggradient_max_brightness = 196
     lightinggradient_min_brightness = 0
     # LightingGradient.mode is linear or gaussian depending on how light should decay
     lightinggradient_mode = random.choice(["linear_dynamic", "linear_static", "gaussian"])
@@ -139,7 +139,7 @@ def get_pipeline():
     # Markup.length_range determines the relative length of the drawn effect
     markup_length_range=(0.5, 1)
     # Markup.thickness_range determines the thickness of the drawn effect
-    markup_thickness_range=(1, 3)
+    markup_thickness_range=(1, 2)
     # Markup.type determines the style of effect
     markup_type=random.choice(["strikethrough", "crossed", "highlight", "underline"])
     # Markup.color is the color of the ink used to markup
@@ -149,86 +149,70 @@ def get_pipeline():
     # Markup.single_word_mode determines whether to draw across multiple words
     markup_single_word_mode=random.choice([True, False])
     # Markup.repetitions determines the number of times the effect is drawn
-    markup_repetitions=random.randint(1,5)
+    markup_repetitions=random.randint(1,2) if markup_type == "highlight" else 1
     
     # PencilScribbles.size_range determines the size of scribbles to draw
-    pencilscribbles_size_range=(250, 400)
+    pencilscribbles_size_range=(100, 700)
     # PencilScribbles.count_range determines how many scribbles to draw
-    pencilscribbles_count_range=(1, 10)
+    pencilscribbles_count_range=(1, 6)
     # PencilScribbles.stroke_count_range determines how many strokes per scribble
-    pencilscribbles_stroke_count_range=(3, 6)
+    pencilscribbles_stroke_count_range=(1, 1)
     # PencilScribbles.thickness_range determines how thick strokes are
     pencilscribbles_thickness_range=(2, 6)
     # PencilScribbles.brightness_change is the brightness value of each stroke
-    pencilscribbles_brightness_change=random.randint(0,128)
+    pencilscribbles_brightness_change=random.randint(64,224)
     
     # BindingsAndFasteners.overlay_types can be min, max, or mix
-    bindingsandfasteners_overlay_types = random.choice([
-        "min", "max", "mix", "normal",
-        "lighten", "darken", "addition", "subtract",
-        "difference", "screen", "dodge", "multiply",
-        "divide", "hard_light", "grain_extract",
-        "grain_merge", "overlay"
-    ])
+    bindingsandfasteners_overlay_types = "darken"
     # BindingsAndFasteners.foreground is the path to fg image or the image itself
     bindingsandfasteners_foreground = None
     # BindingsAndFasteners.effect_type is "punch_holes", "binding_holes", or "clips"
     bindingsandfasteners_effect_type = random.choice(["punch_holes", "binding_holes", "clips"])
     # BindingsAndFasteners.ntimes gives how many fg images to draw
-    bindingsandfasteners_ntimes = 3
+    bindingsandfasteners_ntimes = (10,20) if bindingsandfasteners_effect_type == "binding_holes" else (2,3)
     # BindingsAndFasteners.nscales is the scale of the fg image size
-    bindingsandfasteners_nscales = (1,1)
+    bindingsandfasteners_nscales = (0.9,1)
     # BindingsAndFasteners.edge gives the edge to place the images on
-    bindingsandfasteners_edge = random.choice(["left", "top", "bottom", "right"])
+    bindingsandfasteners_edge = "random"
     # BindingsAndFasteners.edge_offset is how far from the page edge to draw
-    bindingsandfasteners_edge_offset = 50
+    bindingsandfasteners_edge_offset = (10,50)
     
     # BadPhotoCopy.mask is a mask of noise to generate the effect with
     badphotocopy_mask=None
     # BadPhotoCopy.noise_type determines which mask pattern to use
-    badphotocopy_noise_type=random.randint(1,8)
+    badphotocopy_noise_type=-1  # -1 is random
     # BadPhotoCopy.noise_side determines where to add noise
-    badphotocopy_noise_side=random.choice([
-                "random",
-                "left",
-                "right",
-                "top",
-                "bottom",
-                "top_left",
-                "top_right",
-                "bottom_left",
-                "bottom_right",
-            ])
+    badphotocopy_noise_side="random"
     # BadPhotoCopy.noise_iteration determines how many times to apply noise in the mask
-    badphotocopy_noise_iteration=(1, 1)
+    badphotocopy_noise_iteration=(1, 2)
     # BadPhotoCopy.noise_size determines the scale of noise in the mask
-    badphotocopy_noise_size=(1, 1)
+    badphotocopy_noise_size=(1, 2)
     # BadPhotoCopy.noise_value determines the intensity of the noise
-    badphotocopy_noise_value=(30, 60)
+    badphotocopy_noise_value=(128, 196)
     # BadPhotoCopy.noise_sparsity determines the sparseness of noise
-    badphotocopy_noise_sparsity=(0.4, 0.6)
+    badphotocopy_noise_sparsity=(0.3, 0.6)
     # BadPhotoCopy.noise_concentration determines the concentration of noise
-    badphotocopy_noise_concentration=(0.4, 0.6)
+    badphotocopy_noise_concentration=(0.1, 0.5)
     # BadPhotoCopy.blur_noise determines whether or or not to add blur
     badphotocopy_blur_noise=random.choice([True,False])
     # BadPhotoCopy.blur_noise_kernel gives the dimensions for the noise kernel
-    badphotocopy_blur_noise_kernel=(5, 5)
+    badphotocopy_blur_noise_kernel=random.choice([(3, 3), (5, 5), (7, 7)])
     # BadPhotoCopy.wave_pattern enables the wave pattern in the noise mask
     badphotocopy_wave_pattern=random.choice([True,False])
     # BadPhotoCopy.edge_effect adds the Sobel edge effect to the noise mask
     badphotocopy_edge_effect=random.choice([True,False])
     
     # Gamma.range is an interval from which to sample a gamma shift
-    gamma_range = (0.5, 1.5)
+    gamma_range = (0.8, 1.2)
     
     # Geometric.scale is a pair determining how to scale the image
     geometric_scale = (1, 1)
     # Geometric.translation is a pair determining where to translate the image
     geometric_translation = (0, 0)
     # Geometric.fliplr flips the image left and right
-    geometric_fliplr = random.choice([0,1])
+    geometric_fliplr = 0
     # Geometric.flipud flips the image up and down
-    geometric_flipud = random.choice([0,1])
+    geometric_flipud = 0
     # Geometric.crop is a tuple of four points giving the corners of a crop region
     geometric_crop = ()
     # Geometric.rotate_range is a pair determining the rotation angle sample range
