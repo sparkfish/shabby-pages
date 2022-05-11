@@ -11,7 +11,6 @@ filename = "cropped/test/" + random.choice(os.listdir("cropped/test/"))
 message = f"Shabby Page Of The Day: {filename} #ShabbyPages #Augraphy"
 
 # Get secrets from environment
-bearer_token = os.environ.get("TWITTER_TOKEN")
 consumer_key = os.environ.get("CONSUMER_KEY")
 consumer_secret = os.environ.get("CONSUMER_SECRET")
 access_token = os.environ.get("ACCESS_TOKEN")
