@@ -4,8 +4,9 @@ import random
 import requests
 import json
 import base64
+
 # Get a random image from the daily build
-filename = "cropped/test/" + random.choice(os.listdir("cropped/test/"))
+filename = "cropped/shabby/" + random.choice(os.listdir("cropped/shabby/"))
 
 # Modify this if you like.
 message = f"Shabby Page Of The Day: {filename} #ShabbyPages #Augraphy"
