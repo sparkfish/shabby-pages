@@ -58,7 +58,7 @@ jobs:
       - name: Daily Shabby Pages Sample
         uses: softprops/action-gh-release@v1
         with:
-          files: cropped/*
+          files: cropped/shabby/*
           tag_name: ${{steps.tag.outputs.TAG}}
 
   tweet:
