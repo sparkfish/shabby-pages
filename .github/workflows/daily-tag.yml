@@ -6,6 +6,10 @@ on:
     - cron: '17 13 * * *'
 
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Enter version to use as tag'
+        required: true
 
 jobs:
   build:
@@ -18,13 +22,21 @@ jobs:
           fetch-depth: 0
           ssh-key: ${{ secrets.COMMIT_KEY }}
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Get tag
+        id: tag
+        env:
+          INPUT: ${{ github.event.inputs.tag }}
+        run: |
+          if [ -n "$INPUT" ]; then
+            echo "::set-output name=tag::$(echo $INPUT)"  
+          else
+            # input is empty - daily trigger, so use date
+            echo "::set-output name=tag::$(date +'%Y-%m-%d')"  
+          fi
 
       - name: Tag commit
         env:
-          TAG: ${{ steps.date.outputs.date }}
+          TAG: ${{ steps.tag.outputs.tag }}
         run: |
           git tag ${TAG}
 
