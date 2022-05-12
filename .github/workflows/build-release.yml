@@ -50,6 +50,11 @@ jobs:
           name: sample-images
           path: cropped
 
+      - name: Debug
+        run: |
+          pwd
+          ls -R
+
       - name: Daily Shabby Pages Sample
         uses: softprops/action-gh-release@v1
         with:
@@ -68,6 +73,11 @@ jobs:
         with:
           name: sample-images
           path: cropped
+
+      - name: Debug
+        run: |
+          pwd
+          ls -R
 
       - name: Setup Python
         uses: actions/setup-python@v3
