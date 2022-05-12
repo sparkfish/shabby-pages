@@ -81,4 +81,5 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
         run: |
+          pip install -r requirements.txt
           python tweet.py
