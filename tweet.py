@@ -5,7 +5,8 @@ import tweepy
 filename = "cropped/shabby/" + random.choice(os.listdir("cropped/shabby/"))
 
 # Create tweet message
-tweet = f"ShabbyPage-Of-The-Day using lastest build of Augraphy: {filename} #ShabbyPages #Augraphy #DailyBuild"
+tweet = f"ShabbyPage-Of-The-Day using lastest build of Augraphy: {filename} "
+tweet = tweet + "#ShabbyPages #Augraphy #ImageAugmentation #ComputerVision #OpenCV #DataAugmentation #MachineLearning #imgaug #albumerations #deeplearning #kaggle #ml #ai"
 
 # Get secrets from environment
 consumer_key = os.environ.get("CONSUMER_KEY")
