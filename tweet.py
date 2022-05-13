@@ -1,6 +1,7 @@
+import os
 import logging
-import tweepy
 import random
+import tweepy
 
 # Grab random image from daily build
 filename = "cropped/shabby/" + random.choice(os.listdir("cropped/shabby/"))
