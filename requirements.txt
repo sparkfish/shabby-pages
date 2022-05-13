@@ -7,3 +7,4 @@ requests
 scikit-image
 scipy
 sklearn
+tweepy
