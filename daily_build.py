@@ -18,6 +18,9 @@ def run_pipeline(filename):
 
     shabby = pipeline.augment(clean)["output"]
 
+    if len(shabby.shape)<=2 and len(clean.shape)>2:
+        shabby = cv2.cvtColor(shabby, cv2.COLOR_GRAY2BGR)
+
     left,right,top,bottom = choose_patch(clean)
     clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
     shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
