@@ -5,6 +5,7 @@ import zipfile
 from multiprocessing import Pool, cpu_count
 from functools import partial
 from daily_pipeline import get_pipeline
+from remove_blank_pages import report_white_percentage
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import gdown
 
@@ -17,18 +18,48 @@ def run_pipeline(filename):
 
     shabby = pipeline.augment(clean)["output"]
 
-    left,right,top,bottom = choosePatch(clean)
-
+    left,right,top,bottom = choose_patch(clean)
     clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
-
     shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
+
+    # add 38% of clean image patch into shabby image
+    x_end_ratio_38_percent = int(400 * 38/100)
+    shabby_patch[:, :x_end_ratio_38_percent] = clean_patch[:,:x_end_ratio_38_percent]
+    
+    # add line of gradient separating clean and shabby image
+    gradient_value = 100
+    for i in range(6):
+        shabby_patch[:, x_end_ratio_38_percent - i] = gradient_value
+        gradient_value += 30
 
     cv2.imwrite(f"full/shabby/{filename}", shabby)
     cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
     cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
 
+    # select new patch when black area > 80% of the image
+    while report_white_percentage(f"cropped/clean/{filename}")>99:
+        os.remove(f"cropped/clean/{filename}")
+        os.remove(f"cropped/shabby/{filename}")
+    
+        left,right,top,bottom = choose_patch(clean)
+        clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
+        shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
 
-def choosePatch(img):
+        # add 38% of clean image patch into shabby image
+        x_end_ratio_38_percent = int(400 * 38/100)
+        shabby_patch[:, :x_end_ratio_38_percent] = clean_patch[:,:x_end_ratio_38_percent]
+        
+        # add line of gradient separating clean and shabby image
+        gradient_value = 100
+        for i in range(6):
+            shabby_patch[:, x_end_ratio_38_percent - i] = gradient_value
+            gradient_value += 30
+        
+        cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
+        cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
+
+
+def choose_patch(img):
     x,y,c = img.shape
 
     max_x = x - 500
@@ -40,6 +71,16 @@ def choosePatch(img):
     bottom = top + 500
 
     return left,right,top,bottom
+
+
+def remove_blank_images(selected_images):
+    filtered_images= []
+    for filename in selected_images:
+        # ensure image is not totally blank
+        if report_white_percentage(f"full/clean/{filename}") <= 99:
+            filtered_images.append(filename)
+    return filtered_images
+
 
 def download_images():
     # get the connection string for auth
@@ -55,7 +96,7 @@ def download_images():
     all_blobs = container_client.list_blobs()
 
     # select 50 blobs
-    selected_blobs = random.sample(list(all_blobs), 50)
+    selected_blobs = random.sample(list(all_blobs), 10)
 
     # download the images
     for blob in selected_blobs:
@@ -88,6 +129,9 @@ if __name__ == "__main__":
 
     # get a list of the images
     selected_images = os.listdir("full/clean")
+
+    # remove blank images
+    selected_images = remove_blank_images(selected_images)
 
     # build process pool for parallel build
     num_cores = cpu_count()
