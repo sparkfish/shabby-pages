@@ -4,12 +4,13 @@ import random
 import tweepy
 
 # Grab random image from daily build
-filename_display = random.choice(os.listdir("cropped/shabby/"))
-filename_upload = "cropped/shabby/" + filename_display
+filename = random.choice(os.listdir("cropped/shabby/"))
+filename_upload = "cropped/shabby/" + filename
+filename_display = os.path.splitext(filename)[0]
 
 # Create tweet message
-tweet = f"ShabbyPage-Of-The-Day using lastest build of Augraphy: {filename_display} "
-tweet = tweet + "#ShabbyPages #Augraphy #ImageAugmentation #ComputerVision #OpenCV #DataAugmentation #MachineLearning #imgaug #albumentations #deeplearning #kaggle #ml #ai"
+tweet_filename = f"ShabbyPage-Of-The-Day using lastest build of Augraphy: {filename_display} "
+tweet = tweet_filename + "#ShabbyPages #Augraphy #ImageAugmentation #ComputerVision #OpenCV #DataAugmentation #MachineLearning #imgaug #albumentations #deeplearning #kaggle #ml #ai"
 
 # Get secrets from environment
 consumer_key = os.environ.get("CONSUMER_KEY")
@@ -28,5 +29,11 @@ media = api.media_upload(filename_upload)
 logging.info(f"Media uploaded to twitter; response = [{media}]")
 
 # Post tweet with image
-post_result = api.update_status(status=tweet, media_ids=[media.media_id])
-logging.info(f"Tweet posted referencing media upload; response = [{post_result}] ")
+try:
+    post_result = api.update_status(status=tweet, media_ids=[media.media_id])
+    logging.info(f"Tweet posted referencing media upload; response = [{post_result}] ")
+except Exception as e: 
+    print(e)
+    print("Length of tweet is "+len(tweet))
+    print("Tweet is :"+tweet)
+    
