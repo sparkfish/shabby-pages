@@ -34,6 +34,6 @@ try:
     logging.info(f"Tweet posted referencing media upload; response = [{post_result}] ")
 except Exception as e: 
     print(e)
-    print("Length of tweet is "+len(tweet))
     print("Tweet is :"+tweet)
+    print("Length of tweet is "+str(len(tweet)))
     
