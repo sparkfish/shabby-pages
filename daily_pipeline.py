@@ -81,12 +81,16 @@ def get_pipeline():
 
     # PageBorder.side determines the page edge of the effect
     pageborder_side = random.choice(["left", "top", "bottom", "right"])
+    # PageBorder.border_background_value determines value of created border background.
+    pageborder_border_background_value = (230, 255)
+    # PageBorder.flip_border determines whether to flip the created border 
+    pageborder_flip_border = random.choice([0,1])
     # PageBorder.width_range determines border thickness
     pageborder_width_range = (5, 30)
     # PageBorder.pages determines how many page shadows to render
-    pageborder_pages = None # internally this is random.randint(2, 7)
+    pageborder_pages = random.randint(6, 8)
     # PageBorder.intensity_range determines the noises of the page shadow
-    pageborder_intensity_range = (0.4, 0.8)
+    pageborder_intensity_range = (0.1, 0.2)
     # PageBorder.curve_frequency determines frequency of curvy page shadow
     pageborder_curve_frequency = (2, 8)
     # PageBorder.curve_height determines height of curvy page shadow
@@ -95,6 +99,8 @@ def get_pipeline():
     pageborder_curve_length_one_side = (50, 100)
     # PageBorder.value determines value of generated page shadow
     pageborder_value = (32, 150)
+    # PageBorder.same_page_border determines whether the border will be in a same page 
+    pageborder_same_page_border=random.choice([0,1])
 
     # DirtyRollers.line_width_range determines the width of roller lines
     dirtyrollers_line_width_range = (2, 32)
@@ -370,13 +376,16 @@ def get_pipeline():
         OneOf(
             [
                 PageBorder(pageborder_side,
+                           pageborder_border_background_value,
+                           pageborder_flip_border,
                            pageborder_width_range,
                            pageborder_pages,
                            pageborder_intensity_range,
                            pageborder_curve_frequency,
                            pageborder_curve_height,
                            pageborder_curve_length_one_side,
-                           pageborder_value),
+                           pageborder_value,
+                           pageborder_same_page_border),
                 DirtyRollers(dirtyrollers_line_width_range,
                              dirtyrollers_scanline_type,
                              p=dirtyrollers_p)
