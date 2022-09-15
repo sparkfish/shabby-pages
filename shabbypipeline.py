@@ -77,12 +77,16 @@ def get_pipeline():
     brightnesstexturize_range = (0.9, 0.99)
     # BrightnessTexturize.deviation is additional variation for the uniform sample
     brightnesstexturize_deviation = 0.03
-    
+
     # Brightness.range is a pair of floats determining the brightness delta
     brightness_range = (0.9, 1.1)
     
     # PageBorder.side determines the page edge of the effect
     pageborder_side = random.choice(["left", "top", "bottom", "right"])
+    # PageBorder.border_background_value determines background value of border effect
+    pageborder_border_background_value=(230, 255)
+    # PageBorder.flip_border determines whether the created border will be flipped or not
+    pageborder_flip_border=random.choice([0,1])
     # PageBorder.width_range determines border thickness
     pageborder_width_range = (5, 30)
     # PageBorder.pages determines how many page shadows to render
@@ -97,6 +101,8 @@ def get_pipeline():
     pageborder_curve_length_one_side = (50, 100)
     # PageBorder.value determines value of generated page shadow
     pageborder_value = (32, 150)
+    # PageBorder.same_page_border determines whether the created border will be within the input image or not.
+    pageborder_same_page_border = 1
     
     # DirtyRollers.line_width_range determines the width of roller lines
     dirtyrollers_line_width_range = (2, 32)
@@ -342,13 +348,16 @@ def get_pipeline():
         OneOf(
             [
                 PageBorder(pageborder_side,
+                           pageborder_border_background_value,
+                           pageborder_flip_border,
                            pageborder_width_range,
                            pageborder_pages,
                            pageborder_intensity_range,
                            pageborder_curve_frequency,
                            pageborder_curve_height,
                            pageborder_curve_length_one_side,
-                           pageborder_value),
+                           pageborder_value,
+                           pageborder_same_page_border),
 
                 DirtyRollers(dirtyrollers_line_width_range,
                              dirtyrollers_scanline_type,
@@ -449,4 +458,4 @@ def get_pipeline():
     
 
     """ This makes things easier."""
-    return AugraphyPipeline(ink_phase,paper_phase,post_phase)
+    return AugraphyPipeline(ink_phase,paper_phase,post_phase,log=True)
