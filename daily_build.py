@@ -1,5 +1,6 @@
 import cv2
 import random
+import time
 import os
 import zipfile
 from multiprocessing import Pool, cpu_count
@@ -60,6 +61,14 @@ def run_pipeline(filename):
         
         cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
         cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
+
+    # write filename and their processing time, to matched with the log file information
+    base_filename = os.path.basename(filename)[:-4]+"_"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + ".txt"
+    name_path = os.path.join(os.getcwd(), "names/") 
+    os.makedirs(name_path, exist_ok=True)
+
+    with open(name_path+base_filename, "w+") as file:
+        file.close()
 
 
 def choose_patch(img):
