@@ -44,6 +44,11 @@ jobs:
         with:
           name: logs
           path: logs/
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: names
+          path: names/
 
   release:
     runs-on: ubuntu-latest
