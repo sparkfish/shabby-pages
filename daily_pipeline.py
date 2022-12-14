@@ -100,7 +100,7 @@ def get_pipeline():
     # PageBorder.value determines value of generated page shadow
     pageborder_value = (32, 150)
     # PageBorder.same_page_border determines whether the border will be in a same page 
-    pageborder_same_page_border=random.choice([0,1])
+    pageborder_same_page_border=1
 
     # DirtyRollers.line_width_range determines the width of roller lines
     dirtyrollers_line_width_range = (2, 32)
