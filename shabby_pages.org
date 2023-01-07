@@ -1,0 +1,70 @@
+#+TITLE: ShabbyPages: A Corpus For Training Document Image Processing Models
+
+* Abstract
+A document image dataset containing clean "born-digital" ground truth and altered "shabby" images is presented, the latter generated with the Augraphy[cit] document image augmentation library. The results of several experiments in which the corpus was used to train denoisers are discussed, establishing baseline performance for a new ShabbyPages benchmark.
+
+* Introduction
+Despite recent attempts [e.g. Training Vision Transformers with Only 2040 Images, Vision Transformer for Small-Size Datasets] to reduce the volume of data needed to train machine learning models, data is king, and large training sets remain the gold-standard. All machine learning tasks require a large supply of training data. Document analysis and understanding tasks rely on images of documents, possibly with accompanying data like labels or clean, "ground truth" images. Which kinds of documents and which features are present in their images is dependent on the task, but in all cases, the problem bottoms out at collecting cleaned image data, and thus at the task of denoising. Tasks are arranged in a hierarchy, with denoising, binarization, and classification at the bottom, and all other dependent tasks (layout detection and understanding, optical character recognition, etc.) above.
+
+
+** Description of some problems faced by document analysis and understanding tasks.
+Document analysis and understanding tasks are complicated by several problems at the data level. Physical distortion like tears, holes, and folds in the page can severely harm the accuracy of models like layout recognizers. Handwriting, highlighting, marker redaction, and other annotations may alter OCR results. Worse still, auxiliary objects including paperclips, staples, and bindings are non-text, non-document features, turning document analysis problems into scene-text challenges. At a higher level, the general lack of clean ground truth images presents difficulties for supervised learning.
+
+** Motivation for denoisers: how cleaned predictions assist supervised learning tasks in OCR, layout understanding and other segmentation issues
+Since the overwhelming majority of documents in the wild don't come with clean versions, removing their unwanted features becomes paramount. Document denoising models are designed to address this problem by predicting what a noisy document might have originally looked like. These cleaned images can then be fed into other models — for example, an optical character recognizer — to achieve some desired final result.
+
+** Note about NoisyOffice, need for a more comprehensive way to synthetically noise modern document images
+This dataset was largely inspired by the NoisyOffice set; we owe the authors a great debt. The synthetic images in that dataset were created by overlaying the document text foreground mask onto a background containing the relevant feature.
+
+** Augraphy as the better approach
+With Augraphy, we merge the foreground and background with a similar blending method to that used in the NoisyOffice synthetic dataset construction. Augraphy's primary contribution here is doing this in a repeatable way, easily callable from any Python code, with a simple declarative interface. The library presents an easy-to-use API for constructing feature pipelines, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
+
+** ShabbyPages is a demonstration of Augraphy's power
+To demonstrate the power of Augraphy, we created the ShabbyPages dataset, for use in general document analysis tasks. ShabbyPages contains a broad range of types of modern documents (letters, government and corporate press releases, scientific reports, academic journal articles, and so on), with a broad range of simulated features that correspond to those found "in the wild".
+
+* ShabbyPages dataset
+** Motivation
+Augraphy — and by extension ShabbyPages — grew out of a need for document image denoisers that could handle arbitrary features commonly found in the wild, on modern documents created with typewriters or digital computers. Many of the initial document forms we were interested are not represented in the Shabby set, but features common to those types of documents are also found in others which do appear within the Shabby set.
+
+** Construction of the Dataset
+This section describes the dataset generation methodology; code for all of this is available on GitHub.
+
+*** Data gathering
+A team of workers searched the public internet for PDFs of many different kinds. 600 unique documents were retrieved, totaling 6153 pages. Care was taken to retrieve freely-available and attributable documents; a CSV file containing document links (as of time of download) and attributions is available and distributed with the dataset.
+
+*** PDF to PNG
+We then used the ~pdftoppm~ tool from the ~poppler-utils~ package to split the PDF documents into individual pages, converting these to PNG images at 150dpi, a common printing resolution.
+
+#+begin_src bash
+  pdftoppm document_name.pdf document_name -png -r 150
+#+end_src
+
+*** Developing the Pipeline
+While Augraphy's default pipeline has what we believe to be quite realistic defaults, we wanted a broader range of features from this dataset than those the default pipeline could produce. To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub. We created an automated daily build in GitHub Actions to render a random selection of ground-truth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the pipeline.
+
+*** Processing Augraphy on a multicore system
+Execution time is dependent on which augmentations are executed at runtime; an Augraphy pipeline can take several seconds to process large images. The library is under active development with performance enhancements underway, but the time cost to generate large datasets sequentially is prohibitive when dealing with thousands of files, so we use a multi-process pooling technique to distribute the workload across many processor execution threads. For each process, we generate a new pipeline, run the pipeline object on an image, and save the output, using the code below:
+
+#+begin_src python
+    import os
+    import cv2
+    from multiprocessing import Pool
+    from pathlib import Path
+
+    input_path = Path("/path/to/input/images")
+    filenames = [(input_path / name) for name in os.listdir(input_path)]
+
+    pool = Pool(os.cpu_count())
+
+    def run_pipeline(filename):
+        image = cv2.imread(filename)
+        pipeline = get_pipeline()
+        data = pipeline.augment(image)
+        shabby_image = data["output"]
+        cv2.imwrite(filename.parent / f"{filename.stem}-shabby{filename.suffix}")
+
+    pool.map(run_pipeline, filenames)
+
+#+end_src
+
+* 
