@@ -4,7 +4,7 @@
     <img src="images/Article_Hero_Picture_Shadow.png?raw=true" title="Shabby Pages Logo">
 </p>
 
-ShabbyPages is a corpus of born-digital document images with both ground truth and distorted versions appropriate for use in training models to reverse distortions and recover to original denoised documents.  This state-of-the-art dataset with synthetically-generated real-world representations can be used to improve document layout detection, text extraction and OCR processes that depend on denoising and binarization preprocessing models.
+ShabbyPages is a corpus of born-digital document images with both ground truth and distorted versions appropriate for supervised learning use in training models to reverse distortions and recover the original clean documents. This state-of-the-art dataset with synthetically-generated real-world representations can be used to improve document layout detection, text extraction and OCR processes that depend on denoising and binarization preprocessing models.
 
 Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using **Augraphy** to produce a synthetic yet realistic dataset based on ground truth documents.
 
@@ -52,7 +52,7 @@ https://www.kaggle.com/patrickaudriaz/tobacco3482jpg
 https://www.kaggle.com/sharmaharsh/form-understanding-noisy-scanned-documentsfunsd
 
 
-## Synthentic Datasets
+## Synthetic Datasets
 
 * **NoisyOffice** dataset from University of California, Irvine contains noisy grayscale printed text images and their corresponding ground truth for both real and simulated documents with 4 types of noise: folded sheets, wrinkled sheets, coffee stains, and footprints.  For each type of font, one type of Noise: 17 files * 4 types of noise = 72 images.
 https://archive.ics.uci.edu/ml/datasets/NoisyOffice
