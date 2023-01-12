@@ -14,6 +14,7 @@
 \title{ShabbyPages: A Recipe for Repeatable, Synthetic, Modern Document Images}
 \author{Alexander Groleau\inst{1,2} \and
   Kok Wei Chee\inst{1} \and
+  Stefan Larson\inst{3} \and
   Jonathan Boarman\inst{1} \and
   Samay Maini\inst{1}}
 
@@ -21,7 +22,9 @@
 
 \institute{Sparkfish LLC (\email{augraphy@sparkfish.com})
   \and
-  Left Associates LLC (\email{research@left.associates})}
+  Left Associates LLC (\email{research@left.associates})
+  \and
+  Vanderbilt University}
 
 \maketitle
 
@@ -30,29 +33,29 @@ The ShabbyPages document image dataset is produced using the Augraphy document i
 \end{abstract}
 
 \section{Introduction}
-Supervised learning requires a collection of training data and accompanying ``labels'', which in the graphical modality are clean images, ree of noise or other degradations. ShabbyPages is a large dataset composed of 6153 clean/noisy pairs of images taken from 600 digital documents. Information about the set's contents and its relation to other datasets are explored in the next section. The noisy images were created from their clean origins by the application of a pipeline developed with the Augraphy library; the production of ShabbyPages is detailed in the third section, with all source code and input materials made openly available. The final dataset is used to train several denoising models which are compared directly and whose prediction results are compared together in the final section.
+Supervised learning requires a collection of training data and accompanying ``labels'', which in the graphical modality are clean images, free of noise or other degradations. ShabbyPages is a large dataset composed of 6202 clean/noisy pairs of images taken from 600 digital documents. Information about the set's contents and its relation to other datasets are explored in the next section. The noisy images were created from their clean origins by the application of a pipeline developed with the Augraphy library; the production of ShabbyPages is detailed in the third section, with all source code and input materials made openly available. The final dataset is used to train several denoising models which are compared directly and whose prediction results are compared together in the final section.
 
 \section{The Dataset}
 ShabbyPages joins a rapidly growing number of open-source datasets freely available online. Human activity today generates a tremendous amount of data, with many people choosing to publish theirs on websites like Kaggle \cite{ref_Kaggle}, Hugging Face Hub \cite{ref_HuggingFaceHub}, and many more. All of this data is arranged into categories: sets exist which contain text, images, audio, and data from other modalities, with each set often collected and designed for a purpose. Of the many image datasets available, the authors understand few to have been designed for groundtruthed supervised learning of document-specific tasks like binarization or denoising. In fact, we could find only one other set compiled for doing so with images of \textit{modern} documents: NoisyOffice \cite{ref_NoisyOffice}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{Article_Hero_Picture_Shadow.png}
-\caption{Example ShabbyPages image, with the groundtruth partially augmented on the right.} \label{fig1}
+\caption{Example ShabbyPages image, before and after augmentation.} \label{fig1}
 \end{figure}
 
 \subsection{Features}
-Modern artificial neural networks produce a latent representation of their training data, a space from which outputs are sampled. In deep networks, these representations live within multiple layers, each of which corresponds to a feature of the input data. Document images are a particularly interesting category, as the data within the documents each picture represents is itself frequently multi-modal; the document may contain an image and its description, a table with statistics, multiple regions of structured and formatted text, and even other documents.\\
+Modern artificial neural networks produce a latent representation of their training data, a space from which outputs are sampled. In deep networks, these representations live within multiple layers, each of which corresponds to a feature of the input data. Document images are a particularly interesting category, as the data within the documents each picture represents is itself frequently multi-modal; the document may contain an image and its description, a table with statistics, multiple regions of structured and formatted text, and even other documents, making their internal representations by neural networks often quite complicated.\\
 
-Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.
+Networks with a wider variety of latent representations frequently perform better when generalizing their learned functions to other tasks. Procuring a large-enough volume of robust-enough training data is paramount. Several sets of such images exist, many intended for processing by deep neural nets; Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.\\
 
 \begin{table}
 \centering
 \caption{Document Image Dataset Feature Comparison}\label{tab1}
-\begin{tabular}{|@{\hspace{2em}}l@{\qquad}|@{\hspace{2em}}l@{\qquad}|@{\hspace{2em}}l@{\qquad}|@{\hspace{2em}}l@{\qquad}|@{\hspace{2em}}l@{\qquad}|}
+\begin{tabular}{|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|}
 \hline
 Feature & ShabbyPages & NoisyOffice & RVL-CDIP & Tobacco800 \\
 \hline
-Images & 6153 & 72 & 400000 & 1290\\
+Images & 6202 & 72 & 400000 & 1290\\
 Document-specific & Yes & Yes & Yes & Yes\\
 Synthetic & Yes & Yes & No & No\\
 Groundtruthed? & Yes & Yes & No & No\\
@@ -84,13 +87,18 @@ The images exhibit poor fidelity with what we can imagine their originals to hav
 The collection of RVL-CDIP is an impressive feat in its own right: nearly half a million scanned documents with real noise, already categorized. Augraphy makes synthetic documents, intended to simulate real noise without the need to physically produce it. One of the augmentations used in the ShabbyPages set is BadPhotoCopy, which mimics low-fidelity noisy or damaged scans.
 
 \subsection{Tobacco800}
-Tobacco800, like RVL-CDIP, is a subset of the Complex Document Image Processing collection, containing images of documents originally internal to tobacco companies, and released under the Tobacco Master Settlement Agreement. The corpus is composed of 1290 images, gathered and scanned at different times and by different devices. Several of the images in this set are consecutively-numbered pages, increasing the set's utility for certain image analysis tasks \cite{ref_Tobacco800}. Document images in this set vary from from 150 to 300 DPI with dimensions between 1200 pixels wide and 2500 pixels tall on the low end and 1600 by 3200 on the high.
+Tobacco800, like RVL-CDIP, is a subset of the Complex Document Image Processing collection, containing images of documents originally internal to tobacco companies, and released under the Tobacco Master Settlement Agreement. The corpus is composed of 1290 images, gathered and scanned at different times and by different devices. Several of the images in this set are consecutively-numbered pages, increasing the set's utility for certain image analysis tasks \cite{ref_Tobacco800}. Document images in this set vary from from 150 to 300 DPI with dimensions between 1200 pixels wide and 2500 pixels tall on the low end and 1600 by 3200 on the high.\\
 
+Every document in the ShabbyPages groundtruth set is a multi-page document. The released set was exported at 150 DPI, but the original documents are also distributed, so re-exporting at a higher resolution is trivial. The smallest image is 532 by 532, with the largest 3336 wide by 12157 tall. 6202 images are present in ShabbyPages, but this number could easily be increased by simply running another Augraphy pipeline to generate more.
 
+\subsection{ShabbyPages Compared}
+Supervised learning tasks require labeled training data, called the ground truth. Much of the world's data does not come with labels, which instead must be created by humans in some fashion. In Table 1, we indicated that NoisyOffice was the only other groundtruthed dataset we examined. This isn't strictly true: there are projects to add some types of groundtruth to RVL-CDIP \cite{ref_goldmann}, \cite{ref_zenodo} and Tobacco800 \cite{ref_tobacco800gt1}, \cite{ref_tobacco800gt2}, but the images in these sets were produced by real scans, without an accompanying original digital document. Conversely, NoisyOffice contains images of real scanned documents intended for validation, as well as their digital groundtruth and synthetic training image data.\\
+
+ShabbyPages includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully reproducing the ShabbyPages set, allowing anyone to quickly produce a new set in the Shabby family, optionally re-exporting groundtruths at a different resolution beforehand. The 6202 images in the ShabbyPages release set are really just the first sample from the space of these documents; we encourage building your own. NoisyOffice is the only other set we examined that contains its digital provenance, but the released database materials lack a means of reproducing the simulated printing method used to create the NoisyOffice training data. Augraphy's PaperFactory augmentation is such a tool. The other sets are not even theoretically extensible in this way.
 
 
 \subsection{Statistics}
-ShabbyPages contains documents from multiple classes, which contain many types of information.
+ShabbyPages contains documents from multiple classes, which contain many types of information.\\
 
 Table 2 below contains some statistics for the dataset, in grayscale, at a standard resolution of 150 ppi.
 
@@ -101,7 +109,7 @@ Table 2 below contains some statistics for the dataset, in grayscale, at a stand
 \hline
 Statistic & Value \\
 \hline
-Images & 6153 \\
+Images & 6202 \\
 DPI & 150 \\
 Max image size & \_ \\
 \hline
@@ -109,9 +117,9 @@ Max image size & \_ \\
 \end{table}
 
 \subsection{Limitations}
-The ShabbyPages collection is a comprehensive entrant to the public datasphere, but with a relatively low starting document volume, makes some important omissions.
+The ShabbyPages collection is a comprehensive entrant to the public datasphere, but with a relatively low starting document volume, makes some important omissions.\\
 
-First, we arbitrarily selected 600 as the number of source documents. The number of final images of pages depends on this, and so is similarly arbitrary.
+First, we arbitrarily selected 600 as the number of source documents. The number of final images of pages depends on this, and so is similarly arbitrary.\\
 
 There are only a few languages represented, which reflects a number of biases, including the following:
 \begin{itemize}
@@ -122,14 +130,11 @@ There are only a few languages represented, which reflects a number of biases, i
 
 This work does not account for them, but these biases are significant determiners on the set of input documents. We hoped to overcome this somewhat by picking a suitably large number of input documents, and settled at 600.
 
-\section{Motivation for Denoising}
-TODO
-
 \section{Construction}
 This section describes the dataset generation methodology; code for all of this is available on GitHub.
 
 \subsection{Data Gathering}
-A team of workers searched the public internet for PDFs of many different kinds. 600 unique documents were retrieved, totaling 6153 pages. A similar process was completed to collect paper textures on which to "print" the documents: 300 unique textures were gathered, all of which are either in the public domain or carry CC-0, CC-BY, or CC-BY-SA licenses. Care was taken to retrieve freely-available and attributable documents; a CSV file containing document and paper texture links (as of time of download), with their sources, is available and distributed with the dataset. We also manually reviewed the gathered documents to verify that no personal identity information was present within the corpus.
+A team of workers searched the public internet for PDFs of many different kinds. 600 unique documents were retrieved, totaling 6202 pages. A similar process was completed to collect paper textures on which to "print" the documents: 300 unique textures were gathered, all of which are either in the public domain or carry CC-0, CC-BY, or CC-BY-SA licenses. Care was taken to retrieve freely-available and attributable documents; a CSV file containing document and paper texture links (as of time of download), with their sources, is available and distributed with the dataset. We also manually reviewed the gathered documents to verify that no personal identity information was present within the corpus.
 
 \subsection{PDF to PNG}
 The ~pdftoppm~ tool from the ~poppler-utils~ package was used to split the PDF documents into individual pages. Each page was converted to a PNG image at 150dpi, a common printing resolution. Because the majority of these documents were created with the standard US Letter dimensions, this resulted in the most common image dimension being 1275 pixels wide by 1650 pixels tall.
@@ -166,13 +171,13 @@ Execution time is dependent on which augmentations are executed at runtime; an A
 
 \end{lstlisting}
 
-Processing all 6153 images took TODO:TIME on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS.
+Processing all 6202 images took TODO:TIME on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS.
 
 \section{Experimentation with the ShabbyPages Set}
 Binarization and denoising are two important techniques for the removal of unwanted data from images. Both approaches can be achieved by supervised learning of relationships between features of the input and output data. In this section, we train and compare several denoising models and their predictions on both the NoisyOffice and ShabbyPages datasets.
 
-\
-
+\section{Motivation for Denoising}
+Digital computation has enabled humanity to produce ever-growing amounts of both data and reasons to process it. Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, or when our aesthetic sensibilities aren't injured.\\
 
 
 %
@@ -227,7 +232,15 @@ Binarization and denoising are two important techniques for the removal of unwan
 
 \bibitem{ref_DocCreator}
   {Journet Nicholas, Visani Muriel, Mansencal Boris, Van-Cuong Kieu, Billy Antoine, DocCreator: A New Software for Creating Synthetic Ground-Truthed Document Images. J. Imaging 2017, 3, 62.}
-\bibitem{ref_fastai}
+\bibitem{ref_goldmann}
+  {Pau Riba, Anjan Dutta, Lutz Goldmann, Alicia Fornes, Oriol Ramos, Josep LLados: "Table Detection in Invoice Documents by Graph Neural Networks", ICDAR, 2019.}
+\bibitem{ref_zenodo}
+  {Layout Analysis Groundtruth for the RVL-CDIP Dataset. Goldmann, Lutz. 10.5281/zenodo.3257319}
+\bibitem{ref_tobacco800gt1}
+  {Guangyu Zhu, Yefeng Zheng, David Doermann,and Stefan Jaeger. Multi-scale Structural Saliency for Signature Detection. In Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR 2007), pp. 1‐8, 2007.}
+\bibitem{ref_tobacco800gt2}
+  {Guangyu Zhu and David Doermann. Automatic Document Logo Detection. In Proc. 9th Int. Conf. Document Analysis and Recognition (ICDAR 2007), pp. 864‐868, 2007.}
+
 \end{thebibliography}
 \end{document}
 
