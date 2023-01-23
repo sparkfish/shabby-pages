@@ -156,13 +156,16 @@ Execution time is dependent on which augmentations are executed at runtime; an A
     from pathlib import Path
 
     input_path = Path("/path/to/input/images")
-    filenames = [(input_path / name) for name in os.listdir(input_path)]
+    filenames = [(input_path / name)
+      for name
+      in os.listdir(input_path)]
 
     pool = Pool(os.cpu_count())
 
     def run_pipeline(filename):
         image = cv2.imread(filename)
-        pipeline = get_pipeline() # returns the current Shabby Pages pipeline
+        # returns the current Shabby Pages pipeline
+        pipeline = get_pipeline()
         data = pipeline.augment(image)
         shabby_image = data["output"]
         cv2.imwrite(filename.parent / f"{filename.stem}-shabby{filename.suffix}")
@@ -171,13 +174,47 @@ Execution time is dependent on which augmentations are executed at runtime; an A
 
 \end{lstlisting}
 
-Processing all 6202 images took TODO:TIME on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS.
+Processing all 6202 images took less than half an hour on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS.
 
 \section{Experimentation with the ShabbyPages Set}
-Binarization and denoising are two important techniques for the removal of unwanted data from images. Both approaches can be achieved by supervised learning of relationships between features of the input and output data. In this section, we train and compare several denoising models and their predictions on both the NoisyOffice and ShabbyPages datasets.
+Binarization and denoising are two important techniques for the removal of unwanted data from images. Both approaches can be achieved by supervised learning of relationships between features of the input and output data. In this section, we train and compare several instances of the NAFNet \cite{ref_NAFNet} architecture as denoisers and binarizers, and evaluate these models' predictions on both the NoisyOffice and ShabbyPages datasets. The model was ``off-the-shelf'' — besides rigging up the training inputs, we made no alterations to the 
 
-\section{Motivation for Denoising}
+\subsection{Motivation for Denoising}
 Digital computation has enabled humanity to produce ever-growing amounts of both data and reasons to process it. Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, or when our aesthetic sensibilities aren't injured.\\
+
+\subsection{Binarization}
+In this section, we discuss results obtained by training a binarizing denoiser to both restore augmented images to their ground truths and to classify pixels as foreground.\\
+
+We first performed an ensemble binarization preprocessing step on the clean groundtruth images. For each image, we computed the Niblack, Sauvola, and Otsu thresholds, using these to binarize three copies of the input. The average over the resulting matrices was taken elementwise, producing the final binarized groundtruth.
+
+One instance of the model was trained on the SimulatedNoisyOffice corpus, while the other was trained on a subset of ShabbyPages, in both cases using the relevant ensemble-binarized groundtruths. As a test, these models were used to denoise and binarize both the NoisyOfficeReal dataset and a testing subset taken from ShabbyPages which does not overlap the training subset. Common image processing metrics were applied to the predictions made by each model, comparing these to the (preprocessed) groundtruths. The averages of each metric over all such predictions was taken; these are presented in Table 2.
+\begin{table}[]
+    \centering
+    \caption{Image restoration performance between NoisyOffice-trained and ShabbyPages-trained NAFNet binarizing denoisers on cross-validation task}
+    \scalebox{0.81}{
+    \begin{tabular}{llll}
+    \toprule
+    \textbf{Training Set} & \textbf{Test Set} & \textbf{SSIM} & \textbf{RMSE} & \textbf{PSNR} \\
+        \midrule
+        \textsf{ShabbyPages} & \textsf{ShabbyPages} & \textsf{0.9255905809319086} & \textsf{2.987994328426575} & \textsf{39.29266235129017}\\
+        \textsf{SimulatedNoisyOffice} & \textsf{RealNoisyOffice} & \textsf{0.9866020337197627} & \textsf{3.8045857559449296} & \textsf{36.73658388839052}\\
+        \textsf{ShabbyPages} & \textsf{RealNoisyOffice} & \textsf{0.9465069385860134} & \textsf{3.2046770685272117} & \textsf{38.097843772060855}\\
+        \textsf{SimulatedNoisyOffice} & \textsf{ShabbyPages} & \textsf{0.8105023745816482} & \textsf{5.38408321532059} & \textsf{34.56195157529838}\\
+        \bottomrule
+    \end{tabular}}
+    \label{tab:binarization_results}
+\end{table}
+
+\subsubsection{Interpretation}
+As a baseline, we first evaluated the models against test sets associated with their training databases; the model trained on SimulatedNoisyOffice was used to enhance the RealNoisyOffice set, while the ShabbyPages-trained model cleaned a testing subset drawn from the full ShabbyPages set.
+
+We considered three common image processing metrics: structural similarity index, root mean squared error, and peak signal-to-noise ratio.
+
+Although the ShabbyPages-trained NAFNet predicted cleaned ShabbyPages images with a lower structural similarity score than the NoisyOffice-trained model predicted cleaned RealNoisyOffice images, the ShabbyPages model achieved superior performance on RMSE and PSNR. The ShabbyPages corpus contains a much higher feature diversity than NoisyOffice, so the lower SSIM score was not unexpected; local relationships between pixels were easier to encode for the NoisyOffice model, possibly because there are simply fewer relationships. The RMSE and PSNR results on the other hand indicate that the ShabbyPages-trained model learned to remove more noise with higher fidelity, and more accurately predicted foreground pixels than the NoisyOffice model. This discrepancy can partly be explained by the RealNoisyOffice corpus having been physically-noised as opposed to ShabbyPages' purely synthetic noise; small-scale features in the RealNoisyOffice testing data are not quite identical to the SimulatedNoisyOffice training inputs, while both the training and testing data taken from ShabbyPages was constructed by the same means. In the latter case, the \textit{diversity} of the ShabbyPages data is much higher (TODO: add diversity score info), and this instance of the NAFNet may have been able to generalize over noise types better than the NoisyOffice-trained network with its lower training diversity.\\
+
+The second stage of the binarization experiment was to cross-validate these models by predicting cleaned images using the other testing set as inputs. Here, the ShabbyPages-trained model achieved all-around better performance than the NoisyOffice-trained model, with a much higher structural similarity score (0.947 vs. 0.811), lower RMSE, and higher PSNR. This is a strong indicator that neural networks trained on ShabbyPages can outperform those trained on NoisyOffice when generalizing to other datasets.
+
+Interestingly, the NoisyOffice-trained model RMSE and PSNR scores were lower when cleaning RealNoisyOffice than the Shabby-trained model: we were able to achieve a 3.5 decibel improvement in peak signal-to-noise ratio over the SimulatedNoisyOffice-trained model.
 
 
 %
@@ -240,6 +277,19 @@ Digital computation has enabled humanity to produce ever-growing amounts of both
   {Guangyu Zhu, Yefeng Zheng, David Doermann,and Stefan Jaeger. Multi-scale Structural Saliency for Signature Detection. In Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR 2007), pp. 1‐8, 2007.}
 \bibitem{ref_tobacco800gt2}
   {Guangyu Zhu and David Doermann. Automatic Document Logo Detection. In Proc. 9th Int. Conf. Document Analysis and Recognition (ICDAR 2007), pp. 864‐868, 2007.}
+
+\bibitem{ref_NAFNet}
+  @misc{https://doi.org/10.48550/arxiv.2204.04676,
+  doi = {10.48550/ARXIV.2204.04676},
+  url = {https://arxiv.org/abs/2204.04676},
+  author = {Chen, Liangyu and Chu, Xiaojie and Zhang, Xiangyu and Sun, Jian},
+  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Simple Baselines for Image Restoration},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
 
 \end{thebibliography}
 \end{document}
