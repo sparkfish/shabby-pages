@@ -48,6 +48,16 @@ Modern artificial neural networks produce a latent representation of their train
 
 Networks with a wider variety of latent representations frequently perform better when generalizing their learned functions to other tasks. Procuring a large-enough volume of robust-enough training data is paramount. Several sets of such images exist, many intended for processing by deep neural nets; Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.\\
 
+\textbf{Diversity.} We use the diversity metric as defined in \cite{kang-etal-2018-data,larson-etal-2019-outlier} to help us measure how diverse a dataset is.
+This metric is defined as 
+$$
+Diversity(X) = \frac{1}{|X|^2} \sum_{a\in X} \sum_{b\in X} \|f(a)-f(b)\|_2
+$$
+where $f(\cdot)$ is an embedding function mapping the input image into an \emph{n}-dimensional vector space.
+Here, we use CLIP's ViT model \cite{clip}, which embeds each image into a 512-dimensional embedding space.
+The intuition behind the diversity metric is that datasets where images are highly similar will have lower diversity scores, and datasets where images share less visual similarity will have higher diversity scores.
+A dataset with low diversity might not be representative enough of the real world, and low diversity may often correlate with task easiness.
+
 \begin{table}
 \centering
 \caption{Document Image Dataset Feature Comparison}\label{tab1}
@@ -56,6 +66,7 @@ Networks with a wider variety of latent representations frequently perform bette
 Feature & ShabbyPages & NoisyOffice & RVL-CDIP & Tobacco800 \\
 \hline
 Images & 6202 & 72 & 400000 & 1290\\
+Diversity & 0.488 & 0.317 & & \\
 Document-specific & Yes & Yes & Yes & Yes\\
 Synthetic & Yes & Yes & No & No\\
 Groundtruthed? & Yes & Yes & No & No\\
