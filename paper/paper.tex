@@ -53,8 +53,9 @@ Of the many image datasets available, the authors understand few to have been de
 In fact, we could find only one other set compiled for doing so with images of \textit{modern} documents: NoisyOffice \cite{ref_NoisyOffice}.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{Article_Hero_Picture_Shadow.png}
-\caption{Example ShabbyPages image, before and after augmentation.} \label{fig1}
+\centering
+\includegraphics[width=0.98\columnwidth, frame]{Article_Hero_Picture_Shadow.png}
+\caption{Example ShabbyPages image, before (left side) and after augmentationi (right side).} \label{fig1}
 \end{figure}
 
 \subsection{Features}
@@ -162,17 +163,17 @@ ShabbyPages contains documents from multiple classes, which contain many types o
 Table 2 below contains some statistics for the dataset, in grayscale, at a standard resolution of 150 ppi.
 
 \begin{table}
-\centering
-\caption{ShabbyPages Statistics}\label{tab1}
-\begin{tabular}{|@{\hspace{2em}}l@{\qquad}|@{\hspace{2em}}l@{\qquad}|}
-\hline
-Statistic & Value \\
-\hline
-Images & 6202 \\
-DPI & 150 \\
-Max image size & \_ \\
-\hline
-\end{tabular}
+    \centering
+    \caption{ShabbyPages dataset statistics.}\label{tab1}
+    \begin{tabular}{@{\hspace{2em}}l@{\qquad}@{\hspace{2em}}l@{\qquad}}
+        \toprule
+        \textbf{Statistic} & \textbf{Value} \\
+        \midrule
+        Num. Images & 6202 \\
+        DPI & 150 \\
+        Max image size & --- \\
+    \bottomrule
+    \end{tabular}
 \end{table}
 
 \subsection{Limitations}
@@ -271,16 +272,17 @@ The averages of each metric over all such predictions was taken; these are prese
 
 \begin{table}[]
     \centering
-    \caption{Image restoration performance between NoisyOffice-trained and ShabbyPages-trained NAFNet binarizing denoisers on cross-validation task}
-    \scalebox{0.81}{
-    \begin{tabular}{llll}
+    \caption{Document image binarization performance of a NAFNet model trained and tested on ShabbyPages and NoisyOffice.}
+    %\caption{Document image binarization performance between NoisyOffice-trained and ShabbyPages-trained NAFNet binarizing de    noisers on cross-validation task}
+    \scalebox{0.9}{
+    \begin{tabular}{lllll}
     \toprule
-    \textbf{Training Set} & \textbf{Test Set} & \textbf{SSIM} & \textbf{RMSE} & \textbf{PSNR} \\
+    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{RMSE$\downarrow$~} & \textbf{PSNR$\uparrow$} \\
         \midrule
-        \textsf{ShabbyPages} & \textsf{ShabbyPages} & \textsf{0.9255905809319086} & \textsf{2.987994328426575} & \textsf{39.29266235129017}\\
-        \textsf{SimulatedNoisyOffice} & \textsf{RealNoisyOffice} & \textsf{0.9866020337197627} & \textsf{3.8045857559449296} & \textsf{36.73658388839052}\\
-        \textsf{ShabbyPages} & \textsf{RealNoisyOffice} & \textsf{0.9465069385860134} & \textsf{3.2046770685272117} & \textsf{38.097843772060855}\\
-        \textsf{SimulatedNoisyOffice} & \textsf{ShabbyPages} & \textsf{0.8105023745816482} & \textsf{5.38408321532059} & \textsf{34.56195157529838}\\
+        \textsf{ShabbyPages} & \textsf{ShabbyPages} & 0.926 & 2.99 & 39.3\\
+        \textsf{NoisyOffice-sim} & \textsf{NoisyOffice-real~} & 0.987 & 3.80 & 36.7\\
+        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & 0.947 & 3.20 & 38.1\\
+        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.811 & 5.38 & 34.6\\
         \bottomrule
     \end{tabular}}
     \label{tab:binarization_results}
