@@ -1,12 +1,22 @@
 \documentclass[runningheads]{llncs}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{pifont}
 \usepackage[colorlinks]{hyperref}
+\usepackage[dvipsnames]{xcolor}
 \hypersetup{
     colorlinks = false,
     linkbordercolor = {blue}
 }
 \usepackage{listings}
 \usepackage{courier}
+
+% check mark and x for table
+\newcommand{\cmark}{{\color{ForestGreen}\ding{51}}}%
+\newcommand{\xmark}{{\color{Maroon}\ding{55}}}%
+
+\def\rot{\rotatebox}
+
 \renewcommand{\floatpagefraction}{.8}
 %
 \begin{document}
@@ -99,6 +109,44 @@ Pre-categorized & No & No & Yes & Yes\\
 \hline
 \end{tabular}
 \end{table}
+
+
+% WIP: this table is a work-in-progress
+\begin{table}[]
+    \centering
+    \caption{Summary of datasets for document denoising and document binarization tasks.}
+    \label{tab:datasets}
+    \begin{tabular}{lcllllllll}
+        \textbf{Dataset} &
+        \rot{80}{\textbf{Dataset Size}}
+            & \rot{80}{\textbf{Synthetic Noise}}
+            & \rot{80}{\textbf{Ground-Truths}}
+            & \rot{80}{\textbf{Diversity}}
+            & \rot{80}{\textbf{Font size}}
+            & \rot{80}{\textbf{Paper styles}}
+            & \rot{80}{\textbf{Multilingual}}
+            & \rot{80}{\textbf{Contains graphics}}
+            & \rot{80}{\textbf{Pre-categorized}} \\
+            \midrule
+         ShabbyPages (ours) & 6,202 & \cmark & \cmark & 0.488 & Multi & Multi & \cmark & \cmark & \xmark \\
+         NoisyOffice \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & 16pt & 1 & \xmark & \xmark & \xmark \\
+         DocCreator & & & & & & & & & \\
+         DIBCO-9 \cite{dibco-09} & & & & & & & & & \\
+         DIBCO-10 \cite{dibco-10} & & & & & & & & & \\
+         DIBCO-11 \cite{dibco-11} & & \xmark & \cmark & & multi & Multi & \cmark & \xmark & \xmark \\
+         DIBCO-12 \cite{dibco-12} & & \xmark & & & & & & & \\
+         DIBCO-13 \cite{dibco-13} & & \xmark & & & & & & & \\
+         H-DIBCO-14 \cite{dibco-14} & & \xmark & & & & & & & \\
+         H-DIBCO-16 \cite{dibco-16} & & \xmark & & & & & & & \\
+         DIBCO-17 \cite{dibco-17} & & \xmark & & & & & & & \\
+         H-DIBCO-18 \cite{dibco-18} & & \xmark & & & & & & & \\
+         DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & \\
+         Bickley Diary \cite{bickley-diary} & & & & & & & & & \\
+         LS-HDIB \cite{ls-hdib-2021} & & \cmark & & & & & & & \\
+         \bottomrule
+    \end{tabular}
+\end{table}
+
 
 \subsubsection{NoisyOffice}
 The NoisyOffice database \cite{ref_NoisyOffice} contains a very low 4 base images, 2 types of font, 3 font sizes, and 4 types of noise, for a total of 72 unique images.
