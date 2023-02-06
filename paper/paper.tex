@@ -80,7 +80,7 @@ Procuring a large-enough volume of robust-enough training data is paramount.
 Several sets of such images exist, many intended for processing by deep neural nets; Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.
 
 \textbf{Diversity.} We use the diversity metric as defined in \cite{kang-etal-2018-data,larson-etal-2019-outlier} to help us measure how diverse a dataset is.
-This metric is defined as 
+This metric is defined as
 $$
 Diversity(X) = \frac{1}{|X|^2} \sum_{a\in X} \sum_{b\in X} \|f(a)-f(b)\|_2
 $$
@@ -325,14 +325,12 @@ The averages of each metric over all such predictions was taken; these are prese
     \caption{Document image binarization performance of a NAFNet model trained and tested on ShabbyPages and NoisyOffice.}
     %\caption{Document image binarization performance between NoisyOffice-trained and ShabbyPages-trained NAFNet binarizing de    noisers on cross-validation task}
     \scalebox{0.9}{
-    \begin{tabular}{lllll}
+    \begin{tabular}{lll}
     \toprule
-    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{RMSE$\downarrow$~} & \textbf{PSNR$\uparrow$} \\
+    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~}\\
         \midrule
-        \textsf{ShabbyPages} & \textsf{ShabbyPages} & 0.926 & 2.99 & 39.3\\
-        \textsf{NoisyOffice-sim} & \textsf{NoisyOffice-real~} & 0.987 & 3.80 & 36.7\\
-        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & 0.947 & 3.20 & 38.1\\
-        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.811 & 5.38 & 34.6\\
+        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & 0.947\\
+        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.811\\
         \bottomrule
     \end{tabular}}
     \label{tab:binarization_results}
@@ -355,81 +353,7 @@ This is a strong indicator that neural networks trained on ShabbyPages can outpe
 
 Interestingly, the NoisyOffice-trained model RMSE and PSNR scores were lower when cleaning RealNoisyOffice than the Shabby-trained model: we were able to achieve a 3.5 decibel improvement in peak signal-to-noise ratio over the SimulatedNoisyOffice-trained model.
 
-
-%
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
- \bibliographystyle{splncs04}
- \bibliography{paper}
-
-%\begin{thebibliography}{8}
-%\bibitem{ref_Kaggle}
-%  https://www.kaggle.com/datasets
-%\bibitem{ref_HuggingFaceHub}
-%  {https://huggingface.co/datasets}
-%\bibitem{ref_RDCL2019}
-%{Christian Clausner, RDCL2019 Competition Dataset (Recognition of Documents with Complex Layouts) (RDCL2019) ,1,ID:RDCL2019\_1,URL:https://tc11.cvc.uab.es/datasets/RDCL2019_1}
-%
-%\bibitem{ref_Tobacco800}
-%{David Doermann, Tobacco 800 Dataset (Tobacco800) ,1,ID:Tobacco800_1,URL:https://tc11.cvc.uab.es/datasets/Tobacco800_1}
-%
-%\bibitem{ref_icdar}
-%{Harold Mouchère, ICDAR 2019 Competition on Recognition of Handwritten Mathematical Expressions and Typeset Formula Detection (ICDAR2019-CROHME-TDF) ,1,ID:ICDAR2019-CROHME-TDF\_1,URL:https://tc11.cvc.uab.es/datasets/ICDAR2019-CROHME-TDF_1}
-%
-%\bibitem{ref_NoisyOffice}
-%{Castro-Bleda, MJ.; España Boquera, S.; Pastor Pellicer, J.; Zamora Martínez, FJ. (2020). The NoisyOffice Database: A Corpus To Train Supervised Machine Learning Filters For Image Processing. The Computer Journal. 63(11):1658-1667. https://doi.org/10.1093/comjnl/bxz098}
-%
-%\bibitem{ref_RVL-CDIP}
-%  @article{DBLP:journals/corr/HarleyUD15,
-%  author    = {Adam W. Harley and
-%               Alex Ufkes and
-%               Konstantinos G. Derpanis},
-%  title     = {Evaluation of Deep Convolutional Nets for Document Image Classification
-%               and Retrieval},
-%  journal   = {CoRR},
-%  volume    = {abs/1502.07058},
-%  year      = {2015},
-%  url       = {http://arxiv.org/abs/1502.07058},
-%  eprinttype = {arXiv},
-%  eprint    = {1502.07058},
-%  timestamp = {Mon, 13 Aug 2018 16:48:54 +0200},
-%  biburl    = {https://dblp.org/rec/journals/corr/HarleyUD15.bib},
-%  bibsource = {dblp computer science bibliography, https://dblp.org}
-%}
-%
-%\bibitem{ref_NoisyOfficeDatabase}
-%{F. Zamora-Martinez, S. España-Boquera and M. J. Castro-Bleda, Behaviour-based Clustering of Neural Networks applied to Document Enhancement, in: Computational and Ambient Intelligence, pages 144-151, Springer, 2007.}
-%
-%\bibitem{ref_UCIMLR}
-%{Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.}
-%
-%\bibitem{ref_DocCreator}
-%  {Journet Nicholas, Visani Muriel, Mansencal Boris, Van-Cuong Kieu, Billy Antoine, DocCreator: A New Software for Creating Synthetic Ground-Truthed Document Images. J. Imaging 2017, 3, 62.}
-%\bibitem{ref_goldmann}
-%  {Pau Riba, Anjan Dutta, Lutz Goldmann, Alicia Fornes, Oriol Ramos, Josep LLados: "Table Detection in Invoice Documents by Graph Neural Networks", ICDAR, 2019.}
-%\bibitem{ref_zenodo}
-%  {Layout Analysis Groundtruth for the RVL-CDIP Dataset. Goldmann, Lutz. 10.5281/zenodo.3257319}
-%\bibitem{ref_tobacco800gt1}
-%  {Guangyu Zhu, Yefeng Zheng, David Doermann,and Stefan Jaeger. Multi-scale Structural Saliency for Signature Detection. In Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR 2007), pp. 1‐8, 2007.}
-%\bibitem{ref_tobacco800gt2}
-%  {Guangyu Zhu and David Doermann. Automatic Document Logo Detection. In Proc. 9th Int. Conf. Document Analysis and Recognition (ICDAR 2007), pp. 864‐868, 2007.}
-%
-%\bibitem{ref_NAFNet}
-%  @misc{https://doi.org/10.48550/arxiv.2204.04676,
-%  doi = {10.48550/ARXIV.2204.04676},
-%  url = {https://arxiv.org/abs/2204.04676},
-%  author = {Chen, Liangyu and Chu, Xiaojie and Zhang, Xiangyu and Sun, Jian},
-%  keywords = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
-%  title = {Simple Baselines for Image Restoration},
-%  publisher = {arXiv},
-%  year = {2022},
-%  copyright = {arXiv.org perpetual, non-exclusive license}
-%}
-%
-%
-%\end{thebibliography}
+\bibliographystyle{splncs04}
+\bibliography{paper}
 \end{document}
 
