@@ -18,7 +18,7 @@ def run_pipeline(filename):
     pipeline = get_pipeline()
     data = pipeline.augment(image)
     shabby_image = data["output"]
-    output_filename = f"clean150/{filename.stem}-shabby.png"
+    output_filename = f"shabby150/{filename.stem}.png"
     cv2.imwrite(output_filename, shabby_image)
 
 
