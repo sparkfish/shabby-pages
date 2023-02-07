@@ -51,11 +51,28 @@ The results of several experiments are discussed, in which the corpus trains per
 \end{abstract}
 
 \section{Introduction}
-Supervised learning requires a collection of training data and accompanying ``labels'', which in the graphical modality are clean images, free of noise or other degradations.
-ShabbyPages is a large dataset composed of 6202 clean/noisy pairs of images taken from 600 digital documents.
-Information about the set's contents and its relation to other datasets are explored in the next section.
-The noisy images were created from their clean origins by the application of a pipeline developed with the Augraphy library; the production of ShabbyPages is detailed in the third section, with all source code and input materials made openly available.
-The final dataset is used to train several denoising models which are compared directly and whose prediction results are compared together in the final section.
+%Supervised learning requires a collection of training data and accompanying ``labels'', which in the graphical modality are clean images, free of noise or other degradations.
+%ShabbyPages is a large dataset composed of 6202 clean/noisy pairs of images taken from 600 digital documents.
+%Information about the set's contents and its relation to other datasets are explored in the next section.
+%The noisy images were created from their clean origins by the application of a pipeline developed with the Augraphy library; the production of ShabbyPages is detailed in the third section, with all source code and input materials made openly available.
+%The final dataset is used to train several denoising models which are compared directly and whose prediction results are compared together in the final section.
+
+Denoising is an important task in many document processing workflows, wherein unwanted artifacts introduced to a document image via noisy processes like scanning are removed.
+The effectiveness of the denoising stage of document processing pipelines has implications for downstream tasks like optical character recognition (OCR) and layout parsing [need to cite].
+Furthermore, recent work has found that supervised machine learning methods yield promising results at the denoising task [need to cite].
+Therefore, it is critical to have access to large-scale, high-quality training and evaluation data for document denoising.
+
+Prior work has introduced denoising and binarization datasets, but these are often small in scale, limited in the types of noise, or not diverse enough to train robust denoising models.
+For instance, the DIBCO datasets are far too small for large-scale training; each DIBCO dataset ranges between 10-20 images total.
+The NoisyOffice denoising dataset \cite{ref_NoisyOfficeDatabase} is small in scale (having \emph{n} training samples), and limited in the types of noise.
+NoisyOffice consists of artificial wrinkles and stains, but these only scratch the surface with regards to the plethora of noise types that occur in the real world.
+The DDI-100 corpus \cite{ddi-100-2019} is larger in scale than NoisyOffice and the DIBCO datasets, but is again limited in the amount of noise and diversity \cite{detection-masking-2022}.
+
+In this paper, we introduce a new dataset designed for the document denoising task.
+This new dataset, \emph{ShabbyPages}, is large-scale, having \emph{nnn} training and \emph{mmm} testing samples.
+\emph{ShabbyPages} is more diverse than alternatives like NoisyOffice, as it contains documents from various language groups and contains documents with graphical elements like tables and figures.
+We discuss \emph{ShabbyPages} in this paper, providing motivation and context for its creation.
+We also demonstrate its utility by benchmarking document denoising models.
 
 \section{The Dataset}
 ShabbyPages joins a rapidly growing number of open-source datasets freely available online.
