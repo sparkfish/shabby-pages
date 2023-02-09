@@ -47,7 +47,7 @@ The ShabbyPages document image dataset is produced using the Augraphy document i
 The development of the computation pipeline used to generate the corpus is discussed, and the results presented.
 The final corpus contains over 6000 "born-digital" ground truth document images, sourced on the Web, with synthetically-noised counterparts (``shabby pages'') that appear to have been printed and faxed, photocopied, or otherwise altered through physical processes.
 The release of this dataset and the recipe for its production attempts to address a growing need for labeled training document images for supervised learning tasks.
-The results of several experiments are discussed, in which the corpus trains performant convolutional denoisers, which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new ShabbyPages benchmark.
+The results of initial experiments are discussed, in which the corpus is used to train performant convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new ShabbyPages benchmark.
 \end{abstract}
 
 \section{Introduction}
@@ -57,29 +57,21 @@ The results of several experiments are discussed, in which the corpus trains per
 %The noisy images were created from their clean origins by the application of a pipeline developed with the Augraphy library; the production of ShabbyPages is detailed in the third section, with all source code and input materials made openly available.
 %The final dataset is used to train several denoising models which are compared directly and whose prediction results are compared together in the final section.
 
-Denoising is an important task in many document processing workflows, wherein unwanted artifacts introduced to a document image via noisy processes like scanning are removed.
+Denoising is a fundamental concern for many document processing workflows, wherein unwanted artifacts introduced to a document image via noisy processes like scanning are removed.
 The effectiveness of the denoising stage of document processing pipelines has implications for downstream tasks like optical character recognition (OCR) and layout parsing [need to cite].
-Furthermore, recent work has found that supervised machine learning methods yield promising results at the denoising task [need to cite].
-Therefore, it is critical to have access to large-scale, high-quality training and evaluation data for document denoising.
+Recent work in supervised machine learning has yielded promising results at the denoising task [need to cite], increasing the importance of access to large volumes of high-quality training and evaluation data.
 
-Prior work has introduced denoising and binarization datasets, but these are often small in scale, limited in the types of noise, or not diverse enough to train robust denoising models.
-For instance, the DIBCO datasets are far too small for large-scale training; each DIBCO dataset ranges between 10-20 images total.
-The NoisyOffice denoising dataset \cite{ref_NoisyOfficeDatabase} is small in scale (having \emph{n} training samples), and limited in the types of noise.
-NoisyOffice consists of artificial wrinkles and stains, but these only scratch the surface with regards to the plethora of noise types that occur in the real world.
-The DDI-100 corpus \cite{ddi-100-2019} is larger in scale than NoisyOffice and the DIBCO datasets, but is again limited in the amount of noise and diversity \cite{detection-masking-2022}.
+Prior work has introduced denoising and binarization datasets, but these are often small in scale, limited in the types of noise features present, not diverse enough to train robust models, and impossible to recreate.
+\begin{itemize}
+\item The DIBCO datasets — widely recognized as critical data for document denoising and binarization — are far too small for large-scale training; each DIBCO dataset ranges between 10-20 images total.
+\item The NoisyOffice denoising dataset \cite{ref_NoisyOfficeDatabase} is also quite small, having \emph{72} training samples, and contains only a few types of noise — primarily artificial wrinkles and stains, with little variation.
+\item The DDI-100 corpus \cite{ddi-100-2019} is larger in scale than NoisyOffice and the DIBCO datasets, but is again limited in the degree of feature diversity \cite{detection-masking-2022}.
+\end{itemize}
 
-In this paper, we introduce a new dataset designed for the document denoising task.
-This new dataset, \emph{ShabbyPages}, is large-scale, having \emph{nnn} training and \emph{mmm} testing samples.
+In this paper, we introduce a new dataset designed primarily for the document denoising task, which addresses each of the concerns listed above.
+This new dataset, \emph{ShabbyPages}, is large-scale, having \emph{6202} training and \emph{mmm} [TODO: do we need this?] testing samples.
 \emph{ShabbyPages} is more diverse than alternatives like NoisyOffice, as it contains documents from various language groups and contains documents with graphical elements like tables and figures.
-We discuss \emph{ShabbyPages} in this paper, providing motivation and context for its creation.
-We also demonstrate its utility by benchmarking document denoising models.
-
-\section{The Dataset}
-ShabbyPages joins a rapidly growing number of open-source datasets freely available online.
-Human activity today generates a tremendous amount of data, with many people choosing to publish theirs on websites like Kaggle \cite{ref_Kaggle}, Hugging Face Hub \cite{ref_HuggingFaceHub}, and many more.
-All of this data is arranged into categories: sets exist which contain text, images, audio, and data from other modalities, with each set often collected and designed for a purpose.
-Of the many image datasets available, the authors understand few to have been designed for groundtruthed supervised learning of document-specific tasks like binarization or denoising.
-In fact, we could find only one other set compiled for doing so with images of \textit{modern} documents: NoisyOffice \cite{ref_NoisyOffice}.
+In the next sections, we provide motivation and context for ShabbyPages' creation, compare it at length to other important datasets in the same space, describe the corpus construction process, and finally demonstrate its utility by benchmarking document denoising models trained on the dataset.
 
 \begin{figure}
 \centering
@@ -87,24 +79,21 @@ In fact, we could find only one other set compiled for doing so with images of \
 \caption{Sample patches from ShabbyPages.} \label{fig1}
 \end{figure}
 
+\section{The Dataset}
+ShabbyPages joins a rapidly growing number of open-source datasets freely available online.
+Human activity today generates a tremendous amount of data, with many people choosing to publish theirs on websites like Kaggle \cite{ref_Kaggle}, Hugging Face Hub \cite{ref_HuggingFaceHub}, and many more.
+All of this data is arranged into categories: sets exist which contain text, images, audio, and data from other modalities, with each set often collected and designed for a purpose.
+Of the many image datasets available, the authors understand few to have been designed for groundtruthed supervised learning of document-specific tasks like binarization or denoising.
+In fact, we could find only one other set compiled specifically for doing so with images of \textit{modern} documents: NoisyOffice \cite{ref_NoisyOffice}.
+
 \subsection{Features}
 Modern artificial neural networks produce a latent representation of their training data, a space from which outputs are sampled.
 In deep networks, these representations live within multiple layers, each of which corresponds to a feature of the input data.
 Document images are a particularly interesting category, as the data within the documents each picture represents is itself frequently multi-modal; the document may contain an image and its description, a table with statistics, multiple regions of structured and formatted text, and even other documents, making their internal representations by neural networks often quite complicated.
 
 Networks with a wider variety of latent representations frequently perform better when generalizing their learned functions to other tasks.
-Procuring a large-enough volume of robust-enough training data is paramount.
+For this reason, procuring a large-enough volume of robust-enough training data is paramount.
 Several sets of such images exist, many intended for processing by deep neural nets; Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.
-
-\textbf{Diversity.} We use the diversity metric as defined in \cite{kang-etal-2018-data,larson-etal-2019-outlier} to help us measure how diverse a dataset is.
-This metric is defined as
-$$
-Diversity(X) = \frac{1}{|X|^2} \sum_{a\in X} \sum_{b\in X} \|f(a)-f(b)\|_2
-$$
-where $f(\cdot)$ is an embedding function mapping the input image into an \emph{n}-dimensional vector space.
-Here, we use CLIP's ViT model \cite{clip}, which embeds each image into a 512-dimensional embedding space.
-The intuition behind the diversity metric is that datasets where images are highly similar will have lower diversity scores, and datasets where images share less visual similarity will have higher diversity scores.
-A dataset with low diversity might not be representative enough of the real world, and low diversity may often correlate with task easiness.
 
 \begin{table}
 \centering
@@ -164,6 +153,48 @@ Pre-categorized & No & No & Yes & Yes\\
     \end{tabular}
 \end{table}
 
+\textbf{Diversity.} We use the diversity metric as defined in \cite{kang-etal-2018-data,larson-etal-2019-outlier} to help us measure intra-dataset variety.
+This metric is defined as
+$$
+Diversity(X) = \frac{1}{|X|^2} \sum_{a\in X} \sum_{b\in X} \|f(a)-f(b)\|_2
+$$
+where $f(\cdot)$ is an embedding function mapping the input image into an \emph{n}-dimensional vector space.
+Here, we use CLIP's ViT model \cite{clip}, which embeds each image into a 512-dimensional space.
+The intuition behind the diversity metric is that datasets where images are highly similar will have lower diversity scores, and datasets where images share less visual similarity will have higher diversity scores.
+A dataset with low diversity might not be representative enough of the real world, and low diversity may further correlate with task easiness.
+
+\subsection{Statistics}
+ShabbyPages contains documents from multiple classes, which contain many types of information.
+
+Table 2 below contains some statistics for the dataset, in grayscale, at a standard resolution of 150 ppi.
+
+\begin{table}
+    \centering
+    \caption{ShabbyPages dataset statistics.}\label{tab1}
+    \begin{tabular}{@{\hspace{2em}}l@{\qquad}@{\hspace{2em}}l@{\qquad}}
+        \toprule
+        \textbf{Statistic} & \textbf{Value} \\
+        \midrule
+        Num. Images & 6202 \\
+        DPI & 150 \\
+        Max image size & 3336x12157 \\
+        Min image size & 532x532\\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{ShabbyPages Compared}
+Supervised learning tasks require labeled training data, called the ground truth.
+Much of the world's data does not come with labels, which instead must be created by humans in some fashion.
+In Table 1, we indicated that NoisyOffice was the only other groundtruthed dataset we examined.
+This isn't strictly true: there are projects to add some types of groundtruth to RVL-CDIP \cite{ref_zenodo,ref_goldmann} and Tobacco800 \cite{ref_tobacco800gt2,ref_tobacco800gt1}, but the images in these sets were produced by real scans, without an accompanying original digital document.
+Conversely, NoisyOffice contains images of real scanned documents intended for validation, as well as their digital groundtruth and synthetic training image data.
+
+ShabbyPages includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully reproducing the ShabbyPages set, allowing anyone to quickly produce a new set in the Shabby family, optionally re-exporting groundtruths at a different resolution beforehand.
+The 6202 images in the ShabbyPages release set are really just the first sample from the space of these documents; we encourage readers to build their own.
+NoisyOffice is the only other set we examined that contains its digital provenance, but the released database materials lack a means of reproducing the simulated printing method used to create the NoisyOffice training data.
+Augraphy's PaperFactory augmentation is such a tool.
+The other sets are not even theoretically extensible in this way.
 
 \subsubsection{NoisyOffice}
 The NoisyOffice database \cite{ref_NoisyOffice} contains a very low 4 base images, 2 types of font, 3 font sizes, and 4 types of noise, for a total of 72 unique images.
@@ -208,56 +239,7 @@ Document images in this set vary from from 150 to 300 DPI with dimensions betwee
 Every document in the ShabbyPages groundtruth set is a multi-page document.
 The released set was exported at 150 DPI, but the original documents are also distributed, so re-exporting at a higher resolution is trivial.
 The smallest image is 532 by 532, with the largest 3336 wide by 12157 tall.
-6202 images are present in ShabbyPages, but this number could easily be increased by simply running another Augraphy pipeline to generate more.
-
-\subsection{ShabbyPages Compared}
-Supervised learning tasks require labeled training data, called the ground truth.
-Much of the world's data does not come with labels, which instead must be created by humans in some fashion.
-In Table 1, we indicated that NoisyOffice was the only other groundtruthed dataset we examined.
-This isn't strictly true: there are projects to add some types of groundtruth to RVL-CDIP \cite{ref_zenodo,ref_goldmann} and Tobacco800 \cite{ref_tobacco800gt2,ref_tobacco800gt1}, but the images in these sets were produced by real scans, without an accompanying original digital document.
-Conversely, NoisyOffice contains images of real scanned documents intended for validation, as well as their digital groundtruth and synthetic training image data.
-
-ShabbyPages includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully reproducing the ShabbyPages set, allowing anyone to quickly produce a new set in the Shabby family, optionally re-exporting groundtruths at a different resolution beforehand.
-The 6202 images in the ShabbyPages release set are really just the first sample from the space of these documents; we encourage building your own.
-NoisyOffice is the only other set we examined that contains its digital provenance, but the released database materials lack a means of reproducing the simulated printing method used to create the NoisyOffice training data.
-Augraphy's PaperFactory augmentation is such a tool.
-The other sets are not even theoretically extensible in this way.
-
-
-\subsection{Statistics}
-ShabbyPages contains documents from multiple classes, which contain many types of information.
-
-Table 2 below contains some statistics for the dataset, in grayscale, at a standard resolution of 150 ppi.
-
-\begin{table}
-    \centering
-    \caption{ShabbyPages dataset statistics.}\label{tab1}
-    \begin{tabular}{@{\hspace{2em}}l@{\qquad}@{\hspace{2em}}l@{\qquad}}
-        \toprule
-        \textbf{Statistic} & \textbf{Value} \\
-        \midrule
-        Num. Images & 6202 \\
-        DPI & 150 \\
-        Max image size & --- \\
-    \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{Limitations}
-The ShabbyPages collection is a comprehensive entrant to the public datasphere, but with a relatively low starting document volume, makes some important omissions.
-
-First, we arbitrarily selected 600 as the number of source documents.
-The number of final images of pages depends on this, and so is similarly arbitrary.
-
-There are only a few languages represented, which reflects a number of biases, including the following:
-\begin{itemize}
-\item The native languages of the document-searchers
-\item The locations from which the document-searchers searched
-\item The search techniques used by each document-searcher
-\end{itemize}
-
-This work does not account for them, but these biases are significant determiners on the set of input documents.
-We hoped to overcome this somewhat by picking a suitably large number of input documents, and settled at 600.
+6202 images are present in ShabbyPages, but this number could easily be increased by simply running another Augraphy pipeline to generate more; in testing, we rendered several tens of thousands of such images, with the cumulative computation time still less than one day due to Augraphy's efficiency.
 
 \section{Construction}
 This section describes the dataset generation methodology; code for all of this is available on GitHub.
@@ -282,12 +264,38 @@ Because the majority of these documents were created with the standard US Letter
 The Augraphy library presents an easy-to-use API for constructing feature pipelines, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
 While Augraphy's default pipeline has what we believe to be quite realistic defaults, we wanted a broader range of features from this dataset than those the default pipeline could produce.
 To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub.
-We created an automated daily build in GitHub Actions to render a random selection of ground-truth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the pipeline.
+We created an automated daily build in GitHub Actions to render a random selection of ground-truth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the augmentation parameters, until we were consistently satisfied with the results.
+
+The pipeline uses the following augmentations: [TODO: expand]
+BadPhotocopy
+BindingsAndfasteners
+BleedThrough
+DirtyDrum
+Dirtyrollers
+Dithering
+Faxify
+Gamma
+Geometric
+InkBleed
+Jpeg
+Letterpress
+LightingGradient
+LowInkPeriodicLines
+LowInkRandomLines
+Markup
+NoiseTexturize
+PageBorder
+PaperColor
+PaperFactory
+PencilScribbles
+SubtleNoise
+
+PaperFactory was used with 300 textures, dramatically increasing the possible variations in the final dataset. We did not use Brightness or BrightnessTexturize, because these can interact poorly with some of the paper textures we chose. We also omitted the BookBinding augmentation, which can alter the document image geometry by adding additional pixels, making the result unsuitable for analysis by many common metrics.
 
 \subsection{Processing Augraphy on a multicore system}
 Execution time is dependent on which augmentations are executed at runtime; an Augraphy pipeline can take several seconds to process large images.
 The library is under active development with performance enhancements underway, but the time cost to generate large datasets sequentially is prohibitive when dealing with thousands of files, so we use a multi-process pooling technique to distribute the workload across many processor execution threads.
-For each process, we generate a new pipeline, run the pipeline object on an image, and save the output, using the code below:
+For each process, we generate a new pipeline, run the pipeline object on an image, and save the output, using the code below: [TODO: can we cut this down to just the pipeline function?]
 
 \begin{lstlisting}[language=Python]
     import os
@@ -319,28 +327,23 @@ Processing all 6202 images took less than half an hour on the 64 cores of a Grav
 \section{Experimentation with the ShabbyPages Set}
 Binarization and denoising are two important techniques for the removal of unwanted data from images.
 Both approaches can be achieved by supervised learning of relationships between features of the input and output data.
-In this section, we train and compare several instances of the NAFNet \cite{ref_nafnet} architecture as denoisers and binarizers, and evaluate these models' predictions on both the NoisyOffice and ShabbyPages datasets.
-The model was ``off-the-shelf''; besides rigging up the training inputs, we made no alterations to the 
+In this section, we train two NAFNet \cite{ref_nafnet} instances as denoisers on both the NoisyOffice and the ShabbyPages datasets. We evaluate these models' predictions in a cross-validation test on both datasets, both by visual inspection and by metric computation.
+The model was ``off-the-shelf''; besides rigging up the training inputs and choosing a reasonable training epoch limit, we made no significant alterations to the provided hyperparameters.
 
-\subsection{Motivation for Denoising}
-Digital computation has enabled humanity to produce ever-growing amounts of both data and reasons to process it.
-Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, or when our aesthetic sensibilities aren't injured.
-
-\subsection{Binarization}
-In this section, we discuss results obtained by training a binarizing denoiser to both restore augmented images to their ground truths and to classify pixels as foreground.
+\subsection{Binarization} [TODO: do we want to throw this away? It's still an important part of the story]
+In this section, we discuss results obtained by training a denoiser to both restore augmented images to their ground truths and to classify pixels as foreground.
 
 We first performed an ensemble binarization preprocessing step on the clean groundtruth images.
 For each image, we computed the Niblack, Sauvola, and Otsu thresholds, using these to binarize three copies of the input. The average over the resulting matrices was taken elementwise, producing the final binarized groundtruth.
 
-One instance of the model was trained on the SimulatedNoisyOffice corpus, while the other was trained on a subset of ShabbyPages, in both cases using the relevant ensemble-binarized groundtruths.
-As a test, these models were used to denoise and binarize both the NoisyOfficeReal dataset and a testing subset taken from ShabbyPages which does not overlap the training subset.
+One instance of the model was trained on the full SimulatedNoisyOffice corpus, while the other was trained on a 1050-image subset of ShabbyPages, cropped to a random 500x500 patch. In both cases, the prediction target was the relevant ensemble-binarized groundtruths, and each instance trained for 100 epochs.
+As a test, these models were used to denoise and binarize both the NoisyOfficeReal dataset and a testing subset taken from ShabbyPages which does not overlap the training subset. [TODO: Can we get the metrics for ShabbyReal instead?]
 Common image processing metrics were applied to the predictions made by each model, comparing these to the (preprocessed) groundtruths.
 The averages of each metric over all such predictions was taken; these are presented in Table 2.
 
 \begin{table}[]
     \centering
-    \caption{Document image binarization performance of a NAFNet model trained and tested on ShabbyPages and NoisyOffice.}
-    %\caption{Document image binarization performance between NoisyOffice-trained and ShabbyPages-trained NAFNet binarizing de    noisers on cross-validation task}
+    \caption{Document image *binarization* performance of a NAFNet model trained and tested on ShabbyPages and NoisyOffice.}
     \scalebox{0.9}{
     \begin{tabular}{lll}
     \toprule
@@ -353,10 +356,36 @@ The averages of each metric over all such predictions was taken; these are prese
     \label{tab:binarization_results}
 \end{table}
 
-\subsubsection{Interpretation}
+The ShabbyPages-trained model was able to classify foreground and background pixels with a substantially higher degree of accuracy than the NoisyOffice-trained model, even with arguably worse training data.
+
+\subsection{Denoising}
+Digital computation has enabled humanity to produce ever-growing amounts of both data and reasons to process it.
+Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, and when our aesthetic sensibilities are un-challenged.
+
+Denoising grayscale images is a considerably harder task than binarization, as the space of possible predictions for a pixel value increases from one to eight bits (black/white to 256 shades of gray).
+To offset this increased difficulty, we randomly selected ten patches of 400x400 pixels from each page, then trained another NAFNet instance on this data for 1000 epochs. The results of a denoising experiment are presented in the table below.
+
+\begin{table}[]
+    \centering
+    \caption{Document image *denoising* cross-test performance of NAFNet models trained on ShabbyPages and NoisyOffice.}
+    \scalebox{0.9}{
+    \begin{tabular}{lll}
+    \toprule
+    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~}\\
+        \midrule
+        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & 0.950\\
+        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.83\\
+        \bottomrule
+    \end{tabular}}
+    \label{tab:denoising_results}
+\end{table}
+
+As can be seen from Table \cite{tab:denoising_results}, the ShabbyPages-trained denoiser generalized to NoisyOffice far better than the NoisyOffice-trained model generalized to ShabbyPages. This result is consistent with the much higher diversity present within the ShabbyPages set, relative to features found in the NoisyOffice database.
+
+\subsubsection{Interpretation} [TODO: roll this into the previous section and/or delete most of it]
 As a baseline, we first evaluated the models against test sets associated with their training databases; the model trained on SimulatedNoisyOffice was used to enhance the RealNoisyOffice set, while the ShabbyPages-trained model cleaned a testing subset drawn from the full ShabbyPages set.
 
-We considered three common image processing metrics: structural similarity index, root mean squared error, and peak signal-to-noise ratio.
+We considered the structural similarity index, a common image processing metric.
 
 Although the ShabbyPages-trained NAFNet predicted cleaned ShabbyPages images with a lower structural similarity score than the NoisyOffice-trained model predicted cleaned RealNoisyOffice images, the ShabbyPages model achieved superior performance on RMSE and PSNR.
 The ShabbyPages corpus contains a much higher feature diversity than NoisyOffice, so the lower SSIM score was not unexpected; local relationships between pixels were easier to encode for the NoisyOffice model, possibly because there are simply fewer relationships.
@@ -369,6 +398,13 @@ Here, the ShabbyPages-trained model achieved all-around better performance than 
 This is a strong indicator that neural networks trained on ShabbyPages can outperform those trained on NoisyOffice when generalizing to other datasets.
 
 Interestingly, the NoisyOffice-trained model RMSE and PSNR scores were lower when cleaning RealNoisyOffice than the Shabby-trained model: we were able to achieve a 3.5 decibel improvement in peak signal-to-noise ratio over the SimulatedNoisyOffice-trained model.
+
+\section{Real Shabby Pages}
+In keeping with the spirit of NoisyOffice, our original inspiration, and to provide out-of-distribution test data for other projects, we developed a separate but related dataset which we call Real ShabbyPages. To build this, we isolated reproduction steps for several physical operations, designed real-world augmentation pipelines with these, and then engaged a team of workers to use these instructions to produce several copies of printed born-digital documents with real noise.
+
+Several challenges arose in the construction of this dataset.
+Manually producing a database of noisy documents is a time-consuming and repetitive task; creating just 100 real-world documents with real noise features required the labor of several people.
+Old fax machines, faulty commercial printers, and other hardware suitable for inducing the intended effects were difficult to find. Environmental concerns like the volume of paper and ink used, or the energy expenditure, also factored into our decision to pursue synthetic augmentations for ShabbyPages.
 
 \bibliographystyle{splncs04}
 \bibliography{paper}
