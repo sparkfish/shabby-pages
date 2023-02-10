@@ -120,7 +120,7 @@ Several sets of such images exist, many intended for processing by deep neural n
 % WIP: this table is a work-in-progress
 \begin{table}[]
     \centering
-    \caption{Summary of datasets for document denoising and document binarization tasks.}
+    \caption{Summary of datasets for document binarization (above line) and document denoising (below line) tasks.}
     \label{tab:datasets}
     \begin{tabular}{lcllllllll}
         \textbf{Dataset} &
@@ -128,30 +128,31 @@ Several sets of such images exist, many intended for processing by deep neural n
             & \rot{80}{\textbf{Synthetic Noise}}
             & \rot{80}{\textbf{Ground-Truths}}
             & \rot{80}{\textbf{Diversity}}
-            & \rot{80}{\textbf{Font size}}
-            & \rot{80}{\textbf{Paper styles}}
+            & \rot{80}{\textbf{Mult. font sizes}}
+            & \rot{80}{\textbf{Mult. paper styles}}
             & \rot{80}{\textbf{Multilingual}}
             & \rot{80}{\textbf{Contains graphics}}
             & \rot{80}{\textbf{Reproducible}}\\
             \midrule
-         ShabbyPages (ours)~ & 6,202~ & \cmark & \cmark & 0.488~ & multi~ & multi~ & \cmark & \cmark & \cmark \\
-         NoisyOffice \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & 16pt & 1 & \xmark & \xmark & \xmark \\
-         DocCreator \cite{ref_DocCreator} & & \cmark & \xmark & & & & & &\cmark\\
-         DIBCO-9 \cite{dibco-09} & & & & & & & & & n/a \\
-         DIBCO-10 \cite{dibco-10} & 10 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
-         DIBCO-11 \cite{dibco-11} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
-         DIBCO-12 \cite{dibco-12} & 14 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
-         DIBCO-13 \cite{dibco-13} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-14 \cite{dibco-14} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-16 \cite{dibco-16} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         DIBCO-17 \cite{dibco-17} & 20 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-18 \cite{dibco-18} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
-         DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & n/a\\
-         Bickley Diary \cite{bickley-diary} & & & & n/a & & & & & n/a\\
-         PHIBD & & & & & & & & & n/a\\
-         TQBC & & & & & & & & & n/a\\
+         DIBCO-9 \cite{dibco-09} & 10 & \xmark & \cmark &  & \cmark & \cmark & \cmark & \xmark & n/a \\
+         DIBCO-10 \cite{dibco-10} & 10 & \xmark & \cmark & & \cmark & \cmark & \xmark & \xmark & n/a \\
+         DIBCO-11 \cite{dibco-11} & 16 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a\\
+         DIBCO-12 \cite{dibco-12} & 14 & \xmark & \cmark & & \cmark & \cmark & \xmark & \xmark & n/a \\
+         DIBCO-13 \cite{dibco-13} & 16 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-14 \cite{dibco-14} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-16 \cite{dibco-16} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         DIBCO-17 \cite{dibco-17} & 20 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-18 \cite{dibco-18} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a\\
+         %DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & n/a\\ % SL: I can't find this dataset online
+         Bickley Diary \cite{bickley-diary} & 7 & \xmark & \cmark &  & \xmark & \xmark & \xmark & \xmark & n/a\\
+         PHIBD \cite{nafchi-2013-icdar} & 15 & \xmark & \cmark &  & \cmark & \cmark & \xmark & \xmark & n/a\\
+         %TQBC & & & & & & & & & n/a\\ % SL: I can't find this dataset online
+         \midrule
+         NoisyOffice \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & \cmark & \xmark & \xmark & \xmark & \xmark \\
+         DocCreator \cite{ref_DocCreator} & 6,059 & \cmark & \cmark & & \cmark & \cmark & \cmark & \xmark &\cmark\\
          %LS-HDIB \cite{ls-hdib-2021} & & \cmark & & & & & & & \\
-         DDI-100 \cite{ddi-100-2019} & & \cmark & \cmark & & & & & & \xmark\\
+         DDI-100 \cite{ddi-100-2019} & 100k+~ & \cmark & \cmark & & & & & & \xmark\\
+         ShabbyPages (ours)~ & 6,202~ & \cmark & \cmark & 0.488~ & \cmark~ & \cmark~ & \cmark & \cmark & \cmark \\
          \bottomrule
     \end{tabular}
 \end{table}
