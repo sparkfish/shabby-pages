@@ -95,26 +95,26 @@ Networks with a wider variety of latent representations frequently perform bette
 For this reason, procuring a large-enough volume of robust-enough training data is paramount.
 Several sets of such images exist, many intended for processing by deep neural nets; Table 1 below contains a comparison of some of the key hyperproperties of the ShabbyPages set compared with other popular document image datasets.
 
-\begin{table}
-\centering
-\caption{Document Image Dataset Feature Comparison}\label{tab1}
-\begin{tabular}{|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|}
-\hline
-Feature & ShabbyPages & NoisyOffice & RVL-CDIP & Tobacco800 \\
-\hline
-Images & 6202 & 72 & 400000 & 1290\\
-Diversity & 0.488 & 0.317 & & \\
-Document-specific & Yes & Yes & Yes & Yes\\
-Synthetic & Yes & Yes & No & No\\
-Groundtruthed? & Yes & Yes & No & No\\
-Font size & Multiple & 16pt & Multiple & Multiple\\
-Paper styles & Multiple & 1 & Multiple & Multiple\\
-Multilingual & Yes & No & No & No\\
-Documents contain images? & Yes & No & Yes & Yes\\
-Pre-categorized & No & No & Yes & Yes\\
-\hline
-\end{tabular}
-\end{table}
+%\begin{table}
+%\centering
+%\caption{Document Image Dataset Feature Comparison}\label{tab1}
+%\begin{tabular}{|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|@{\hspace{1em}}l@{\qquad}|}
+%\hline
+%Feature & ShabbyPages & NoisyOffice & RVL-CDIP & Tobacco800 \\
+%\hline
+%Images & 6202 & 72 & 400000 & 1290\\
+%Diversity & 0.488 & 0.317 & & \\
+%Document-specific & Yes & Yes & Yes & Yes\\
+%Synthetic & Yes & Yes & No & No\\
+%Groundtruthed? & Yes & Yes & No & No\\
+%Font size & Multiple & 16pt & Multiple & Multiple\\
+%Paper styles & Multiple & 1 & Multiple & Multiple\\
+%Multilingual & Yes & No & No & No\\
+%Documents contain images? & Yes & No & Yes & Yes\\
+%Pre-categorized & No & No & Yes & Yes\\
+%\hline
+%\end{tabular}
+%\end{table}
 
 
 % WIP: this table is a work-in-progress
@@ -132,23 +132,26 @@ Pre-categorized & No & No & Yes & Yes\\
             & \rot{80}{\textbf{Paper styles}}
             & \rot{80}{\textbf{Multilingual}}
             & \rot{80}{\textbf{Contains graphics}}
-            & \rot{80}{\textbf{Pre-categorized}} \\
+            & \rot{80}{\textbf{Reproducible}}\\
             \midrule
-         ShabbyPages (ours) & 6,202 & \cmark & \cmark & 0.488 & Multi & Multi & \cmark & \cmark & \xmark \\
+         ShabbyPages (ours)~ & 6,202~ & \cmark & \cmark & 0.488~ & multi~ & multi~ & \cmark & \cmark & \cmark \\
          NoisyOffice \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & 16pt & 1 & \xmark & \xmark & \xmark \\
-         DocCreator & & & & & & & & & \\
-         DIBCO-9 \cite{dibco-09} & & & & & & & & & \\
-         DIBCO-10 \cite{dibco-10} & & & & & & & & & \\
-         DIBCO-11 \cite{dibco-11} & & \xmark & \cmark & & multi & Multi & \cmark & \xmark & \xmark \\
-         DIBCO-12 \cite{dibco-12} & & \xmark & & & & & & & \\
-         DIBCO-13 \cite{dibco-13} & & \xmark & & & & & & & \\
-         H-DIBCO-14 \cite{dibco-14} & & \xmark & & & & & & & \\
-         H-DIBCO-16 \cite{dibco-16} & & \xmark & & & & & & & \\
-         DIBCO-17 \cite{dibco-17} & & \xmark & & & & & & & \\
-         H-DIBCO-18 \cite{dibco-18} & & \xmark & & & & & & & \\
-         DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & \\
-         Bickley Diary \cite{bickley-diary} & & & & & & & & & \\
-         LS-HDIB \cite{ls-hdib-2021} & & \cmark & & & & & & & \\
+         DocCreator \cite{ref_DocCreator} & & \cmark & \xmark & & & & & &\cmark\\
+         DIBCO-9 \cite{dibco-09} & & & & & & & & & n/a \\
+         DIBCO-10 \cite{dibco-10} & 10 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
+         DIBCO-11 \cite{dibco-11} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
+         DIBCO-12 \cite{dibco-12} & 14 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
+         DIBCO-13 \cite{dibco-13} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
+         H-DIBCO-14 \cite{dibco-14} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
+         H-DIBCO-16 \cite{dibco-16} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
+         DIBCO-17 \cite{dibco-17} & 20 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
+         H-DIBCO-18 \cite{dibco-18} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
+         DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & n/a\\
+         Bickley Diary \cite{bickley-diary} & & & & n/a & & & & & n/a\\
+         PHIBD & & & & & & & & & n/a\\
+         TQBC & & & & & & & & & n/a\\
+         %LS-HDIB \cite{ls-hdib-2021} & & \cmark & & & & & & & \\
+         DDI-100 \cite{ddi-100-2019} & & \cmark & \cmark & & & & & & \xmark\\
          \bottomrule
     \end{tabular}
 \end{table}
@@ -183,12 +186,33 @@ Table 2 below contains some statistics for the dataset, in grayscale, at a stand
     \end{tabular}
 \end{table}
 
-\subsection{ShabbyPages Compared}
-Supervised learning tasks require labeled training data, called the ground truth.
-Much of the world's data does not come with labels, which instead must be created by humans in some fashion.
-In Table 1, we indicated that NoisyOffice was the only other groundtruthed dataset we examined.
-This isn't strictly true: there are projects to add some types of groundtruth to RVL-CDIP \cite{ref_zenodo,ref_goldmann} and Tobacco800 \cite{ref_tobacco800gt2,ref_tobacco800gt1}, but the images in these sets were produced by real scans, without an accompanying original digital document.
-Conversely, NoisyOffice contains images of real scanned documents intended for validation, as well as their digital groundtruth and synthetic training image data.
+\subsection{Other Datasets}
+The most similar existing dataset to ShabbyPages for the tasks of document denoising include NoisyOffice \cite{ref_NoisyOfficeDatabase}.
+NoisyOffie is a very limited, however, consisting of two types of font and three font sizes of text across four base images. The NoisyOffice dataset was created by permuting these font/size/base combinations, and thus the dataset is feature-poor.
+NoisyOffice also lacks non-English and non-Latin texts, as well as graphical elements like images, logos, and tables.
+To add noise to NoisyOffice, the creators used four different types of noise backgrounds ([TODO: list them here]) and then overlayed generated text onto the noisy backgrounds.
+Overall, NoisyOffice consists of 72 document images.
+Another dataset, DDI-100 \cite{ddi-100-2019}, was constructed in a manner similar to NoisyOffice.
+DDI-100 is far larger than NoisyOffice, but has been criticized for not containing enough diversity or noise to be an effective benchmark \cite{detection-masking-2022}.
+Additionally, the pipeline code for creating the noisy versions of both NoisyOffice and DDI-100 is not available, and thus these datasets cannot be reproduced.
+
+Prior work includes several datasets for the related task of document image binarization, which seeks to convert a document image into a binary image (i.e., where text is black and background is white).
+These document binarization datasets include the DIBCO datasets \cite{dibco-09,dibco-10,dibco-11,dibco-12,dibco-13,dibco-14,dibco-16,dibco-17,dibco-18}.
+As summarized in Table~\ref{tab:datasets}, the DIBCO datasets are very small, ranging between 10 and 20 samples each (for a total of 106 images across DIBCO-9 through DIBCO-18).
+The DIBCO datasets do not contain graphical elements like images, tables, charts, etc.
+A dataset similar to the DIBCO benchmarks is the Persian Heritage Image Binarization Dataset (PHIBD) \cite{phibc-2012-nafchi,nafchi-2013-icdar}, which consists of a small number images of handwritten Persian writing.
+Still others like the Bickley Diary dataset \cite{bickley-diary} and the 2019 Time-Quality Binarization Competition datasets \cite{2019-time-quality-competition} have also been used for benchmarking document binarization approaches, but these do not appear to be publicly available \cite{tensmeyer-binarization-review-2020}.
+Ultimately, the sizes of these document binarization corpora severly limit the types of algorithms and models that can be used.
+
+Other popular document image datasets include large amounts of real noise: These datasets include RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 [CITE], Tobacco-800 \cite{ref_Tobacco800}, FUNSD [cite], but these datasets do not have corresponding clean ground-truth document images to train or evaluate document denoisiers.
+
+[TODO: the following could be moved to before this Prior Work section, or into the Construction section.]
+
+%Supervised learning tasks require labeled training data, called the ground truth.
+%Much of the world's data does not come with labels, which instead must be created by humans in some fashion.
+%In Table 1, we indicated that NoisyOffice was the only other groundtruthed dataset we examined.
+%This isn't strictly true: there are projects to add some types of groundtruth to RVL-CDIP \cite{ref_zenodo,ref_goldmann} and Tobacco800 \cite{ref_tobacco800gt2,ref_tobacco800gt1}, but the images in these sets were produced by real scans, without an accompanying original digital document.
+%Conversely, NoisyOffice contains images of real scanned documents intended for validation, as well as their digital groundtruth and synthetic training image data.
 
 ShabbyPages includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully reproducing the ShabbyPages set, allowing anyone to quickly produce a new set in the Shabby family, optionally re-exporting groundtruths at a different resolution beforehand.
 The 6202 images in the ShabbyPages release set are really just the first sample from the space of these documents; we encourage readers to build their own.
@@ -196,10 +220,10 @@ NoisyOffice is the only other set we examined that contains its digital provenan
 Augraphy's PaperFactory augmentation is such a tool.
 The other sets are not even theoretically extensible in this way.
 
-\subsubsection{NoisyOffice}
-The NoisyOffice database \cite{ref_NoisyOffice} contains a very low 4 base images, 2 types of font, 3 font sizes, and 4 types of noise, for a total of 72 unique images.
-The groundtruth images were produced in a standard word processor, with the simulated noisy images produced by first adding noise to a blank sheet of paper, storing that as a background image after digital scanning, then overlaying the foreground text onto the noisy background texture.
-An additional set of real NoisyOffice images was produced, where the foreground text was printed on blank white sheets, the results of which were physically augmented by the introduction of footprints, coffee stains, wrinkles, and folds.
+%\subsubsection{NoisyOffice}
+%The NoisyOffice database \cite{ref_NoisyOffice} contains a very low 4 base images, 2 types of font, 3 font sizes, and 4 types of noise, for a total of 72 unique images.
+%The groundtruth images were produced in a standard word processor, with the simulated noisy images produced by first adding noise to a blank sheet of paper, storing that as a background image after digital scanning, then overlaying the foreground text onto the noisy background texture.
+%An additional set of real NoisyOffice images was produced, where the foreground text was printed on blank white sheets, the results of which were physically augmented by the introduction of footprints, coffee stains, wrinkles, and folds.
 
 ShabbyPages began with 600 documents sourced from the Internet from culturally-important sources.
 A manifest is included in the dataset which contains an ordered table of the filenames, the languages present in the document, the download URL for the file, and an English name or acronym for the source organization or person.
@@ -212,29 +236,29 @@ Indeed, the cosine similarity computed over OpenAI's CLIP representations of eac
 Augraphy does not yet have augmentations for footprints or coffee stains, so the dark regions and edges of the stains and prints were simulated with features introduced by other augmentations, but Augraphy does contain the PaperFactory transformation which selects and crops a texture from a local directory of paper images.
 The result of a PaperFactory application is the foreground text ``printed'' onto the background texture, similar to NoisyOffice's construction.
 
-\subsection{RVL-CDIP}
-The RVL-CDIP dataset \cite{ref_RVL-CDIP} consists of 400,000 grayscale images divided into 16 document classes, each with a similar number of elements.
-The dataset is pre-segmented into 320,000 training, 40,000 test, and 40,000 validation images, facilitating immediate use in machine learning applications.
-The classes represented are the following:
+%\subsection{RVL-CDIP}
+%The RVL-CDIP dataset \cite{ref_RVL-CDIP} consists of 400,000 grayscale images divided into 16 document classes, each with a similar number of elements.
+%The dataset is pre-segmented into 320,000 training, 40,000 test, and 40,000 validation images, facilitating immediate use in machine learning applications.
+%The classes represented are the following:
 
-\begin{center}
-letter, form, email, handwritten, advertisement, scientific report,
-scientific publication, specification, file folder, news article,
-budget, invoice, presentation, questionnaire, resume, memo.
-\end{center}
+%\begin{center}
+%letter, form, email, handwritten, advertisement, scientific report,
+%scientific publication, specification, file folder, news article,
+%budget, invoice, presentation, questionnaire, resume, memo.
+%\end{center}
 
-The images exhibit poor fidelity with what we can imagine their originals to have been, contain substantial noise, and many were scanned at around 100 pixels per inch, quite a low resolution for documents.
-None of the images in the CDIP set come with groundtruths.
+%The images exhibit poor fidelity with what we can imagine their originals to have been, contain substantial noise, and many were scanned at around 100 pixels per inch, quite a low resolution for documents.
+%None of the images in the CDIP set come with groundtruths.
 
-The collection of RVL-CDIP is an impressive feat in its own right: nearly half a million scanned documents with real noise, already categorized.
-Augraphy makes synthetic documents, intended to simulate real noise without the need to physically produce it.
-One of the augmentations used in the ShabbyPages set is BadPhotoCopy, which mimics low-fidelity noisy or damaged scans.
+%The collection of RVL-CDIP is an impressive feat in its own right: nearly half a million scanned documents with real noise, already categorized.
+%Augraphy makes synthetic documents, intended to simulate real noise without the need to physically produce it.
+%One of the augmentations used in the ShabbyPages set is BadPhotoCopy, which mimics low-fidelity noisy or damaged scans.
 
-\subsection{Tobacco800}
-Tobacco800, like RVL-CDIP, is a subset of the Complex Document Image Processing collection, containing images of documents originally internal to tobacco companies, and released under the Tobacco Master Settlement Agreement.
-The corpus is composed of 1290 images, gathered and scanned at different times and by different devices.
-Several of the images in this set are consecutively-numbered pages, increasing the set's utility for certain image analysis tasks \cite{ref_Tobacco800}.
-Document images in this set vary from from 150 to 300 DPI with dimensions between 1200 pixels wide and 2500 pixels tall on the low end and 1600 by 3200 on the high.
+%\subsection{Tobacco800}
+%Tobacco800, like RVL-CDIP, is a subset of the Complex Document Image Processing collection, containing images of documents originally internal to tobacco companies, and released under the Tobacco Master Settlement Agreement.
+%The corpus is composed of 1290 images, gathered and scanned at different times and by different devices.
+%Several of the images in this set are consecutively-numbered pages, increasing the set's utility for certain image analysis tasks \cite{ref_Tobacco800}.
+%Document images in this set vary from from 150 to 300 DPI with dimensions between 1200 pixels wide and 2500 pixels tall on the low end and 1600 by 3200 on the high.
 
 Every document in the ShabbyPages groundtruth set is a multi-page document.
 The released set was exported at 150 DPI, but the original documents are also distributed, so re-exporting at a higher resolution is trivial.
