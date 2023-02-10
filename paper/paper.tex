@@ -196,6 +196,13 @@ Another dataset, DDI-100 \cite{ddi-100-2019}, was constructed in a manner simila
 DDI-100 is far larger than NoisyOffice, but has been criticized for not containing enough diversity or noise to be an effective benchmark \cite{detection-masking-2022}.
 Additionally, the pipeline code for creating the noisy versions of both NoisyOffice and DDI-100 is not available, and thus these datasets cannot be reproduced.
 
+\begin{figure}
+    \centering\scalebox{0.4}{
+    \includegraphics{figures/dataset_examples.pdf}}
+    \caption{Example noisy-clean pairs from PHIBD (top row), DIBCO-13 (middle row), and NoisyOffice (bottom row).}
+    \label{fig:other-dataset-examples}
+\end{figure}
+
 Prior work includes several datasets for the related task of document image binarization, which seeks to convert a document image into a binary image (i.e., where text is black and background is white).
 These document binarization datasets include the DIBCO datasets \cite{dibco-09,dibco-10,dibco-11,dibco-12,dibco-13,dibco-14,dibco-16,dibco-17,dibco-18}.
 As summarized in Table~\ref{tab:datasets}, the DIBCO datasets are very small, ranging between 10 and 20 samples each (for a total of 106 images across DIBCO-9 through DIBCO-18).
@@ -203,6 +210,7 @@ The DIBCO datasets do not contain graphical elements like images, tables, charts
 A dataset similar to the DIBCO benchmarks is the Persian Heritage Image Binarization Dataset (PHIBD) \cite{phibc-2012-nafchi,nafchi-2013-icdar}, which consists of a small number images of handwritten Persian writing.
 Still others like the Bickley Diary dataset \cite{bickley-diary} and the 2019 Time-Quality Binarization Competition datasets \cite{2019-time-quality-competition} have also been used for benchmarking document binarization approaches, but these do not appear to be publicly available \cite{tensmeyer-binarization-review-2020}.
 Ultimately, the sizes of these document binarization corpora severly limit the types of algorithms and models that can be used.
+Examples of noisy-clean image pairs are displayed in Figure~\ref{fig:other-dataset-examples}.
 
 Other popular document image datasets include large amounts of real noise: These datasets include RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 [CITE], Tobacco-800 \cite{ref_Tobacco800}, FUNSD [cite], but these datasets do not have corresponding clean ground-truth document images to train or evaluate document denoisiers.
 
