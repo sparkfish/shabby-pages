@@ -77,8 +77,8 @@ In this paper, we disucss the creation process of \emph{ShabbyPages} and demonst
 
 \section{Introduction}
 Denoising is a fundamental concern for many document processing workflows, wherein unwanted artifacts introduced to a document image via noisy processes like scanning are removed.
-The effectiveness of the denoising stage of document processing pipelines has implications for downstream tasks like optical character recognition (OCR) and layout parsing [need to cite].
-Recent work in supervised machine learning has yielded promising results at the denoising task [need to cite], increasing the importance of access to large volumes of high-quality training and evaluation data.
+The effectiveness of the denoising stage of document processing pipelines has implications for downstream tasks like optical character recognition (OCR) and layout parsing \cite{Mustafa_2018-wan,blind-denoising-iccv-2021,patch-based-document-denoising,character-recognition-systems,ogorman-document-image-analysis,Rotman2022-hh}.
+Recent work in supervised machine learning has yielded promising results at the denoising task \cite{tensmeyer-cnn-binarization-2017,blind-denoising-iccv-2021}, increasing the importance of access to large volumes of high-quality training and evaluation data.
 
 Prior work has introduced denoising and binarization datasets, but these are often small in scale, limited in the types of noise features present, not diverse enough to train robust models, and impossible to recreate.
 \begin{itemize}
@@ -174,7 +174,7 @@ Examples of noisy-clean image pairs from some of these collections are displayed
     \label{fig:other-dataset-examples}
 \end{figure}
 
-Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 [CITE], Tobacco-800 \cite{ref_Tobacco800}, and FUNSD [cite] --- include large amounts of real noise, but none of these have corresponding clean groundtruth document images to train or evaluate document denoisers and binarizers.
+Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 \cite{tobacco-3482}, Tobacco-800 \cite{ref_Tobacco800}, and FUNSD \cite{jaume2019-funsd} --- include large amounts of real noise, but none of these have corresponding clean groundtruth document images to train or evaluate document denoisers and binarizers.
 
 
 
