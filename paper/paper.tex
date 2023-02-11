@@ -11,7 +11,31 @@
 \usepackage{listings}
 \usepackage{courier}
 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \definecolor{superlightgray}{RGB}{242,242,242}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
 
 % check mark and x for table
 \newcommand{\cmark}{{\color{ForestGreen}\ding{51}}}%
@@ -23,7 +47,7 @@
 %
 \begin{document}
 
-\title{ShabbyPages: A Recipe for Repeatable, Synthetic, Modern Document Images}
+\title{ShabbyPages: A Reproducible Document Denoising and Binarization Dataset}
 %\author{Alexander Groleau\inst{1,2} \and
 %  Kok Wei Chee\inst{1} \and
 %  Stefan Larson\inst{3} \and
@@ -45,11 +69,10 @@
 \maketitle
 
 \begin{abstract}
-The \emph{ShabbyPages} document image dataset is produced using the \emph{Augraphy} document image augmentation tool.
-The development of the computation pipeline used to generate the corpus is discussed, and the results presented.
-The final corpus contains over 6000 ``born-digital'' ground truth document images, sourced on the Web, with synthetically-noised counterparts (``shabby pages'') that appear to have been printed and faxed, photocopied, or otherwise altered through physical processes.
-The release of this dataset and the recipe for its production attempts to address a growing need for labeled training document images for supervised learning tasks.
-The results of initial experiments are discussed, in which the corpus is used to train performant convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new \emph{ShabbyPages} benchmark.
+Document denoising and binarization are fundamental problems in the document processing space, but current datasets are often too small and lack sufficient complexity to effectively train and benchmark modern data-driven machine learning models.
+To fill this gap, we introduce \emph{ShabbyPages}, a new document image dataset designed for training and benchmarking document denoisers and binarizers.
+\emph{ShabbyPages} contains over 6,000 clean ``born digital" images with synthetically-noised counterparts (``shabby pages") that were augmented using the \emph{Augraphy} document augmentation tool to appear as if they have been printed and faxed, photocopied, or otherwise altered through physical processes.
+In this paper, we disucss the creation process of \emph{ShabbyPages} and demonstrate the utility of \emph{ShabbyPages} by training convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new \emph{ShabbyPages} benchmark.
 \end{abstract}
 
 \section{Introduction}
@@ -77,8 +100,7 @@ In the next sections, we provide motivation and context for \emph{ShabbyPages}' 
 
 \section{Related Datasets}
 This section discusses datasets used for the tasks of document denoising and document binarization.
-These datasets are listed in Table~\ref{tab:datasets}.
-%By now, hundreds of datasets exist for the document denoising task (several listed in \cite{tab:datasets}), 
+These datasets are listed in Table~\ref{tab:datasets}, where we pay particular attention to dataset size, diversity of documents/texts (i.e., font sizes and styles, languages, paper styles, and graphics).
 The most similar to \emph{ShabbyPages} being \emph{NoisyOffice} \cite{ref_NoisyOfficeDatabase}.
 \emph{NoisyOffice} is very limited, however, consisting of two font weights, three font sizes, three font types, and four noise types, for a total of just 72 unique images.
 The \emph{NoisyOffice} collection was created by permuting these font/size/base combinations, and the resulting set is feature-poor.
@@ -223,10 +245,6 @@ We also manually reviewed the gathered documents to verify that no personal iden
 The ~pdftoppm~ tool from the ~poppler-utils~ package was used to split the PDF documents into individual pages.
 Each page was converted to a PNG image at 150dpi, a common printing resolution.
 Because the majority of these documents were created with the standard US Letter dimensions, this resulted in the most common image dimension being 1275 pixels wide by 1650 pixels tall.
-
-\begin{lstlisting}[language=bash]
-  pdftoppm document_name.pdf document_name -png -r 150
-\end{lstlisting}
 
 \ubsubsection{Developing the Pipeline.}
 The \emph{Augraphy} library presents an easy-to-use API for constructing data augmentation pipelines for document images, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
