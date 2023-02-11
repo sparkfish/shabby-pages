@@ -69,7 +69,7 @@ In the next sections, we provide motivation and context for \emph{ShabbyPages}' 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.98\columnwidth, frame]{figures/matrix.png}
+\includegraphics[width=0.98\columnwidth, frame]{figures/quad.png}
 \caption{Sample patches from \emph{ShabbyPages}.} \label{fig1}
 \end{figure}
 
@@ -205,6 +205,12 @@ The 6202 images in the \emph{ShabbyPages} release set are really just the first 
 \emph{NoisyOffice} is the only other set we examined that contains its digital provenance, but the released database materials lack a means of reproducing the simulated printing method used to create the \emph{NoisyOffice} training data; \emph{Augraphy}'s \texttt{PaperFactory} augmentation is such a tool.
 The other sets are not even theoretically extensible in this way.
 
+\begin{figure}
+    \includegraphics[width=1.0\textwidth]{figures/matrix_tall1.png}
+    \caption{Sample noisy patches from ShabbyPages.}
+    \label{fig:matrix_tall1}
+\end{figure}
+
 \subsection{Data Gathering}
 A team of workers searched the public internet for PDFs of many different kinds, from culturally-important sources like government agencies, NGOs, and large multinational corporations.
 600 unique documents were retrieved, totaling 6202 pages.
@@ -237,7 +243,13 @@ All or none of these augmentations may have applied to each input image, and onl
 The conjunction of all these factors implies \emph{ShabbyPages} is a sample from a massive space.
 Indeed, the cosine similarity computed over OpenAI's CLIP representations of each output image averages to 0.49, much higher than \emph{NoisyOffice}'s 0.31.
 
-\subsection{Processing \emph{Augraphy} on a multicore system}
+\begin{figure}
+    \includegraphics[width=1.0\textwidth]{figures/matrix_tall2.png}
+    \caption{Sample noisy patches from ShabbyPages.}
+    \label{fig:matrix_tall2}
+\end{figure}
+
+\subsection{Processing \emph{Augraphy} Pipelines}
 Execution time is dependent on which augmentations are executed at runtime; a long \emph{Augraphy} pipeline can take several seconds to process large images.
 The library is under active development with performance enhancements underway, but the time cost to generate large datasets sequentially is prohibitive when dealing with thousands of files, so we use a multi-process pooling technique to distribute the workload across many processor execution threads.
 For each process, a new pipeline with new probability coefficients was generated, representing a nontrivially-different sequence of document operations.
