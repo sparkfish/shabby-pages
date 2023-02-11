@@ -115,7 +115,7 @@ To add noise, the creators produced four different types of background noise (fo
         \textbf{Dataset} &
         \rot{80}{\textbf{Dataset Size}}
             & \rot{80}{\textbf{Synthetic Noise}}
-            & \rot{80}{\textbf{Ground-Truths}}
+            & \rot{80}{\textbf{Groundtruths}}
             %& \rot{80}{\textbf{Diversity}}
             & \rot{80}{\textbf{Varied fonts/sizes}}
             & \rot{80}{\textbf{Varied paper styles}}
@@ -154,7 +154,7 @@ Moreover, while \emph{DDI-100} has noise-free document images with noisy counter
 \begin{figure}
     \centering\scalebox{0.365}{
     \includegraphics{figures/ddi-100-samples-1.pdf}}
-    \caption{Example noisy-clean pairs from DDI-100. Geometric transformations are required to map the noisy samples to their corresponding clean ground-truth images, making DDI-100 unsuitable for binarization and denoising.}
+    \caption{Example noisy-clean pairs from DDI-100. Geometric transformations are required to map the noisy samples to their corresponding clean groundtruth images, making DDI-100 unsuitable for binarization and denoising.}
     \label{fig:ddi-100-samples}
 \end{figure}
 
@@ -174,7 +174,7 @@ Examples of noisy-clean image pairs from some of these collections are displayed
     \label{fig:other-dataset-examples}
 \end{figure}
 
-Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 [CITE], Tobacco-800 \cite{ref_Tobacco800}, and FUNSD [cite] --- include large amounts of real noise, but none of these have corresponding clean ground-truth document images to train or evaluate document denoisers and binarizers.
+Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tobacco-3482 [CITE], Tobacco-800 \cite{ref_Tobacco800}, and FUNSD [cite] --- include large amounts of real noise, but none of these have corresponding clean groundtruth document images to train or evaluate document denoisers and binarizers.
 
 
 
@@ -250,7 +250,7 @@ Because the majority of these documents were created with the standard US Letter
 The \emph{Augraphy} library presents an easy-to-use API for constructing data augmentation pipelines for document images, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
 While \emph{Augraphy}'s default pipeline has what we believe to be quite realistic defaults, we wanted a broader range of features from this dataset than those the default pipeline could produce.
 To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub.
-We created an automated daily build in GitHub Actions to render a random selection of ground-truth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the augmentation parameters, until we were consistently satisfied with the results.
+We created an automated daily build in GitHub Actions to render a random selection of groundtruth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the augmentation parameters, until we were consistently satisfied with the results.
 
 The pipeline uses 23 of the augmentations from \emph{Augraphy}.  Augmentations such as \texttt{"BookBinding"} and \texttt{"Folding"} were excluded since these spatial transformations alter the document image geometry by shifting pixel placement from their original position.  Such transforms would render images unsuitable for supervised training and analysis by many common metrics that rely on pixel-to-pixel comparisons against groundtruths.
 
@@ -299,7 +299,7 @@ Several challenges arose in the construction of this dataset.
 Old fax machines, faulty commercial printers, and other hardware suitable for inducing the intended effects were difficult to source, and frequently non-functional when they could be found.
 Environmental concerns like the volume of paper and ink used, and the energy expenditure both in electricity and human terms, also factored into our decision to pursue synthetic augmentations for \emph{ShabbyPages}.
 Manually producing a database of noisy documents is a time-consuming and repetitive task; creating just 200 real-world documents with real noise features required the labor of several people.
-Nevertheless, despite the limited size of the resulting dataset, the scarcity of real-world datasets with ground truth images makes the \emph{ShabbyReal} corpus extremely valuable; its inclusion in \emph{ShabbyPages} even moreso.
+Nevertheless, despite the limited size of the resulting dataset, the scarcity of real-world datasets with ground truth images makes the \emph{ShabbyReal} corpus extremely valuable; its inclusion in \emph{ShabbyPages} even more so.
 This type of dataset is critical for benchmark comparison with synthetically-augmented document images, and for other tasks such as denoising and binarizing: we use \emph{ShabbyReal} later for a human-perception evaluation of denoising performance.
 
 \begin{figure}
@@ -313,12 +313,12 @@ This type of dataset is critical for benchmark comparison with synthetically-aug
 Denoising and binarization are two important techniques for the removal of unwanted data from images.
 Both approaches can be achieved by supervised learning of relationships between features of the input and output data.
 In this section, we train two NAFNet \cite{ref_nafnet} instances as denoisers on both the \mbox{\emph{NoisyOffice}} and the \mbox{\emph{ShabbyPages}} datasets. We evaluate these models' predictions in a cross-validation test on both datasets, both by visual inspection and by metric computation.
-We then perform a similar experiment where the same NAFNets are trained to not only remove noise from the test images, but also to classify the foreground and backgorund pixels, predicting a binarized clean document.
+We then perform a similar experiment where the same NAFNets are trained to not only remove noise from the test images, but also to classify the foreground and background pixels, predicting a binarized clean document.
 The model was ``off-the-shelf''; besides rigging up the training inputs and choosing a reasonable training epoch limit, we made no significant alterations to the provided hyperparameters.
 
 \subsection{Denoising}
 Digital computation has enabled humanity to produce ever-growing amounts of both data and reasons to process it.
-Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, and perhaps most importantly, when our aesthetic sensibilities are un-challenged.
+Doing so is easiest when the data is free of unexpected outliers, the signal has less jitter, and perhaps most importantly, when our aesthetic sensibilities are unchallenged.
 
 Denoising grayscale images is a challenging task, as models must determine not only which features should appear in the output, but also the 8-bit pixel intensity over the whole image.
 We randomly selected ten patches of 400x400 pixels from each page, then trained another NAFNet instance on this data for just 14 epochs (about 22 hours of compute time).
