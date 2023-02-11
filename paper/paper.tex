@@ -206,7 +206,7 @@ While \emph{ShabbyPages} has fewer samples than \emph{DDI-100}, we again point o
 Our dataset contains more samples than \emph{NoisyOffice} and \emph{DocCreator},
 and in contrast to \emph{NoisyOffice}, the \emph{ShabbyPages} dataset also contains graphical elements like figures, tables, logos, etc.
 
-We can also measure the "diversity" of our dataset as a way to compare the richness of various features against an alternative like \emph{NoisyOffice}.
+We can also measure the ``diversity'' of our dataset as a way to compare the richness of various features against an alternative like \emph{NoisyOffice}.
 To do this, we use a diversity metric \cite{larson-etal-2019-outlier} defined as
 $$
 Diversity(X) = \frac{1}{|X|^2} \sum_{a\in X} \sum_{b\in X} \|f(a)-f(b)\|_2
@@ -223,30 +223,30 @@ Using this metric, we find that the diversity of \emph{NoisyOffice} is 0.317, wh
 This section describes the dataset generation methodology; code for all of this is available on GitHub.
 
 \emph{ShabbyPages} was born out of a desire to address shortcomings in the popular datasets discussed in the previous section.
-Reproducibility was a primary concern, so \emph{ShabbyPages} includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully recreating the set, allowing anyone to quickly produce a new member of the Shabby family, optionally re-exporting groundtruths at a different resolution beforehand.
+Reproducibility was a primary concern, so \emph{ShabbyPages} includes not only the groundtruth images, but also the original digital documents used to produce them, and the software for fully recreating the set, allowing anyone to quickly produce a new member of the \emph{Shabby} family, optionally re-exporting groundtruths at a different resolution beforehand.
 The 6202 images in the \emph{ShabbyPages} release set are really just the first sample from the space of these documents; we encourage readers to build their own.
 \emph{NoisyOffice} and \emph{DDI-100} are the only other datasets we examined that contain its digital provenance, but the released database materials lack a means of reproducing the simulated printing method used to create the \emph{NoisyOffice} training data; \emph{Augraphy}'s \texttt{PaperFactory} augmentation is such a tool.
 The other sets are not even theoretically extensible in this way.
 
 \begin{figure}
     \includegraphics[width=1.0\textwidth]{figures/matrix_tall1.png}
-    \caption{Sample noisy patches from ShabbyPages.}
+    \caption{Sample noisy patches from \emph{ShabbyPages}.}
     \label{fig:matrix_tall1}
 \end{figure}
 
 \subsubsection{Data Gathering.}
 A team of crowdworkers searched the public internet for PDFs of many different kinds, from culturally-important sources like government agencies, NGOs, and large multinational corporations.
-600 unique documents were retrieved, totaling 6202 pages.
+A set of 600 unique documents were retrieved, totaling 6202 pages.
 Care was taken to retrieve freely-available and attributable documents; a manifest is included in the dataset which contains an ordered table of the filenames, the languages present in the document, the download URL for the file, and an English name or acronym for the source organization or person.
-A similar process was completed to collect paper textures on which to ``print'' the documents: 300 unique textures were gathered, all of which are either in the public domain or carry CC-0, CC-BY, or CC-BY-SA licenses; metadata about these textures appears in another manifest.
+A similar process was completed to collect paper textures on which to ``print'' the documents: 300 unique textures were gathered, all of which are either in the public domain or carry permissive Creative Commons licenses (\texttt{CC-0}, \texttt{CC-BY}, or \texttt{CC-BY-SA}); metadata about these textures appears in another manifest.
 We also manually reviewed the gathered documents to verify that no personal identity information was present within the corpus.
 
 \subsubsection{PDF to PNG Conversion.}
-The ~pdftoppm~ tool from the ~poppler-utils~ package was used to split the PDF documents into individual pages.
-Each page was converted to a PNG image at 150dpi, a common printing resolution.
+The \texttt{pdftoppm} tool from the \texttt{poppler-utils} package was used to split the PDF documents into individual pages.
+Each page was converted to a PNG image at 150dpi.
 Because the majority of these documents were created with the standard US Letter dimensions, this resulted in the most common image dimension being 1275 pixels wide by 1650 pixels tall.
 
-\ubsubsection{Developing the Pipeline.}
+\subsubsection{Developing the Pipeline.}
 The \emph{Augraphy} library presents an easy-to-use API for constructing data augmentation pipelines for document images, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
 While \emph{Augraphy}'s default pipeline has what we believe to be quite realistic defaults, we wanted a broader range of features from this dataset than those the default pipeline could produce.
 To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub.
@@ -264,13 +264,13 @@ Indeed, the cosine similarity computed over OpenAI's CLIP representations of eac
 
 \begin{figure}
     \includegraphics[width=1.0\textwidth]{figures/matrix_tall2.png}
-    \caption{Sample noisy patches from ShabbyPages.}
+    \caption{Sample noisy patches from \emph{ShabbyPages}.}
     \label{fig:matrix_tall2}
 \end{figure}
 
 \subsubsection{Processing \emph{Augraphy} Pipelines.}
 Execution time is dependent on which augmentations are executed at runtime; a long \emph{Augraphy} pipeline can take several seconds to process large images.
-The library is under active development with performance enhancements underway, but the time cost to generate large datasets sequentially is prohibitive when dealing with thousands of files, so we use a multi-process pooling technique to distribute the workload across many processor execution threads.
+The library is under active development with performance enhancements underway, but generating large datasets sequentially can be unnecessarily time consuming when dealing with thousands of files, so we use a multi-process pooling technique to distribute the workload across many processor execution threads.
 For each process, a new pipeline with new probability coefficients was generated, representing a nontrivially-different sequence of document operations.
 Each of the 6202 base images was passed through a unique pipeline, with the output saved to a separate directory.
 \emph{Augraphy}'s API design made it very easy to write the code to accomplish this; the entire \emph{ShabbyPages} generation script is fewer than 30 lines long including imports, with the most critical piece represented below:
@@ -289,16 +289,16 @@ Each of the 6202 base images was passed through a unique pipeline, with the outp
 Processing all 6202 images took less than half an hour on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS. In testing, we rendered several tens of thousands of such images, with the cumulative computation time still less than one day due to \emph{Augraphy}'s efficiency.
 
 \subsection{\emph{ShabbyReal}}
-In keeping with the spirit of \emph{NoisyOffice}, our original inspiration, and to provide out-of-distribution test data for ours and other projects, we developed a separate but related dataset which we call \emph{ShabbyReal}. To build this, we isolated reproduction steps for several physical operations, designed real-world augmentation pipelines with these, and then engaged a team of crowdworkers to use these instructions to produce several copies of printed born-digital documents with real noise.
+In keeping with the spirit of \emph{NoisyOffice}, our original inspiration, and to provide out-of-distribution test data for ours and other projects, we developed a separate but related dataset which we call \emph{ShabbyReal} that contains 200 real-world clean/dirty document image pairs. To build this, we isolated reproduction steps for several physical operations, designed real-world augmentation pipelines with these, and then engaged a team of crowdworkers to use these instructions to produce several copies of printed born-digital documents with real noise.
 
-Five individuals were recruited for this task, which involved printing 40 pages of documents and manually applying various effects such as folds, wrinkles, smudges, highlighters, pencils, crayons, splatters of ink or other liquids, printing, scanning, faxing and other creative and reasonable treatments determined by these workers.
-The process continued over a period of two weeks, incurring a cost of approximately \$1,000 USD.
+Five individuals were recruited for this task, which involved printing 40 pages of documents and manually applying various effects such as folds, wrinkles, smudges, highlighters, pencils, crayons, splatters of ink or other liquids, printing, scanning, faxing and other creative and reasonable treatments determined by these workers.  Post processing was also required to align scanned dirty images to their original groundtruths to make them suitable for denoising or binarization tasks, effectively doubling the product cost of the dataset. 
+The process continued over a period of two weeks, incurring a cost of approximately \$2,000 USD.
 While there are plenty of opportunities to streamline the operation, scaling this process is expensive in terms of both time and money, and may have unpredictable results.
 
 Several challenges arose in the construction of this dataset.
 Old fax machines, faulty commercial printers, and other hardware suitable for inducing the intended effects were difficult to source, and frequently non-functional when they could be found.
 Environmental concerns like the volume of paper and ink used, and the energy expenditure both in electricity and human terms, also factored into our decision to pursue synthetic augmentations for \emph{ShabbyPages}.
-Manually producing a database of noisy documents is a time-consuming and repetitive task; creating just 100 real-world documents with real noise features required the labor of several people.
+Manually producing a database of noisy documents is a time-consuming and repetitive task; creating just 200 real-world documents with real noise features required the labor of several people.
 Nevertheless, despite the limited size of the resulting dataset, the scarcity of real-world datasets with ground truth images makes the \emph{ShabbyReal} corpus extremely valuable; its inclusion in \emph{ShabbyPages} even moreso.
 This type of dataset is critical for benchmark comparison with synthetically-augmented document images, and for other tasks such as denoising and binarizing: we use \emph{ShabbyReal} later for a human-perception evaluation of denoising performance.
 
@@ -312,7 +312,7 @@ This type of dataset is critical for benchmark comparison with synthetically-aug
 \section{Experimentation with the \emph{ShabbyPages} Set}
 Denoising and binarization are two important techniques for the removal of unwanted data from images.
 Both approaches can be achieved by supervised learning of relationships between features of the input and output data.
-In this section, we train two NAFNet \cite{ref_nafnet} instances as denoisers on both the \emph{NoisyOffice} and the \emph{ShabbyPages} datasets. We evaluate these models' predictions in a cross-validation test on both datasets, both by visual inspection and by metric computation.
+In this section, we train two NAFNet \cite{ref_nafnet} instances as denoisers on both the \mbox{\emph{NoisyOffice}} and the \mbox{\emph{ShabbyPages}} datasets. We evaluate these models' predictions in a cross-validation test on both datasets, both by visual inspection and by metric computation.
 We then perform a similar experiment where the same NAFNets are trained to not only remove noise from the test images, but also to classify the foreground and backgorund pixels, predicting a binarized clean document.
 The model was ``off-the-shelf''; besides rigging up the training inputs and choosing a reasonable training epoch limit, we made no significant alterations to the provided hyperparameters.
 
@@ -333,8 +333,8 @@ The results of the denoising cross-validation experiment are presented in the ta
     \toprule
     \textbf{Training Set~~} & \textbf{Test Set} & \textbf{Model} & \textbf{SSIM$\uparrow$~}\\
         \midrule
-        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & NAFNet & \textbf{0.96}\\
-        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & NAFNet & 0.83\\
+        \textsf{\emph{ShabbyPages}} & \textsf{\emph{NoisyOffice-real}} & NAFNet & \textbf{0.96}\\
+        \textsf{\emph{NoisyOffice-sim}} & \textsf{\emph{ShabbyPages}} & NAFNet & 0.83\\
         \bottomrule
     \end{tabular}}
 \end{table}
@@ -356,11 +356,11 @@ In this section, we discuss results obtained by training a NAFNet denoiser to bo
 We first performed an ensemble binarization preprocessing step on the clean groundtruth images.
 For each image, we computed the Niblack, Sauvola, and Otsu thresholds, using these to binarize three copies of the input. The average over the resulting matrices was taken elementwise, producing the final binarized groundtruth.
 
-One instance of the model was trained on the full SimulatedNoisyOffice corpus, while the other was trained on a 1050-image subset of \emph{ShabbyPages}, cropped to a single random 500x500 patch. In both cases, the prediction target was the relevant ensemble-binarized groundtruths, and each instance trained for 100 epochs.
-As a test, these models were used to denoise and binarize both the full NoisyOfficeReal dataset and a 450-image testing subset taken from \emph{ShabbyPages} which does not overlap the training subset.
+One instance of the model was trained on the full \emph{SimulatedNoisyOffice} corpus, while the other was trained on a 1050-image subset of \emph{ShabbyPages}, cropped to a single random 500x500 patch. In both cases, the prediction target was the relevant ensemble-binarized groundtruths, and each instance trained for 100 epochs.
+As a test, these models were used to denoise and binarize both the full \emph{NoisyOfficeReal} dataset and a 450-image testing subset taken from \emph{ShabbyPages} which does not overlap the training subset.
 
 Multiple common image processing metrics were applied to the predictions made by each model, comparing these to the preprocessed groundtruths.
-In addition to the structural similarity metric from the denoising task, we add the peak signal to noise ratio (PSNR) and the root mean squared error (RMSE). Both of these metrics are more useful for determining the differences between binary images: together, they give some idea of the degree to which noise artifacts remain in the image after denoizing and binarization affect the visual signal, and how many such artifacts exist.
+In addition to the structural similarity metric from the denoising task, we add the peak signal to noise ratio (PSNR) and the root mean squared error (RMSE). Both of these metrics are more useful for determining the differences between binary images: together, they give some idea of the degree to which noise artifacts remain in the image after denoising and binarization affect the visual signal, and how many such artifacts exist.
 The averages of each metric over all predictions was taken, with the results presented in Table~\ref{tab:binarization_results}.
 
 \begin{table}[]
@@ -371,8 +371,8 @@ The averages of each metric over all predictions was taken, with the results pre
     \toprule
     \textbf{Training Set~~} & \textbf{Test Set} & \textbf{Model} & \textbf{SSIM$\uparrow$~} & \textbf{PSNR$\uparrow$~} & \textbf{RMSE$\downarrow$~}\\
         \midrule
-        \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & NAFNet & \textbf{0.947} & \textbf{38.098} & \textbf{3.205}\\
-        \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & NAFNet & 0.811 & 34.562 & 5.384\\
+        \textsf{\emph{ShabbyPages}} & \textsf{\emph{NoisyOffice-real}} & NAFNet & \textbf{0.947} & \textbf{38.098} & \textbf{3.205}\\
+        \textsf{\emph{NoisyOffice-sim}} & \textsf{\emph{ShabbyPages}} & NAFNet & 0.811 & 34.562 & 5.384\\
         \bottomrule
     \end{tabular}}
     \label{tab:binarization_results}
