@@ -151,7 +151,7 @@ Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tob
 
 \begin{table}[]
     \centering
-    \caption{Summary of datasets for document denoising and binarization tasks.}
+    \caption{Summary of datasets for document binarization (above line) and document denoising (below line) tasks.}
     \label{tab:datasets}
     \begin{tabular}{lcllllllll}
         \textbf{Dataset} &
@@ -159,30 +159,31 @@ Other popular document image datasets --- like RVL-CDIP \cite{ref_RVL-CDIP}, Tob
             & \rot{80}{\textbf{Synthetic Noise}}
             & \rot{80}{\textbf{Ground-Truths}}
             & \rot{80}{\textbf{Diversity}}
-            & \rot{80}{\textbf{Font size}}
-            & \rot{80}{\textbf{Paper styles}}
+            & \rot{80}{\textbf{Mult. font sizes}}
+            & \rot{80}{\textbf{Mult. paper styles}}
             & \rot{80}{\textbf{Multilingual}}
             & \rot{80}{\textbf{Contains graphics}}
             & \rot{80}{\textbf{Reproducible}}\\
             \midrule
-         \emph{ShabbyPages} (ours)~ & 6,202~ & \cmark & \cmark & 0.488~ & multi~ & multi~ & \cmark & \cmark & \cmark \\
-         \emph{NoisyOffice} \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & 16pt & 1 & \xmark & \xmark & \xmark \\
-         DocCreator \cite{ref_DocCreator} & & \cmark & \xmark & & & & & &\cmark\\
-         DDI-100 \cite{ddi-100-2019} & & \cmark & \cmark & & & & & & \xmark\\
-         DIBCO-9 \cite{dibco-09} & & & & & & & & & n/a \\
-         DIBCO-10 \cite{dibco-10} & 10 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
-         DIBCO-11 \cite{dibco-11} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
-         DIBCO-12 \cite{dibco-12} & 14 & \xmark & \cmark & & multi & multi & \xmark & \xmark & n/a \\
-         DIBCO-13 \cite{dibco-13} & 16 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-14 \cite{dibco-14} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-16 \cite{dibco-16} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         DIBCO-17 \cite{dibco-17} & 20 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a \\
-         H-DIBCO-18 \cite{dibco-18} & 10 & \xmark & \cmark & & multi & multi & \cmark & \xmark & n/a\\
-         DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & n/a\\
-         Bickley Diary \cite{bickley-diary} & & & & n/a & & & & & n/a\\
-         PHIBD & & & & & & & & & n/a\\
-         TQBC & & & & & & & & & n/a\\
+         DIBCO-9 \cite{dibco-09} & 10 & \xmark & \cmark &  & \cmark & \cmark & \cmark & \xmark & n/a \\
+         DIBCO-10 \cite{dibco-10} & 10 & \xmark & \cmark & & \cmark & \cmark & \xmark & \xmark & n/a \\
+         DIBCO-11 \cite{dibco-11} & 16 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a\\
+         DIBCO-12 \cite{dibco-12} & 14 & \xmark & \cmark & & \cmark & \cmark & \xmark & \xmark & n/a \\
+         DIBCO-13 \cite{dibco-13} & 16 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-14 \cite{dibco-14} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-16 \cite{dibco-16} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         DIBCO-17 \cite{dibco-17} & 20 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a \\
+         H-DIBCO-18 \cite{dibco-18} & 10 & \xmark & \cmark & & \cmark & \cmark & \cmark & \xmark & n/a\\
+         %DIBCO-19 \cite{dibco-19} & & \xmark & & & & & & & n/a\\ % SL: I can't find this dataset online
+         Bickley Diary \cite{bickley-diary} & 7 & \xmark & \cmark &  & \xmark & \xmark & \xmark & \xmark & n/a\\
+         PHIBD \cite{nafchi-2013-icdar} & 15 & \xmark & \cmark &  & \cmark & \cmark & \xmark & \xmark & n/a\\
+         %TQBC & & & & & & & & & n/a\\ % SL: I can't find this dataset online
+         \midrule
+         NoisyOffice \cite{ref_NoisyOffice} & 72  & \cmark & \cmark & 0.317 & \cmark & \xmark & \xmark & \xmark & \xmark \\
+         DocCreator \cite{ref_DocCreator} & 6,059 & \cmark & \cmark & & \cmark & \cmark & \cmark & \xmark &\cmark\\
          %LS-HDIB \cite{ls-hdib-2021} & & \cmark & & & & & & & \\
+         DDI-100 \cite{ddi-100-2019} & 100k+~ & \cmark & \cmark & & & & & & \xmark\\
+         ShabbyPages (ours)~ & 6,202~ & \cmark & \cmark & 0.488~ & \cmark~ & \cmark~ & \cmark & \cmark & \cmark \\
          \bottomrule
     \end{tabular}
 \end{table}
@@ -323,7 +324,7 @@ The averages of each metric over all predictions was taken, with the results pre
     \scalebox{0.9}{
     \begin{tabular}{lllll}
     \toprule
-    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{PSNR$\downarrow$~} \textbf{RMSE$\downarrow$~}\\
+    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{PSNR$\uparrow$~} \textbf{RMSE$\downarrow$~}\\
         \midrule
         \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & \textbf{0.947} & \textbf{38.098} & \textbf{3.205}\\
         \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.811 & 34.562 & 5.384\\
