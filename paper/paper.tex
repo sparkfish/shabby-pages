@@ -269,8 +269,8 @@ Each of the 6202 base images was passed through a unique pipeline, with the outp
 
 Processing all 6202 images took less than half an hour on the 64 cores of a Graviton3 c7g.16xlarge instance on AWS. In testing, we rendered several tens of thousands of such images, with the cumulative computation time still less than one day due to \emph{Augraphy}'s efficiency.
 
-\subsection{\emph{ShabbyPages}}
-In keeping with the spirit of \emph{NoisyOffice}, our original inspiration, and to provide out-of-distribution test data for ours and other projects, we developed a separate but related dataset which we call \emph{ShabbyPages}. To build this, we isolated reproduction steps for several physical operations, designed real-world augmentation pipelines with these, and then engaged a team of workers to use these instructions to produce several copies of printed born-digital documents with real noise.
+\subsection{\emph{ShabbyReal}}
+In keeping with the spirit of \emph{NoisyOffice}, our original inspiration, and to provide out-of-distribution test data for ours and other projects, we developed a separate but related dataset which we call \emph{ShabbyReal}. To build this, we isolated reproduction steps for several physical operations, designed real-world augmentation pipelines with these, and then engaged a team of workers to use these instructions to produce several copies of printed born-digital documents with real noise.
 
 Five individuals were recruited for this task, which involved printing 40 pages of documents and manually applying various effects such as folds, wrinkles, smudges, highlighters, pencils, crayons, splatters of ink or other liquids, printing, scanning, faxing and other creative and reasonable treatments determined by these workers.
 The process continued over a period of two weeks, incurring a cost of approximately \$1,000 USD.
@@ -280,8 +280,15 @@ Several challenges arose in the construction of this dataset.
 Old fax machines, faulty commercial printers, and other hardware suitable for inducing the intended effects were difficult to source, and frequently non-functional when they could be found.
 Environmental concerns like the volume of paper and ink used, and the energy expenditure both in electricity and human terms, also factored into our decision to pursue synthetic augmentations for \emph{ShabbyPages}.
 Manually producing a database of noisy documents is a time-consuming and repetitive task; creating just 100 real-world documents with real noise features required the labor of several people.
-Nevertheless, despite the limited size of the resulting dataset, the scarcity of real-world datasets with ground truth images makes the \emph{ShabbyPages} corpus extremely valuable.
-This type of dataset is critical for benchmark comparison with synthetically-augmented document images, and for other tasks such as denoising and binarizing: we use \emph{ShabbyPages} later for a human-perception evaluation of denoising performance.
+Nevertheless, despite the limited size of the resulting dataset, the scarcity of real-world datasets with ground truth images makes the \emph{ShabbyReal} corpus extremely valuable; its inclusion in \emph{ShabbyPages} even moreso.
+This type of dataset is critical for benchmark comparison with synthetically-augmented document images, and for other tasks such as denoising and binarizing: we use \emph{ShabbyReal} later for a human-perception evaluation of denoising performance.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth, frame]{figures/shabbyreal_figure1.png}
+\caption{Example \emph{ShabbyReal} images and their clean counterparts.}
+\label{fig:shabbyreal_sample}
+\end{figure}
 
 \section{Experimentation with the \emph{ShabbyPages} Set}
 Denoising and binarization are two important techniques for the removal of unwanted data from images.
@@ -315,12 +322,12 @@ The results of the denoising cross-validation experiment are presented in the ta
 
 As can be seen from Table~\ref{tab:denoising_results}, the \emph{ShabbyPages}-trained denoiser generalized to \emph{NoisyOffice} far better than the \emph{NoisyOffice}-trained model generalized to \emph{ShabbyPages}. This result is consistent with the much higher diversity present within the \emph{ShabbyPages} set, relative to features found in the \emph{NoisyOffice} database.
 
-Machine learning is ultimately about getting computers to complete tasks which normally require human labor; as further validation for the efficacy of \emph{ShabbyPages} in training performant denoisers, we also used our \emph{ShabbyPages}-trained NAFNet model to denoise the \emph{ShabbyPages} set, and present some examples of its performance below.
+Machine learning is ultimately about getting computers to complete tasks which normally require human labor; as further validation for the efficacy of \emph{ShabbyPages} in training performant denoisers, we also used our \emph{ShabbyPages}-trained NAFNet model to denoise the \emph{ShabbyReal} set, and present some examples of its performance below.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.98\columnwidth, frame]{figures/shabbyreal_denoising.png}
-\caption{Sample \emph{ShabbyPages} images and their Shabby\_NAFNet-denoised versions.}
+\caption{Sample \emph{ShabbyReal} images and their Shabby\_NAFNet-denoised versions.}
 \label{fig:shabbyreal_denoising}
 \end{figure}
 
