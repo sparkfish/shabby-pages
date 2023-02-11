@@ -228,7 +228,7 @@ Because the majority of these documents were created with the standard US Letter
 \end{lstlisting}
 
 \subsection{Developing the Pipeline}
-The \emph{Augraphy} library presents an easy-to-use API for constructing feature pipelines, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
+The \emph{Augraphy} library presents an easy-to-use API for constructing data augmentation pipelines for document images, which has been designed for interoperability with other augmentation tools, and within the broader data ecosystem.
 While \emph{Augraphy}'s default pipeline has what we believe to be quite realistic defaults, we wanted a broader range of features from this dataset than those the default pipeline could produce.
 To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub.
 We created an automated daily build in GitHub Actions to render a random selection of ground-truth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the augmentation parameters, until we were consistently satisfied with the results.
@@ -301,7 +301,7 @@ The results of the denoising cross-validation experiment are presented in the ta
 
 \begin{table}[]
     \centering
-    \caption{Document image denoising cross-test performance of NAFNet models trained on \emph{ShabbyPages} and \emph{NoisyOffice}.}
+    \caption{Document image denoising cross-test performance of NAFNet models trained on \emph{ShabbyPages} and \emph{NoisyOffice}.} \label{tab:denoising_results}
     \scalebox{0.9}{
     \begin{tabular}{lll}
     \toprule
@@ -311,10 +311,9 @@ The results of the denoising cross-validation experiment are presented in the ta
         \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.83\\
         \bottomrule
     \end{tabular}}
-    \label{tab:denoising_results}
 \end{table}
 
-As can be seen from Table \cite{tab:denoising_results}, the \emph{ShabbyPages}-trained denoiser generalized to \emph{NoisyOffice} far better than the \emph{NoisyOffice}-trained model generalized to \emph{ShabbyPages}. This result is consistent with the much higher diversity present within the \emph{ShabbyPages} set, relative to features found in the \emph{NoisyOffice} database.
+As can be seen from Table~\ref{tab:denoising_results}, the \emph{ShabbyPages}-trained denoiser generalized to \emph{NoisyOffice} far better than the \emph{NoisyOffice}-trained model generalized to \emph{ShabbyPages}. This result is consistent with the much higher diversity present within the \emph{ShabbyPages} set, relative to features found in the \emph{NoisyOffice} database.
 
 Machine learning is ultimately about getting computers to complete tasks which normally require human labor; as further validation for the efficacy of \emph{ShabbyPages} in training performant denoisers, we also used our \emph{ShabbyPages}-trained NAFNet model to denoise the \emph{ShabbyPages} set, and present some examples of its performance below.
 
@@ -336,7 +335,7 @@ As a test, these models were used to denoise and binarize both the full NoisyOff
 
 Multiple common image processing metrics were applied to the predictions made by each model, comparing these to the preprocessed groundtruths.
 In addition to the structural similarity metric from the denoising task, we add the peak signal to noise ratio (PSNR) and the root mean squared error (RMSE). Both of these metrics are more useful for determining the differences between binary images: together, they give some idea of the degree to which noise artifacts remain in the image after denoizing and binarization affect the visual signal, and how many such artifacts exist.
-The averages of each metric over all predictions was taken, with the results presented in Table \cite{tab:binarization_results}.
+The averages of each metric over all predictions was taken, with the results presented in Table~\ref{tab:binarization_results}.
 
 \begin{table}[]
     \centering
@@ -344,7 +343,7 @@ The averages of each metric over all predictions was taken, with the results pre
     \scalebox{0.9}{
     \begin{tabular}{lllll}
     \toprule
-    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{PSNR$\uparrow$~} \textbf{RMSE$\downarrow$~}\\
+    \textbf{Training Set~~} & \textbf{Test Set} & \textbf{SSIM$\uparrow$~} & \textbf{PSNR$\uparrow$~} & \textbf{RMSE$\downarrow$~}\\
         \midrule
         \textsf{ShabbyPages} & \textsf{NoisyOffice-real} & \textbf{0.947} & \textbf{38.098} & \textbf{3.205}\\
         \textsf{NoisyOffice-sim} & \textsf{ShabbyPages} & 0.811 & 34.562 & 5.384\\
