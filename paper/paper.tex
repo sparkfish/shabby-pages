@@ -21,7 +21,7 @@
 %
 \begin{document}
 
-\title{ShabbyPages: A Recipe for Repeatable, Synthetic, Modern Document Images}
+\title{ShabbyPages: A Reproducible Document Denoising and Binarization Dataset}
 %\author{Alexander Groleau\inst{1,2} \and
 %  Kok Wei Chee\inst{1} \and
 %  Stefan Larson\inst{3} \and
@@ -43,11 +43,10 @@
 \maketitle
 
 \begin{abstract}
-The \emph{ShabbyPages} document image dataset is produced using the \emph{Augraphy} document image augmentation tool.
-The development of the computation pipeline used to generate the corpus is discussed, and the results presented.
-The final corpus contains over 6000 ``born-digital'' ground truth document images, sourced on the Web, with synthetically-noised counterparts (``shabby pages'') that appear to have been printed and faxed, photocopied, or otherwise altered through physical processes.
-The release of this dataset and the recipe for its production attempts to address a growing need for labeled training document images for supervised learning tasks.
-The results of initial experiments are discussed, in which the corpus is used to train performant convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new \emph{ShabbyPages} benchmark.
+Document denoising and binarization are fundamental problems in the document processing space, but current datasets are often too small and lack sufficient complexity to effectively train and benchmark modern data-driven machine learning models.
+To fill this gap, we introduce \emph{ShabbyPages}, a new document image dataset designed for training and benchmarking document denoisers and binarizers.
+\emph{ShabbyPages} contains over 6,000 clean ``born digital" images with synthetically-noised counterparts (``shabby pages") that were augmented using the \emph{Augraphy} document augmentation tool to appear as if they have been printed and faxed, photocopied, or otherwise altered through physical processes.
+In this paper, we disucss the creation process of \emph{ShabbyPages} and demonstrate the utility of \emph{ShabbyPages} by training convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new \emph{ShabbyPages} benchmark.
 \end{abstract}
 
 \section{Introduction}
