@@ -45,7 +45,7 @@
 \begin{abstract}
 The \emph{ShabbyPages} document image dataset is produced using the \emph{Augraphy} document image augmentation tool.
 The development of the computation pipeline used to generate the corpus is discussed, and the results presented.
-The final corpus contains over 6000 "born-digital" ground truth document images, sourced on the Web, with synthetically-noised counterparts (``shabby pages'') that appear to have been printed and faxed, photocopied, or otherwise altered through physical processes.
+The final corpus contains over 6000 ``born-digital'' ground truth document images, sourced on the Web, with synthetically-noised counterparts (``shabby pages'') that appear to have been printed and faxed, photocopied, or otherwise altered through physical processes.
 The release of this dataset and the recipe for its production attempts to address a growing need for labeled training document images for supervised learning tasks.
 The results of initial experiments are discussed, in which the corpus is used to train performant convolutional denoisers which remove real noise features with a high degree of human-perceptible fidelity, establishing baseline performance for a new \emph{ShabbyPages} benchmark.
 \end{abstract}
@@ -57,9 +57,9 @@ Recent work in supervised machine learning has yielded promising results at the 
 
 Prior work has introduced denoising and binarization datasets, but these are often small in scale, limited in the types of noise features present, not diverse enough to train robust models, and impossible to recreate.
 \begin{itemize}
-\item The \emph{DIBCO} datasets — widely recognized as critical data for document denoising and binarization — are far too small for large-scale training; each \emph{DIBCO} dataset ranges between 10-20 images total.
-\item The \emph{NoisyOffice} denoising dataset \cite{ref_NoisyOfficeDatabase} is also quite small, having \emph{72} training samples, and contains only a few types of noise — primarily artificial wrinkles and stains, with little variation.
-\item The \emph{DDI-100} corpus \cite{ddi-100-2019} is larger in scale than \emph{NoisyOffice} and the \emph{DIBCO} datasets, but is again limited in the degree of feature diversity \cite{detection-masking-2022}.
+\item \emph{DIBCO} datasets, which are widely recognized as critical data for document denoising and binarization, are far too small for large-scale training since each \emph{DIBCO} dataset ranges between 10-20 images total.
+\item \emph{NoisyOffice} \cite{ref_NoisyOfficeDatabase} is a denoising dataset that is also quite small, having \emph{72} training samples, and contains only a few types of noise — primarily artificial wrinkles and stains, with little variation.
+\item \emph{DDI-100} \cite{ddi-100-2019} is larger corpus in scale than \emph{NoisyOffice} and the \emph{DIBCO} datasets, but is again limited in the degree of feature diversity \cite{detection-masking-2022}.
 \end{itemize}
 
 In this paper, we introduce a new dataset designed primarily for the document denoising task, which addresses each of the concerns listed above.
