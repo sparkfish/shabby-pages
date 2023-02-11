@@ -89,6 +89,7 @@ Prior work has introduced denoising and binarization datasets, but these are oft
 
 In this paper, we introduce a new dataset designed primarily for the document denoising task, which addresses each of the concerns listed above.
 This new dataset, \emph{ShabbyPages}, is large-scale, having \emph{6202} synthetic training images and \emph{200} real testing images.
+The synthetic images were generated with the \emph{Augraphy}\footnote{\url{https://github.com/sparkfish/augraphy}} data augmentation tool, which is tailored specifically to introducing realistic noise to document images.
 \emph{ShabbyPages} is more diverse than alternatives like \emph{NoisyOffice}, as it contains documents from various language groups and contains documents with graphical elements like tables and figures.
 In the next sections, we provide motivation and context for \emph{ShabbyPages}' creation, compare it at length to other important datasets in the same space, describe the corpus construction process, and finally demonstrate its utility by benchmarking document denoising models trained on the dataset.
 
