@@ -137,7 +137,7 @@ To add noise, the creators produced four different types of background noise (fo
 Another dataset, \emph{DDI-100} \cite{ddi-100-2019}, was constructed in a manner similar to \emph{NoisyOffice}.
 \emph{DDI-100} is far larger than \emph{NoisyOffice}, but has been criticized for not containing enough diversity or noise to be an effective benchmark \cite{detection-masking-2022}.
 Additionally, the pipeline code for creating the noisy versions of both \emph{NoisyOffice} and \emph{DDI-100} is not available, and thus these datasets cannot be reproduced.
-Moreover, while DDI-100 has noise-free document images with noisy counterparts, the noisy images also exhibit geometric transformations --- as seen in Figure~\ref{fig:ddi-100-samples} --- making it unsuitable for benchmarking document binarizers or denoisers using standard metrics like SSIM, PSNR, or MSE, which require clean-noisy correspondences to be free of geometric transformations.
+Moreover, while \emph{DDI-100} has noise-free document images with noisy counterparts, the noisy images also exhibit geometric transformations --- as seen in Figure~\ref{fig:ddi-100-samples} --- making it unsuitable for benchmarking document binarizers or denoisers using standard metrics like SSIM, PSNR, or MSE, which require clean-noisy correspondences to be free of geometric transformations.
 
 \begin{figure}
     \centering\scalebox{0.4}{
