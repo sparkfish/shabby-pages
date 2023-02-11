@@ -94,8 +94,8 @@ In the next sections, we provide motivation and context for \emph{ShabbyPages}' 
 
 \begin{figure}
 \centering
-\includegraphics[width=0.98\columnwidth, frame]{figures/quad.png}
-\caption{Sample patches from \emph{ShabbyPages}.} \label{fig1}
+\includegraphics[width=0.98\columnwidth]{figures/what_causes_corruption.png}
+\caption{Sample clean and corresponding dirty patch from \emph{ShabbyPages}.} \label{fig1}
 \end{figure}
 
 \section{Related Datasets}
@@ -252,9 +252,9 @@ While \emph{Augraphy}'s default pipeline has what we believe to be quite realist
 To address this, we broke all of the parameters for every augmentation constructor out into separate variables, tweaking these and committing the new pipeline to GitHub.
 We created an automated daily build in GitHub Actions to render a random selection of groundtruth images with the updated pipeline, then our team met frequently to discuss the output and make adjustments to the augmentation parameters, until we were consistently satisfied with the results.
 
-The pipeline uses 23 of the augmentations from \emph{Augraphy}.  Augmentations such as \texttt{"BookBinding"} and \texttt{"Folding"} were excluded since these spatial transformations alter the document image geometry by shifting pixel placement from their original position.  Such transforms would render images unsuitable for supervised training and analysis by many common metrics that rely on pixel-to-pixel comparisons against groundtruths.
+The pipeline uses 23 of the augmentations from \emph{Augraphy}.  Augmentations such as \texttt{BookBinding} and \texttt{Folding} were excluded since these spatial transformations alter the document image geometry by shifting pixel placement from their original position.  Such transforms would render images unsuitable for supervised training and analysis by many common metrics that rely on pixel-to-pixel comparisons against groundtruths.
 
-\texttt{"PaperFactory"} was used with 300 textures, dramatically increasing the possible variations in the final dataset.
+\texttt{PaperFactory} was used with 300 textures, dramatically increasing the possible variations in the final dataset.
 
 \emph{Augraphy} by design includes a high degree of randomness: most augmentations make several calls to a pseudorandom number generator, on which several transforms depend.
 All or none of these augmentations may have applied to each input image, and only one pipeline run was completed per image.
@@ -345,8 +345,8 @@ Machine learning is ultimately about getting computers to complete tasks which n
 
 \begin{figure}
 \centering
-\includegraphics[width=0.98\columnwidth, frame]{figures/shabbyreal_denoising.png}
-\caption{Sample \emph{ShabbyReal} images and their Shabby\_NAFNet-denoised versions.}
+\includegraphics[width=0.98\columnwidth]{figures/quad.png}
+\caption{Sample patches from \emph{ShabbyPages} dataset.}
 \label{fig:shabbyreal_denoising}
 \end{figure}
 
