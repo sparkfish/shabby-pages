@@ -5,7 +5,7 @@ import os
 import zipfile
 from multiprocessing import Pool, cpu_count
 from functools import partial
-from daily_pipeline import get_pipeline
+from shabbypipeline import get_pipeline
 from remove_blank_pages import report_white_percentage
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 import gdown
