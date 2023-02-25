@@ -6,7 +6,7 @@
 
 ShabbyPages is a corpus of born-digital document images with both ground truth and distorted versions appropriate for supervised learning use in training models to reverse distortions and recover the original clean documents. This state-of-the-art dataset with synthetically-generated real-world representations can be used to improve document layout detection, text extraction and OCR processes that depend on denoising and binarization preprocessing models.
 
-Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using **Augraphy** to produce a synthetic yet realistic dataset based on ground truth documents.
+Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using the latest version of **Augraphy** (8.1.0) to produce a synthetic yet realistic dataset based on ground truth documents.
 
 This repository contains the following scripts for producing the dataset:
 
@@ -24,15 +24,14 @@ This repository contains the following scripts for producing the dataset:
 
 An **Augraphy** pipeline was applied to ground truth documents to generate _printed, scanned, copied_ and _faxed_ versions of documents encountered in the real world.  In order to preserve a pixel-level mapping between ground truth and distorted versions of documents, geometric transformations that skew or warp document images were avoided.
 
-```
-   .
-   .
-   .
-pipeline details or visual
-   .
-   .
-   .
-```
+<p align="center">
+    <img src="images/Shabby_Pipeline_Visualization.png?raw=true" title="Shabby Pipeline Visualization">
+</p>
+
+
+# Shabby Pages of the Day
+Shabby pipeline is used with the latest version of Augraphy to generate daily shabby image on Twitter. The link to the Twitter page:
+https://twitter.com/AugraphyProject
 
 
 # Credits / Prior Art
