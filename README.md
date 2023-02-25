@@ -18,7 +18,7 @@ This repository contains the following scripts for producing the dataset:
 6. `daily_build.py`, which produces a small test set every day.
 7. `tweet.py`, which tweets an example image from the daily build.
 8. `azure_file_service.py`, which manages connections to Azure Files.
-9. `example_shabby_pipeline_generation.ipynb`, which is an example to generate shabby images from aupgrahy and shabby pipeline using pdf input. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA?usp=sharing)
+9. `example_shabby_pipeline_generation.ipynb`, which is an example to generate shabby images from augrahy and shabby pipeline using single input image. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA?usp=sharing)
 
 
 # Distortion Pipeline
