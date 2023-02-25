@@ -8,7 +8,7 @@ In [our paper](https://github.com/sparkfish/shabby-pages/blob/dev/paper/paper.pd
 
 # What is _ShabbyPages_
 
-To see the _ShabbyPages_ in action, check out this notebook ([![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA?usp=sharing)) that uses the pipeline built with [Augraphy](https://github.com/sparkfish/augraphy).
+To see the _ShabbyPages_ in action, [check out this notebook](https://github.com/sparkfish/shabby-pages/blob/dev/example_shabby_pipeline_generation.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA?usp=sharing) that uses the pipeline built with [Augraphy](https://github.com/sparkfish/augraphy).
 
 <p align="center">
     <img src="images/Article_Hero_Picture_Shadow.png?raw=true" title="Shabby Pages Logo">
