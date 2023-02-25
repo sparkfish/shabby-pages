@@ -18,7 +18,8 @@ This repository contains the following scripts for producing the dataset:
 6. `daily_build.py`, which produces a small test set every day.
 7. `tweet.py`, which tweets an example image from the daily build.
 8. `azure_file_service.py`, which manages connections to Azure Files.
-9. `example_shabby_pipeline_generation.ipynb`, which is an example to generate shabby images from aupgrahy and shabby pipeline using pdf input.
+9. `example_shabby_pipeline_generation.ipynb`, which is an example to generate shabby images from aupgrahy and shabby pipeline using pdf input. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA/view?usp=sharing)
+
 
 # Distortion Pipeline
 
@@ -32,6 +33,9 @@ An **Augraphy** pipeline was applied to ground truth documents to generate _prin
 # Shabby Pages of the Day
 Shabby pipeline is used with the latest version of Augraphy to generate daily shabby image on Twitter. The link to the Twitter page:
 https://twitter.com/AugraphyProject
+<p align="center">
+    <img src="images/Twitter_Example.png?raw=true" title="Shabby Pages of the Day">
+</p>
 
 
 # Credits / Prior Art
