@@ -10,13 +10,12 @@ In [our paper](https://github.com/sparkfish/shabby-pages/blob/dev/paper/paper.pd
 
 To see the _ShabbyPages_ in action, [check out this notebook](https://github.com/sparkfish/shabby-pages/blob/dev/example_shabby_pipeline_generation.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nvVIuD_G0M1fMVXDeYK2_q5-t6n-m4pA?usp=sharing) that uses the pipeline built with [Augraphy](https://github.com/sparkfish/augraphy).
 
-<p align="center">
-    <img src="images/Article_Hero_Picture_Shadow.png?raw=true" title="Shabby Pages Logo">
-</p>
-
 _ShabbyPages_ is a corpus of born-digital document images with both ground truth and distorted versions appropriate for supervised learning use in training models to reverse distortions and recover the original clean documents. This state-of-the-art dataset with synthetically-generated real-world representations can be used to improve document layout detection, text extraction and OCR processes that depend on denoising and binarization preprocessing models.
 
 Often, training data is not accompanied by clean ground truth sources, which leads to inaccurate training and severely-limited volumes of available training data.  This dataset was created using the latest version of **Augraphy** (8.1.0) to produce a synthetic yet realistic dataset based on ground truth documents.
+
+| ![ShabbyPages Logo](images/Article_Hero_Picture_Shadow.png?raw=true) |
+|-|
 
 This repository contains the following scripts for producing the dataset:
 
@@ -40,11 +39,11 @@ An **Augraphy** pipeline was applied to ground truth documents to generate _prin
 
 
 # _ShabbyPage-of-the-Day_
-The _ShabbyPages_ pipeline is used with the latest version of Augraphy each day to generate a _ShabbyPage-of-the-Day_ image posted on Twitter.  [Follow @AugraphyProject](https://twitter.com/AugraphyProject) to check out the each day's randomly generated shabby page:
+[Follow @AugraphyProject](https://twitter.com/AugraphyProject) to check out the each day's randomly generated shabby page.  The _ShabbyPages_ pipeline is used with the latest version of Augraphy each day to generate a _ShabbyPage-of-the-Day_ image posted on Twitter like the following:
+
 <p align="center">
     <img src="images/Twitter_Example.png?raw=true" title="Shabby Page of the Day">
 </p>
-
 
 # Credits / Prior Art
 Below are related datasets that offer either real-world scanned documents or a combination of ground-truth and distorted versions.
