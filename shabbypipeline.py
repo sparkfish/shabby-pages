@@ -166,6 +166,8 @@ def get_pipeline():
         random.randint(0, 255),
         random.randint(0, 255),
     )
+    # Markup.large_word_mode determines whether to draw markup on large words, else large word will be ignored.
+    markup_large_word_mode = random.choice([True, False])
     # Markup.single_word_mode determines whether to draw across multiple words
     markup_single_word_mode = random.choice([True, False])
     # Markup.repetitions determines the number of times the effect is drawn
@@ -388,6 +390,7 @@ def get_pipeline():
             markup_thickness_range=markup_thickness_range,
             markup_type=markup_type,
             markup_color=markup_color,
+            large_word_mode=markup_large_word_mode,
             single_word_mode=markup_single_word_mode,
             repetitions=markup_repetitions,
             p=0.5,
