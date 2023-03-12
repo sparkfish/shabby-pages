@@ -14,8 +14,8 @@ def get_pipeline():
 
     # Dithering.dither_type can be 'ordered' for ordered dithering or another string for floyd-steinberg dithering
     dithering_dither_type = random.choice(["ordered", "floyd-steinberg"])
-    # Dithering.order determines the dimensions of the threshold map
-    dithering_order = random.choice(range(3, 10))
+    # Dithering.order is a pair of ints determining the range of order number for ordered dithering
+    dithering_order = (2, 5)
     # dithering.p is the probability to run this augmentation
     dithering_p = (random.random() > 0.7) * 1
 
@@ -245,7 +245,9 @@ def get_pipeline():
     geometric_crop = []
     # Geometric.rotate_range is a pair determining the rotation angle sample range
     geometric_rotate_range = (0, 0)
-
+    # Geometric.randomize determines whether to randomize geometric transformation
+    geometric_randomize = 0
+    
     # Faxify.scale_range is a pair of ints determining the scaling magnitude
     faxify_scale_range = (0.3, 0.6)
     # Faxify.monochrome determines whether the image will get the halftone effect
@@ -492,6 +494,7 @@ def get_pipeline():
             flipud=geometric_flipud,
             crop=geometric_crop,
             rotate_range=geometric_rotate_range,
+            randomize = geometric_randomize,
             p=0.5,
         ),
         OneOf(
