@@ -2,6 +2,7 @@ azure-storage-blob
 opencv-python
 gdown
 pillow
+numba
 numpy
 requests
 scikit-image
