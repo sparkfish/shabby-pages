@@ -9,31 +9,43 @@ filename_upload = "cropped/shabby/" + filename
 filename_display = os.path.splitext(filename)[0]
 
 # Create tweet message
-tweet_filename = f"ShabbyPage-Of-The-Day using lastest build of Augraphy: {filename_display} "
-tweet = tweet_filename + "#ShabbyPages #Augraphy #ImageAugmentation #ComputerVision #OpenCV #DataAugmentation #MachineLearning #imgaug #albumentations #deeplearning #kaggle #ml #ai"
+tweet = f"ShabbyPage-Of-The-Day w/ lastest Augraphy build for training #denoisers: {filename_display[0:20]}... "
+tweet = tweet + "#ShabbyPages #Augraphy #ImageAugmentation #ComputerVision #OCR #TesseractOCR #OpenCV #DataAugmentation #binarization #doceng #MachineLearning #deeplearning"
+logging.info(f"Tweet (len={str(len(tweet))}): "+tweet)
 
 # Get secrets from environment
-consumer_key = os.environ.get("CONSUMER_KEY")
-consumer_secret = os.environ.get("CONSUMER_SECRET")
-access_token = os.environ.get("ACCESS_TOKEN")
-access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
+CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
+CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+ACCESS_TOKEN = os.environ.get("ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.environ.get("ACCESS_TOKEN_SECRET")
 
-# Authenticate API user
-auth = tweepy.OAuthHandler( consumer_key, consumer_secret )
-auth.set_access_token( access_token, access_token_secret )
-api = tweepy.API(auth)
-logging.info(f"Authenticated with Twitter API; response = [{api}]")
+# Twitter API v1.1 client - for posting image media (until V2 supports images)
+auth = tweepy.OAuthHandler( CONSUMER_KEY, CONSUMER_SECRET )
+auth.set_access_token( ACCESS_TOKEN, ACCESS_TOKEN_SECRET )
+api_v1 = tweepy.API(auth)
+logging.info(f"Authenticated via V1 Twitter API; response = [{api_v1}]")
+
+# Twitter API v2 client - for tweeting (cannot use v1.1 for tweeting with "Essential access" Developer account)
+api_V2 = tweepy.Client(
+    consumer_key = CONSUMER_KEY,
+    consumer_secret = CONSUMER_SECRET,
+    access_token = ACCESS_TOKEN,
+    access_token_secret = ACCESS_TOKEN_SECRET
+)
+user_info = api_V2.get_me()
+logger.info(f"Authenticated via V2 Twitter API; connected as user `{user_info.data.username}`")
 
 # Upload image
-media = api.media_upload(filename_upload)
+media = api_v1.media_upload(filename_upload)
 logging.info(f"Media uploaded to twitter; response = [{media}]")
 
-# Post tweet with image
+# Post tweet via V2 API w/ image's media id
 try:
-    post_result = api.update_status(status=tweet, media_ids=[media.media_id])
+    # post_result = api.update_status(status=tweet, media_ids=[media.media_id])
+    post_result = api_V2.create_tweet(text=tweet, media_ids=[media.media_id])
     logging.info(f"Tweet posted referencing media upload; response = [{post_result}] ")
-except Exception as e: 
+except Exception as e:
     print(e)
     print("Tweet is :"+tweet)
-    print("Length of tweet is "+str(len(tweet)))
-    
+    print("Length of tweet is "+str(len(tweet)))    
+    logging.error(e)
