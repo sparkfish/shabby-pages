@@ -175,16 +175,26 @@ def get_pipeline():
     # Markup.p is the probability to run this augmentation
     markup_p = (random.random() > 0.5) * 1
 
-    # PencilScribbles.size_range determines the size of scribbles to draw
-    pencilscribbles_size_range = (100, 700)
-    # PencilScribbles.count_range determines how many scribbles to draw
-    pencilscribbles_count_range = (1, 4)
-    # PencilScribbles.stroke_count_range determines how many strokes per scribble
-    pencilscribbles_stroke_count_range = (1, 1)
-    # PencilScribbles.thickness_range determines how thick strokes are
-    pencilscribbles_thickness_range = (2, 6)
-    # PencilScribbles.brightness_change is the brightness value of each stroke
-    pencilscribbles_brightness_change = random.randint(64, 224)
+    # PencilScribbles.scribbles_type determines the types of scribbles effect
+    pencilscribbles_scribbles_type = "random"
+    # PencilScribbles.scribbles_location determines the location of scribbles effect
+    pencilscribbles_scribbles_location = "random"
+    # PencilScribbles.scribbles_size_range determines the size of scribbles to draw
+    pencilscribbles_scribbles_size_range = (100, 700)
+    # PencilScribbles.scribbles_count_range determines how many scribbles to draw
+    pencilscribbles_scribbles_count_range = (1, 4)
+    # PencilScribbles.scribbles_thickness_range determines how thick scribbles are
+    pencilscribbles_scribbles_thickness_range = (2, 6)
+    # PencilScribbles.scribbles_brightness_change is the brightness value of each stroke
+    pencilscribbles_scribbles_brightness_change = [64, 128, 224]
+    # PencilScribbles.scribbles_text is the text value for text based scribbles.
+    pencilscribbles_scribbles_text = "random"  
+    # PencilScribbles.scribbles_text_font is the font types for text based scribbles.
+    pencilscribbles_scribbles_text_font = "random"
+    # PencilScribbles.scribbles_text_rotate_range is the rotation angle of text based scribbles.
+    pencilscribbles_scribbles_text_rotate_range = (0,360)
+    # PencilScribbles.scribbles_lines_stroke_count_range determines how many strokes per line scribble
+    pencilscribbles_scribbles_lines_stroke_count_range = (1, 1)
     # PencilScribbles.p is the probability to run this augmentation
     pencilscribbles_p = (random.random() > 0.5) * 1
 
@@ -455,11 +465,16 @@ def get_pipeline():
             p=0.5,
         ),
         PencilScribbles(
-            size_range=pencilscribbles_size_range,
-            count_range=pencilscribbles_count_range,
-            stroke_count_range=pencilscribbles_stroke_count_range,
-            thickness_range=pencilscribbles_thickness_range,
-            brightness_change=pencilscribbles_brightness_change,
+            scribbles_type=pencilscribbles_scribbles_type,
+            scribbles_location=pencilscribbles_scribbles_location,
+            scribbles_size_range=pencilscribbles_scribbles_size_range,
+            scribbles_count_range=pencilscribbles_scribbles_count_range,
+            scribbles_thickness_range=pencilscribbles_scribbles_thickness_range,
+            scribbles_brightness_change=pencilscribbles_scribbles_brightness_change,
+            scribbles_text=pencilscribbles_scribbles_text,
+            scribbles_text_font=pencilscribbles_scribbles_text_font,
+            scribbles_text_rotate_range=pencilscribbles_scribbles_text_rotate_range,
+            scribbles_lines_stroke_count_range=pencilscribbles_scribbles_lines_stroke_count_range,
             p=pencilscribbles_p,
         ),
         BindingsAndFasteners(
