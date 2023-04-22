@@ -175,28 +175,34 @@ def get_pipeline():
     # Markup.p is the probability to run this augmentation
     markup_p = (random.random() > 0.5) * 1
 
-    # PencilScribbles.scribbles_type determines the types of scribbles effect
-    pencilscribbles_scribbles_type = "random"
-    # PencilScribbles.scribbles_location determines the location of scribbles effect
-    pencilscribbles_scribbles_location = "random"
-    # PencilScribbles.scribbles_size_range determines the size of scribbles to draw
-    pencilscribbles_scribbles_size_range = (100, 700)
-    # PencilScribbles.scribbles_count_range determines how many scribbles to draw
-    pencilscribbles_scribbles_count_range = (1, 4)
-    # PencilScribbles.scribbles_thickness_range determines how thick scribbles are
-    pencilscribbles_scribbles_thickness_range = (2, 6)
-    # PencilScribbles.scribbles_brightness_change is the brightness value of each stroke
-    pencilscribbles_scribbles_brightness_change = [64, 128, 224]
-    # PencilScribbles.scribbles_text is the text value for text based scribbles.
-    pencilscribbles_scribbles_text = "random"  
-    # PencilScribbles.scribbles_text_font is the font types for text based scribbles.
-    pencilscribbles_scribbles_text_font = "random"
-    # PencilScribbles.scribbles_text_rotate_range is the rotation angle of text based scribbles.
-    pencilscribbles_scribbles_text_rotate_range = (0,360)
-    # PencilScribbles.scribbles_lines_stroke_count_range determines how many strokes per line scribble
-    pencilscribbles_scribbles_lines_stroke_count_range = (1, 1)
-    # PencilScribbles.p is the probability to run this augmentation
-    pencilscribbles_p = (random.random() > 0.5) * 1
+    # Scribbles.scribbles_type determines the types of scribbles effect
+    scribbles_scribbles_type = "lines"
+    # Scribbles.scribbles_ink determines the types of scribbles ink
+    scribbles_scribbles_ink = "random"
+    # Scribbles.scribbles_location determines the location of scribbles effect
+    scribbles_scribbles_location = "random"
+    # Scribbles.scribbles_size_range determines the size of scribbles to draw
+    scribbles_scribbles_size_range = (100, 700)
+    # Scribbles.scribbles_count_range determines how many scribbles to draw
+    scribbles_scribbles_count_range = (1, 4)
+    # Scribbles.scribbles_thickness_range determines how thick scribbles are
+    scribbles_scribbles_thickness_range = (2, 6)
+    # Scribbles.scribbles_brightness_change is the brightness value of each stroke
+    scribbles_scribbles_brightness_change = [64, 128, 224]
+    # Scribbles.scribbles_color is the  color of scribbles
+    scribbles_scribbles_color = (0, 0, 0)
+    # Scribbles.scribbles_text is the text value for text based scribbles.
+    scribbles_scribbles_text = "random"  
+    # Scribbles.scribbles_text_font is the font types for text based scribbles.
+    scribbles_scribbles_text_font = "random"
+    # Scribbles.scribbles_text_rotate_range is the rotation angle of text based scribbles.
+    scribbles_scribbles_text_rotate_range = (0,360)
+    # Scribbles.scribbles_lines_stroke_count_range determines how many strokes per line scribble
+    scribbles_scribbles_lines_stroke_count_range = (1, 1)
+    # Scribbles.scribbles_pencil_skeletonize enable the enable skeletonization effect in pencil scribbles
+    scribbles_scribbles_pencil_skeletonize = 0
+    # Scribbles.p is the probability to run this augmentation
+    scribbles_p = (random.random() > 0.5) * 1
 
     # BindingsAndFasteners.overlay_types can be min, max, or mix
     bindingsandfasteners_overlay_types = "darken"
@@ -290,7 +296,7 @@ def get_pipeline():
     # BleedThrough.offsets is a pair of x and y distances to shift the bleed with
     bleedthrough_offsets = (10, 20)
 
-    if badphotocopy_p > 0 or dirtyrollers_p > 0 or dirtydrum_p > 0 or markup_p > 0 or pencilscribbles_p > 0:
+    if badphotocopy_p > 0 or dirtyrollers_p > 0 or dirtydrum_p > 0 or markup_p > 0 or scribbles_p > 0:
         faxify_monochrome_method = "grayscale"
     if dithering_p or faxify_halftone:
         letterpress_p = 0
@@ -464,18 +470,21 @@ def get_pipeline():
             quality_range=jpeg_quality_range,
             p=0.5,
         ),
-        PencilScribbles(
-            scribbles_type=pencilscribbles_scribbles_type,
-            scribbles_location=pencilscribbles_scribbles_location,
-            scribbles_size_range=pencilscribbles_scribbles_size_range,
-            scribbles_count_range=pencilscribbles_scribbles_count_range,
-            scribbles_thickness_range=pencilscribbles_scribbles_thickness_range,
-            scribbles_brightness_change=pencilscribbles_scribbles_brightness_change,
-            scribbles_text=pencilscribbles_scribbles_text,
-            scribbles_text_font=pencilscribbles_scribbles_text_font,
-            scribbles_text_rotate_range=pencilscribbles_scribbles_text_rotate_range,
-            scribbles_lines_stroke_count_range=pencilscribbles_scribbles_lines_stroke_count_range,
-            p=pencilscribbles_p,
+        Scribbles(
+            scribbles_type=scribbles_scribbles_type,
+            scribbles_ink=scribbles_scribbles_ink,
+            scribbles_location=scribbles_scribbles_location,
+            scribbles_size_range=scribbles_scribbles_size_range,
+            scribbles_count_range=scribbles_scribbles_count_range,
+            scribbles_thickness_range=scribbles_scribbles_thickness_range,
+            scribbles_brightness_change=scribbles_scribbles_brightness_change,
+            scribbles_color=scribbles_scribbles_color,
+            scribbles_text=scribbles_scribbles_text,
+            scribbles_text_font=scribbles_scribbles_text_font,
+            scribbles_text_rotate_range=scribbles_scribbles_text_rotate_range,
+            scribbles_lines_stroke_count_range=scribbles_scribbles_lines_stroke_count_range,
+            scribbles_pencil_skeletonize=scribbles_scribbles_pencil_skeletonize,
+            p=scribbles_p,  
         ),
         BindingsAndFasteners(
             overlay_types=bindingsandfasteners_overlay_types,
