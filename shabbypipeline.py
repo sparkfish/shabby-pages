@@ -160,6 +160,8 @@ def get_pipeline():
     markup_thickness_range = (1, 1)
     # Markup.type determines the style of effect
     markup_type = random.choice(["strikethrough", "crossed", "highlight", "underline"])
+    # Markup.ink determines the ink of markup effect
+    markup_ink = random.choice(["pencil", "pen", "marker", "highlighter"])
     # Markup.color is the color of the ink used to markup
     markup_color = (
         random.randint(0, 255),
@@ -182,13 +184,17 @@ def get_pipeline():
     # Scribbles.scribbles_location determines the location of scribbles effect
     scribbles_scribbles_location = "random"
     # Scribbles.scribbles_size_range determines the size of scribbles to draw
-    scribbles_scribbles_size_range = (100, 700)
+    scribbles_scribbles_size_range = (300, 700)
     # Scribbles.scribbles_count_range determines how many scribbles to draw
-    scribbles_scribbles_count_range = (1, 4)
+    scribbles_scribbles_count_range = (2, 3)
     # Scribbles.scribbles_thickness_range determines how thick scribbles are
     scribbles_scribbles_thickness_range = (2, 6)
     # Scribbles.scribbles_brightness_change is the brightness value of each stroke
-    scribbles_scribbles_brightness_change = [64, 128, 224]
+    scribbles_scribbles_brightness_change = [0]
+    # Scribbles.scribbles_pencil_skeletonize enable skeletonization effect in the scribbles
+    scribbles_scribbles_skeletonize = 0
+    # Scribbles.scribbles_skeletonize_iterations determine the number of skeletonizate iterations
+    scribbles_scribbles_skeletonize_iterations = (1,1)
     # Scribbles.scribbles_color is the  color of scribbles
     scribbles_scribbles_color = (0, 0, 0)
     # Scribbles.scribbles_text is the text value for text based scribbles.
@@ -198,9 +204,7 @@ def get_pipeline():
     # Scribbles.scribbles_text_rotate_range is the rotation angle of text based scribbles.
     scribbles_scribbles_text_rotate_range = (0,360)
     # Scribbles.scribbles_lines_stroke_count_range determines how many strokes per line scribble
-    scribbles_scribbles_lines_stroke_count_range = (1, 1)
-    # Scribbles.scribbles_pencil_skeletonize enable the enable skeletonization effect in pencil scribbles
-    scribbles_scribbles_pencil_skeletonize = 0
+    scribbles_scribbles_lines_stroke_count_range = (1, 3)
     # Scribbles.p is the probability to run this augmentation
     scribbles_p = (random.random() > 0.5) * 1
 
@@ -407,6 +411,7 @@ def get_pipeline():
             markup_length_range=markup_length_range,
             markup_thickness_range=markup_thickness_range,
             markup_type=markup_type,
+            markup_ink=markup_ink,
             markup_color=markup_color,
             large_word_mode=markup_large_word_mode,
             single_word_mode=markup_single_word_mode,
@@ -478,12 +483,14 @@ def get_pipeline():
             scribbles_count_range=scribbles_scribbles_count_range,
             scribbles_thickness_range=scribbles_scribbles_thickness_range,
             scribbles_brightness_change=scribbles_scribbles_brightness_change,
+            scribbles_skeletonize=scribbles_scribbles_skeletonize,
+            scribbles_skeletonize_iterations=scribbles_scribbles_skeletonize_iterations,
             scribbles_color=scribbles_scribbles_color,
             scribbles_text=scribbles_scribbles_text,
             scribbles_text_font=scribbles_scribbles_text_font,
             scribbles_text_rotate_range=scribbles_scribbles_text_rotate_range,
             scribbles_lines_stroke_count_range=scribbles_scribbles_lines_stroke_count_range,
-            scribbles_pencil_skeletonize=scribbles_scribbles_pencil_skeletonize,
+
             p=scribbles_p,  
         ),
         BindingsAndFasteners(
