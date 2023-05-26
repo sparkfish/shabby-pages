@@ -566,4 +566,4 @@ def get_pipeline():
         ),
     ]
 
-    return AugraphyPipeline(ink_phase, paper_phase, post_phase, log=True)
+    return AugraphyPipeline(ink_phase=ink_phase, paper_phase=paper_phase, post_phase=post_phase, log=True)
