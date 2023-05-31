@@ -85,28 +85,24 @@ def get_pipeline():
     # Brightness.min_brightness_value is a pair of ints determining the minimum brightness intensity of augmented image
     brightness_min_brightness_value = (120, 150)
 
-    # PageBorder.side determines the page edge of the effect
-    pageborder_side = random.choice(["left", "top", "bottom", "right"])
-    # PageBorder.border_background_value determines value of created border background.
-    pageborder_border_background_value = (230, 255)
-    # PageBorder.flip_border determines whether to flip the created border
-    pageborder_flip_border = random.choice([0, 1])
-    # PageBorder.width_range determines border thickness
-    pageborder_width_range = (5, 30)
-    # PageBorder.pages determines how many page shadows to render
-    pageborder_pages = random.randint(6, 8)
-    # PageBorder.intensity_range determines the noises of the page shadow
-    pageborder_intensity_range = (0.1, 0.2)
+    # PageBorder.page_border_width_height determines the width and height of page border effect
+    page_border_width_height = "random"
+    # PageBorder.page_border_color determines color of page border effect
+    page_border_color = (0, 0, 0)
+    # PageBorder.page_border_background_color determines color of page border background
+    page_border_background_color = (0, 0, 0)
+    # PageBorder.page_numbers determines  how many pages to render
+    page_border_page_numbers = random.randint(4,8)
+    # PageBorder.page_numbers determines  how many pages to render
+    page_border_rotation_angle_range = (-3, 3)
     # PageBorder.curve_frequency determines frequency of curvy page shadow
-    pageborder_curve_frequency = (2, 8)
+    page_border_curve_frequency = (2, 8)
     # PageBorder.curve_height determines height of curvy page shadow
-    pageborder_curve_height = (2, 4)
+    page_border_curve_height = (2, 4)
     # PageBorder.curve_length_one_side determines Length for one side of generated curvy page shadow
-    pageborder_curve_length_one_side = (50, 100)
-    # PageBorder.value determines value of generated page shadow
-    pageborder_value = (32, 150)
+    page_border_curve_length_one_side = (50, 100)
     # PageBorder.same_page_border determines whether the border will be in a same page
-    pageborder_same_page_border = 1
+    page_border_same_page_border = 1
 
     # DirtyRollers.line_width_range determines the width of roller lines
     dirtyrollers_line_width_range = (2, 32)
@@ -419,19 +415,17 @@ def get_pipeline():
             p=0.5,
         ),
         OneOf(
-            [
-                PageBorder(
-                    side=pageborder_side,
-                    border_background_value=pageborder_border_background_value,
-                    flip_border=pageborder_flip_border,
-                    width_range=pageborder_width_range,
-                    pages=pageborder_pages,
-                    noise_intensity_range=pageborder_intensity_range,
-                    curve_frequency=pageborder_curve_frequency,
-                    curve_height=pageborder_curve_height,
-                    curve_length_one_side=pageborder_curve_length_one_side,
-                    value=pageborder_value,
-                    same_page_border=pageborder_same_page_border,
+            [     
+                PageBorder( 
+                    page_border_width_height =page_border_width_height,
+                    page_border_color=page_border_color,
+                    page_border_background_color=page_border_background_color,
+                    page_numbers=page_border_page_numbers,
+                    page_rotation_angle_range=page_border_rotation_angle_range,
+                    curve_frequency=page_border_curve_frequency,
+                    curve_height=page_border_curve_height,
+                    curve_length_one_side=page_border_curve_length_one_side,
+                    same_page_border=page_border_same_page_border,
                     p=1,
                 ),
                 DirtyRollers(
