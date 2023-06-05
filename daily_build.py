@@ -72,15 +72,27 @@ def run_pipeline(filename):
 
 
 def choose_patch(img):
-    x,y,c = img.shape
+    y,x,c = img.shape
 
-    max_x = x - 500
-    max_y = y - 500
+    y_patch_size = 500
+    x_patch_size = 500
+
+    if y_patch_size < y:
+        max_y = y - y_patch_size
+    else:
+        max_y = 0
+        y_patch_size = y
+    
+    if x_patch_size<x:
+        max_x = x - x_patch_size
+    else:
+        max_x = 0
+        x_patch_size = x
 
     left = random.randint(0,max_x)
     top = random.randint(0,max_y)
-    right = left + 500
-    bottom = top + 500
+    right = left + x_patch_size
+    bottom = top + y_patch_size
 
     return left,right,top,bottom
 
