@@ -23,6 +23,8 @@ def run_pipeline(filename):
         shabby = cv2.cvtColor(shabby, cv2.COLOR_GRAY2BGR)
 
     left,right,top,bottom = choose_patch(clean)
+    # print for debug purpose
+    print(str(left)+","+str(right)+","+str(top)+","+str(bottom))
     clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
     shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
 

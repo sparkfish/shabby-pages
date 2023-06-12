@@ -273,23 +273,6 @@ def get_pipeline():
     # LowInkRandomLines.noise_probability is the probability to add noise into the generated lines
     lowinkrandomlines_noise_probability = random.uniform(0.1, 0.2)
 
-    # LowLightNoise.num_photons_range 
-    low_light_noise_num_photons_range=(50, 100)
-    # LowLightNoise.alpha_range
-    low_light_noise_alpha_range=(0.7, 1.0)
-    # LowLightNoise.beta_range
-    low_light_noise_beta_range=(10, 30)
-    # LowLightNoise.gamma_range
-    low_light_noise_gamma_range=(1, 1.8)
-    # LowLightNoise.bias_range
-    low_light_noise_bias_range=(20, 40)
-    # LowLightNoise.dark_current_value
-    low_light_noise_dark_current_value=1.0
-    # LowLightNoise.exposure_time
-    low_light_noise_exposure_time=0.2
-    # LowLightNoise.gain
-    low_light_noise_gain=0.1
-
     # Markup.num_lines_range determines how many lines get marked up
     markup_num_lines_range = (2, 7)
     # Markup.length_range determines the relative length of the drawn effect
@@ -676,22 +659,7 @@ def get_pipeline():
                 Gamma(
                     gamma_range=gamma_range,
                     p=0.5,
-                ),
-                    
-                
-#                LowLightNoise(   
-#                    num_photons_range=low_light_noise_num_photons_range,
-#                    alpha_range=low_light_noise_alpha_range,
-#                    beta_range=low_light_noise_beta_range,
-#                    gamma_range=low_light_noise_gamma_range,
-#                    bias_range=low_light_noise_bias_range,
-#                    dark_current_value=low_light_noise_dark_current_value,
-#                    exposure_time=low_light_noise_exposure_time,
-#                    gain=low_light_noise_gain,
-#                    p=0.5,
-#                ),
-                
-                                
+                ),                 
             ],
             p=0.5,
         ),
