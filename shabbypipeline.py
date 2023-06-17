@@ -173,13 +173,11 @@ def get_pipeline():
     geometric_randomize = 0
 
     # InkBleed.intensity_range is a tuple with bounds for bleed intensity to be selected from
-    inkbleed_intensity_range = (0.1, 0.4)
-    # InkBleed.color_range is a tuple with bounds for color noise
-    inkbleed_color_range = (0, 32)
+    inkbleed_intensity_range = (0.5, 0.7)
     # InkBleed.kernel_size determines the radius of the bleed effect
-    inkbleed_kernel_size = random.choice([(7, 7), (5, 5), (3, 3)])
+    inkbleed_kernel_size = random.choice([(5, 5), (3, 3)])
     # InkBleed.severity determines significance of bleed effect
-    inkbleed_severity = (0.4, 0.6)
+    inkbleed_severity = (0.2, 0.4)
     # InkBleed.p is the probability to run this augmentation
     inkbleed_p = 0.5
     
@@ -468,7 +466,6 @@ def get_pipeline():
                 ),
                 InkBleed(
                     intensity_range=inkbleed_intensity_range,
-                    color_range=inkbleed_color_range,
                     kernel_size=inkbleed_kernel_size,
                     severity=inkbleed_severity,
                     p=inkbleed_p,
