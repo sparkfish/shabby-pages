@@ -32,8 +32,8 @@ api_V2 = tweepy.Client(
     access_token = ACCESS_TOKEN,
     access_token_secret = ACCESS_TOKEN_SECRET
 )
-user_info = api_V2.get_me()
-logging.info(f"Authenticated via V2 Twitter API; connected as user `{user_info.data.username}`")
+#user_info = api_V2.get_me() # call apparently blocked by "free" tier plan??
+#logging.info(f"Authenticated via V2 Twitter API; connected as user `{user_info.data.username}`")
 
 # Upload image
 media = api_v1.media_upload(filename_upload)
