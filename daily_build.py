@@ -15,42 +15,21 @@ def run_pipeline(filename):
 
     clean = cv2.imread(f"full/clean/{filename}")
 
-    pipeline = get_pipeline()
-
-    shabby = pipeline.augment(clean)["output"]
-
-    if len(shabby.shape)<=2 and len(clean.shape)>2:
-        shabby = cv2.cvtColor(shabby, cv2.COLOR_GRAY2BGR)
-
-    left,right,top,bottom = choose_patch(clean)
-    # print for debug purpose
-    print(str(left)+","+str(right)+","+str(top)+","+str(bottom))
-    clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
-    shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
-
-    # add 38% of clean image patch into shabby image
-    x_end_ratio_38_percent = int(400 * 38/100)
-    shabby_patch[:, :x_end_ratio_38_percent] = clean_patch[:,:x_end_ratio_38_percent]
+    if clean is not None:
     
-    # add line of gradient separating clean and shabby image
-    gradient_value = 100
-    for i in range(6):
-        shabby_patch[:, x_end_ratio_38_percent - i] = gradient_value
-        gradient_value += 30
-
-    cv2.imwrite(f"full/shabby/{filename}", shabby)
-    cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
-    cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
-
-    # select new patch when black area > 80% of the image
-    while report_white_percentage(f"cropped/clean/{filename}")>99:
-        os.remove(f"cropped/clean/{filename}")
-        os.remove(f"cropped/shabby/{filename}")
+        pipeline = get_pipeline()
+    
+        shabby = pipeline.augment(clean)["output"]
+    
+        if len(shabby.shape)<=2 and len(clean.shape)>2:
+            shabby = cv2.cvtColor(shabby, cv2.COLOR_GRAY2BGR)
     
         left,right,top,bottom = choose_patch(clean)
+        # print for debug purpose
+        print(str(left)+","+str(right)+","+str(top)+","+str(bottom))
         clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
         shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
-
+    
         # add 38% of clean image patch into shabby image
         x_end_ratio_38_percent = int(400 * 38/100)
         shabby_patch[:, :x_end_ratio_38_percent] = clean_patch[:,:x_end_ratio_38_percent]
@@ -60,17 +39,44 @@ def run_pipeline(filename):
         for i in range(6):
             shabby_patch[:, x_end_ratio_38_percent - i] = gradient_value
             gradient_value += 30
-        
+    
+        cv2.imwrite(f"full/shabby/{filename}", shabby)
         cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
         cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
+    
+        # select new patch when black area > 80% of the image
+        while report_white_percentage(f"cropped/clean/{filename}")>99:
+            os.remove(f"cropped/clean/{filename}")
+            os.remove(f"cropped/shabby/{filename}")
+        
+            left,right,top,bottom = choose_patch(clean)
+            clean_patch = cv2.resize(clean[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
+            shabby_patch = cv2.resize(shabby[left:right,top:bottom], (400,400), interpolation = cv2.INTER_AREA)
+    
+            # add 38% of clean image patch into shabby image
+            x_end_ratio_38_percent = int(400 * 38/100)
+            shabby_patch[:, :x_end_ratio_38_percent] = clean_patch[:,:x_end_ratio_38_percent]
+            
+            # add line of gradient separating clean and shabby image
+            gradient_value = 100
+            for i in range(6):
+                shabby_patch[:, x_end_ratio_38_percent - i] = gradient_value
+                gradient_value += 30
+            
+            cv2.imwrite(f"cropped/clean/{filename}", clean_patch)
+            cv2.imwrite(f"cropped/shabby/{filename}", shabby_patch)
+    
+        # write filename and their processing time, to matched with the log file information
+        base_filename = os.path.basename(filename)[:-4]+"_"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + ".txt"
+        name_path = os.path.join(os.getcwd(), "names/") 
+        os.makedirs(name_path, exist_ok=True)
+    
+        with open(name_path+base_filename, "w+") as file:
+            file.close()
 
-    # write filename and their processing time, to matched with the log file information
-    base_filename = os.path.basename(filename)[:-4]+"_"+time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime()) + ".txt"
-    name_path = os.path.join(os.getcwd(), "names/") 
-    os.makedirs(name_path, exist_ok=True)
-
-    with open(name_path+base_filename, "w+") as file:
-        file.close()
+    else:
+        print(f"full/clean/{filename} is not a valid path!")
+        print(os.listdir("full/clean/"))
 
 
 def choose_patch(img):
