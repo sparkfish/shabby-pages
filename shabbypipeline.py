@@ -13,7 +13,7 @@ def get_pipeline():
     ################################################################################
 
     # BadPhotoCopy.mask is a mask of noise to generate the effect with
-    badphotocopy_mask = None
+    badphotocopy_noise_mask = None
     # BadPhotoCopy.noise_type determines which mask pattern to use
     badphotocopy_noise_type = -1
     # BadPhotoCopy.noise_side determines where to add noise
@@ -703,7 +703,7 @@ def get_pipeline():
                 ),
                         
                 BadPhotoCopy(
-                    mask=badphotocopy_mask,
+                    noise_mask=badphotocopy_noise_mask,
                     noise_type=badphotocopy_noise_type,
                     noise_side=badphotocopy_noise_side,
                     noise_iteration=badphotocopy_noise_iteration,
