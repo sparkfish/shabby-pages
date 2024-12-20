@@ -35,17 +35,17 @@ jobs:
           pip install -r requirements.txt
           python daily_build.py
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: sample-images
           path: cropped/
           
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: logs
           path: logs/
           
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: names
           path: names/
@@ -55,7 +55,7 @@ jobs:
     needs: build
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: sample-images
           path: cropped
@@ -79,7 +79,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: sample-images
           path: cropped
